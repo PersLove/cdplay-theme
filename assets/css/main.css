@@ -570,17 +570,105 @@ figcaption {
 	font-weight: 700;
 }
 
-/* 13. Front Page Skeleton */
+/* 13. Cinematic Hero */
+.cdplay-hero {
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	align-items: center;
+	min-height: clamp(34rem, 86svh, 48rem);
+	overflow: hidden;
+	border-block-end: 0.0625rem solid var(--cdplay-color-border);
+	background:
+		radial-gradient(circle at 18% 22%, rgba(47, 107, 255, 0.2), transparent 34rem),
+		linear-gradient(135deg, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 68%);
+}
+
+.cdplay-hero__media,
+.cdplay-hero__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+}
+
+.cdplay-hero__media {
+	background: var(--cdplay-hero-background, transparent);
+}
+
+.cdplay-hero__media img,
+.cdplay-hero__media video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.cdplay-hero__atmosphere {
+	position: absolute;
+	inset: auto -20% -35% 22%;
+	width: min(42rem, 90vw);
+	aspect-ratio: 1;
+	border-radius: 999rem;
+	background:
+		radial-gradient(circle, rgba(47, 107, 255, 0.22), transparent 62%),
+		radial-gradient(circle at 65% 35%, rgba(255, 255, 255, 0.28), transparent 45%);
+	filter: blur(1.5rem);
+	opacity: 0.9;
+}
+
+.cdplay-hero__overlay {
+	z-index: -1;
+	background:
+		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-background), transparent 12%) 100%),
+		linear-gradient(90deg, color-mix(in srgb, var(--cdplay-color-background), transparent 4%) 0%, transparent 72%);
+	pointer-events: none;
+}
+
+.cdplay-hero__inner {
+	width: min(100% - (var(--cdplay-container-padding) * 2), var(--cdplay-container-width));
+	padding-block: var(--cdplay-space-2xl);
+}
+
+.cdplay-hero__content {
+	display: grid;
+	gap: var(--cdplay-space-md);
+	max-width: 44rem;
+}
+
+.cdplay-hero__eyebrow {
+	color: var(--cdplay-color-accent);
+	font-size: var(--cdplay-font-size-sm);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.cdplay-hero__title {
+	max-width: 12ch;
+	font-size: clamp(2.5rem, 1.7rem + 4vw, 5.75rem);
+	letter-spacing: 0;
+}
+
+.cdplay-hero__text {
+	max-width: 36rem;
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-md);
+	line-height: var(--cdplay-line-height-relaxed);
+}
+
+.cdplay-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--cdplay-space-sm);
+	padding-block-start: var(--cdplay-space-sm);
+}
+
+/* 14. Front Page Skeleton */
 .cdplay-front-section {
 	padding-block: var(--cdplay-space-xl);
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
 }
 
-.cdplay-front-section--hero {
-	padding-block: var(--cdplay-space-2xl);
-}
-
-/* 14. Footer */
+/* 15. Footer */
 .cdplay-site-footer {
 	padding-block: var(--cdplay-space-xl) calc(var(--cdplay-space-xl) + 4rem);
 	border-block-start: 0.0625rem solid var(--cdplay-color-border);
@@ -617,5 +705,15 @@ figcaption {
 
 	.cdplay-site-footer {
 		padding-block-end: var(--cdplay-space-xl);
+	}
+}
+
+@media (min-width: 64rem) {
+	.cdplay-hero__content {
+		gap: var(--cdplay-space-lg);
+	}
+
+	.cdplay-hero__actions {
+		padding-block-start: 0;
 	}
 }

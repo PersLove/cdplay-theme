@@ -13,11 +13,7 @@ get_header();
 ?>
 
 <main id="primary" class="cdplay-site-main">
-	<section class="cdplay-front-section cdplay-front-section--hero" aria-labelledby="cdplay-hero-title">
-		<div class="cdplay-container">
-			<h1 id="cdplay-hero-title"><?php esc_html_e('CDPLAY', 'cdplay'); ?></h1>
-		</div>
-	</section>
+	<?php get_template_part('template-parts/sections/hero'); ?>
 
 	<section class="cdplay-front-section cdplay-front-section--platforms" aria-labelledby="cdplay-platforms-title">
 		<div class="cdplay-container">
