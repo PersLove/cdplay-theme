@@ -25,9 +25,10 @@ $cdplay_product_card = wp_parse_args(
 );
 
 $cdplay_product_slug = sanitize_html_class($cdplay_product_card['slug']);
+$cdplay_product_id   = 'cdplay-product-card-title-' . ($cdplay_product_slug ? $cdplay_product_slug : wp_unique_id());
 ?>
 
-<article class="cdplay-product-card cdplay-product-card--<?php echo esc_attr($cdplay_product_slug); ?>">
+<article class="cdplay-product-card cdplay-product-card--<?php echo esc_attr($cdplay_product_slug); ?>" aria-labelledby="<?php echo esc_attr($cdplay_product_id); ?>">
 	<div class="cdplay-product-card__media" aria-hidden="true">
 		<div class="cdplay-product-card__image-slot"></div>
 		<div class="cdplay-product-card__wishlist-slot"></div>
@@ -44,18 +45,22 @@ $cdplay_product_slug = sanitize_html_class($cdplay_product_card['slug']);
 			</div>
 		<?php endif; ?>
 
-		<h3 class="cdplay-product-card__title">
+		<h3 id="<?php echo esc_attr($cdplay_product_id); ?>" class="cdplay-product-card__title">
 			<?php echo esc_html($cdplay_product_card['title']); ?>
 		</h3>
 
-		<p class="cdplay-product-card__description">
-			<?php echo esc_html($cdplay_product_card['description']); ?>
-		</p>
+		<?php if ($cdplay_product_card['description']) : ?>
+			<p class="cdplay-product-card__description">
+				<?php echo esc_html($cdplay_product_card['description']); ?>
+			</p>
+		<?php endif; ?>
 
 		<div class="cdplay-product-card__footer">
-			<p class="cdplay-product-card__price">
-				<?php echo esc_html($cdplay_product_card['price']); ?>
-			</p>
+			<?php if ($cdplay_product_card['price']) : ?>
+				<p class="cdplay-product-card__price">
+					<?php echo esc_html($cdplay_product_card['price']); ?>
+				</p>
+			<?php endif; ?>
 
 			<a class="cdplay-product-card__cta" href="<?php echo esc_url($cdplay_product_card['url']); ?>">
 				<?php echo esc_html($cdplay_product_card['cta']); ?>
