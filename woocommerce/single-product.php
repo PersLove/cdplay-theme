@@ -51,6 +51,99 @@ get_header('shop');
 
 					return 'square';
 				};
+				$cdplay_normalize_attribute_slug = static function($slug) {
+					$slug = sanitize_title((string) $slug);
+
+					if (0 === strpos($slug, 'pa-')) {
+						$slug = substr($slug, 3);
+					}
+
+					return $slug;
+				};
+				$cdplay_attribute_map = array(
+					array(
+						'label' => __('Платформа', 'cdplay'),
+						'slugs' => array('platform', 'pa_platform', 'platforma', 'pa_platforma'),
+					),
+					array(
+						'label' => __('Состояние', 'cdplay'),
+						'slugs' => array('condition', 'pa_condition', 'sostoyanie', 'pa_sostoyanie'),
+					),
+					array(
+						'label' => __('Совместимость', 'cdplay'),
+						'slugs' => array('compatibility', 'pa_compatibility', 'sovmestimost', 'pa_sovmestimost'),
+					),
+					array(
+						'label' => __('Локализация', 'cdplay'),
+						'slugs' => array('localization', 'pa_localization', 'lokalizaciya', 'pa_lokalizaciya'),
+					),
+					array(
+						'label' => __('Жанр', 'cdplay'),
+						'slugs' => array('genre', 'pa_genre', 'zhanr', 'pa_zhanr'),
+					),
+					array(
+						'label' => __('Год выхода', 'cdplay'),
+						'slugs' => array('release_year', 'pa_release_year', 'god_vyhoda', 'pa_god-vyhoda'),
+					),
+					array(
+						'label' => __('Количество игроков', 'cdplay'),
+						'slugs' => array('players', 'pa_players', 'kolichestvo-igrokov', 'pa_kolichestvo-igrokov'),
+					),
+					array(
+						'label' => __('Возрастной рейтинг', 'cdplay'),
+						'slugs' => array('age_rating', 'pa_age_rating', 'vozrastnoy-reyting', 'pa_vozrastnoy-reyting'),
+					),
+				);
+				$cdplay_attribute_lookup = array();
+
+				foreach ($cdplay_single_product->get_attributes() as $cdplay_attribute_key => $cdplay_attribute) {
+					if (!is_object($cdplay_attribute) || !method_exists($cdplay_attribute, 'get_name')) {
+						continue;
+					}
+
+					if (method_exists($cdplay_attribute, 'get_visible') && !$cdplay_attribute->get_visible()) {
+						continue;
+					}
+
+					$cdplay_attribute_name  = $cdplay_attribute->get_name();
+					$cdplay_attribute_value = $cdplay_single_product->get_attribute($cdplay_attribute_name);
+
+					if (!$cdplay_attribute_value && $cdplay_attribute_key !== $cdplay_attribute_name) {
+						$cdplay_attribute_value = $cdplay_single_product->get_attribute($cdplay_attribute_key);
+					}
+
+					$cdplay_attribute_value = trim(wp_strip_all_tags($cdplay_attribute_value));
+
+					if ('' === $cdplay_attribute_value) {
+						continue;
+					}
+
+					$cdplay_attribute_lookup[$cdplay_normalize_attribute_slug($cdplay_attribute_name)] = $cdplay_attribute_value;
+					$cdplay_attribute_lookup[$cdplay_normalize_attribute_slug($cdplay_attribute_key)]  = $cdplay_attribute_value;
+				}
+
+				$cdplay_product_info_blocks = array();
+
+				foreach ($cdplay_attribute_map as $cdplay_attribute_group) {
+					foreach ($cdplay_attribute_group['slugs'] as $cdplay_attribute_slug) {
+						$cdplay_normalized_slug = $cdplay_normalize_attribute_slug($cdplay_attribute_slug);
+
+						if (empty($cdplay_attribute_lookup[$cdplay_normalized_slug])) {
+							continue;
+						}
+
+						$cdplay_product_info_blocks[] = array(
+							'label' => $cdplay_attribute_group['label'],
+							'value' => $cdplay_attribute_lookup[$cdplay_normalized_slug],
+						);
+
+						break;
+					}
+
+					if (8 <= count($cdplay_product_info_blocks)) {
+						break;
+					}
+				}
 				?>
 
 				<?php do_action('woocommerce_before_single_product'); ?>
@@ -167,6 +260,23 @@ get_header('shop');
 							</div>
 						</div>
 					</div>
+
+					<?php if (!empty($cdplay_product_info_blocks)) : ?>
+						<section class="cdplay-product-info" aria-labelledby="cdplay-product-info-title-<?php echo esc_attr(get_the_ID()); ?>">
+							<div class="cdplay-product-info__header">
+								<h2 id="cdplay-product-info-title-<?php echo esc_attr(get_the_ID()); ?>" class="cdplay-product-info__title"><?php esc_html_e('Коротко о товаре', 'cdplay'); ?></h2>
+							</div>
+
+							<div class="cdplay-product-info__grid">
+								<?php foreach ($cdplay_product_info_blocks as $cdplay_product_info_block) : ?>
+									<article class="cdplay-product-info__card">
+										<p class="cdplay-product-info__label"><?php echo esc_html($cdplay_product_info_block['label']); ?></p>
+										<p class="cdplay-product-info__value"><?php echo esc_html($cdplay_product_info_block['value']); ?></p>
+									</article>
+								<?php endforeach; ?>
+							</div>
+						</section>
+					<?php endif; ?>
 
 					<div class="cdplay-single-product__tabs">
 						<?php woocommerce_output_product_data_tabs(); ?>
