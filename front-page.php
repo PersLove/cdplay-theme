@@ -14,12 +14,7 @@ get_header();
 
 <main id="primary" class="cdplay-site-main">
 	<?php get_template_part('template-parts/sections/hero'); ?>
-
-	<section class="cdplay-front-section cdplay-front-section--platforms" aria-labelledby="cdplay-platforms-title">
-		<div class="cdplay-container">
-			<h2 id="cdplay-platforms-title"><?php esc_html_e('Platform hubs', 'cdplay'); ?></h2>
-		</div>
-	</section>
+	<?php get_template_part('template-parts/sections/platform-hubs'); ?>
 
 	<section class="cdplay-front-section cdplay-front-section--selection" aria-labelledby="cdplay-selection-title">
 		<div class="cdplay-container">
