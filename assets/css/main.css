@@ -2750,7 +2750,7 @@ figcaption {
 
 .cdplay-single-product__summary .quantity,
 .cdplay-single-product__cart .quantity {
-	display: flex;
+	display: none;
 	align-items: center;
 	width: 100%;
 }

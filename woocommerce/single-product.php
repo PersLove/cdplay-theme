@@ -367,9 +367,18 @@ get_header('shop');
 								$cdplay_add_to_cart_text = static function() {
 									return __('Добавить в корзину', 'cdplay');
 								};
+								$cdplay_hide_single_quantity = static function($sold_individually, $product) use ($cdplay_single_product) {
+									if ($product instanceof WC_Product && $product->get_id() === $cdplay_single_product->get_id()) {
+										return true;
+									}
+
+									return $sold_individually;
+								};
 
 								add_filter('woocommerce_product_single_add_to_cart_text', $cdplay_add_to_cart_text);
+								add_filter('woocommerce_is_sold_individually', $cdplay_hide_single_quantity, 10, 2);
 								woocommerce_template_single_add_to_cart();
+								remove_filter('woocommerce_is_sold_individually', $cdplay_hide_single_quantity, 10);
 								remove_filter('woocommerce_product_single_add_to_cart_text', $cdplay_add_to_cart_text);
 								?>
 							</div>
