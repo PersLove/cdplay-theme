@@ -2163,53 +2163,33 @@ figcaption {
 .cdplay-product-card--catalog {
 	display: grid;
 	align-content: start;
-	gap: var(--cdplay-space-md);
+	gap: var(--cdplay-space-sm);
 	min-height: auto;
-	padding: clamp(0.875rem, 0.72rem + 0.65vw, 1.25rem);
-	border-color: rgba(255, 255, 255, 0.08);
-	border-radius: 1.35rem;
+	padding: clamp(0.75rem, 0.66rem + 0.42vw, 1rem);
+	border-color: rgba(255, 255, 255, 0.1);
+	border-radius: 1rem;
 	background:
-		radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.12), transparent 30%),
-		radial-gradient(circle at 86% 62%, color-mix(in srgb, var(--cdplay-product-card-accent, #2f6bff), transparent 76%), transparent 38%),
-		linear-gradient(180deg, #111722 0%, #07090d 100%);
+		linear-gradient(180deg, #151b26 0%, #080b11 100%);
 	color: #ffffff;
 	box-shadow:
-		0 1.4rem 2.5rem rgba(0, 0, 0, 0.28),
+		0 0.8rem 1.4rem rgba(16, 19, 26, 0.16),
 		inset 0 0.0625rem 0 rgba(255, 255, 255, 0.08);
+	transition:
+		border-color var(--cdplay-transition-fast),
+		box-shadow var(--cdplay-transition-fast);
 }
 
-.cdplay-product-card--catalog::before {
-	position: absolute;
-	inset: 18% 0 0;
-	z-index: -2;
-	display: block;
-	background:
-		linear-gradient(180deg, transparent 0%, rgba(7, 9, 13, 0.88) 54%, rgba(7, 9, 13, 0.98) 100%),
-		radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.14), transparent 30%),
-		radial-gradient(circle at 70% 46%, color-mix(in srgb, var(--cdplay-product-card-accent, #2f6bff), transparent 72%), transparent 36%);
-	content: "";
-	filter: blur(0.2rem);
-	opacity: 0.78;
-}
-
+.cdplay-product-card--catalog::before,
 .cdplay-product-card--catalog::after {
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	display: block;
-	border-radius: inherit;
-	background:
-		linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 36%),
-		linear-gradient(0deg, rgba(0, 0, 0, 0.38), transparent 44%);
-	content: "";
-	pointer-events: none;
+	display: none;
 }
 
 .cdplay-product-card--catalog:hover {
-	border-color: rgba(255, 255, 255, 0.14);
+	border-color: rgba(255, 255, 255, 0.16);
 	box-shadow:
-		0 1.7rem 3rem rgba(0, 0, 0, 0.34),
+		0 0.9rem 1.55rem rgba(16, 19, 26, 0.18),
 		inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1);
+	transform: none;
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__media {
@@ -2228,26 +2208,25 @@ figcaption {
 	height: auto;
 	aspect-ratio: 1 / 1;
 	border: 0;
-	border-radius: 1rem;
-	background:
-		radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.12), transparent 32%),
-		#05070a;
+	border-radius: 0.78rem;
+	background: #ffffff;
 	box-shadow:
-		0 1.1rem 2rem rgba(0, 0, 0, 0.32),
-		0 0 0 0.0625rem rgba(255, 255, 255, 0.05);
+		0 0.35rem 0.85rem rgba(0, 0, 0, 0.16),
+		0 0 0 0.0625rem rgba(255, 255, 255, 0.1);
 	opacity: 1;
 	overflow: hidden;
+	transition: none;
 }
 
 .cdplay-product-card--catalog:hover .cdplay-product-card__image-slot {
-	transform: translateY(-0.0625rem);
+	transform: none;
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__image {
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
-	padding: 0;
+	object-fit: contain;
+	padding: clamp(0.35rem, 0.22rem + 0.5vw, 0.75rem);
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__body {
@@ -2265,15 +2244,15 @@ figcaption {
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__badge {
-	min-height: 1.9rem;
-	padding: 0.36rem 0.7rem;
+	min-height: 1.55rem;
+	padding: 0.26rem 0.55rem;
 	border-color: rgba(255, 255, 255, 0.16);
 	border-radius: 999rem;
 	background: rgba(255, 255, 255, 0.92);
 	color: #1b2029;
-	font-size: 0.8125rem;
-	font-weight: 750;
-	box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.18);
+	font-size: 0.75rem;
+	font-weight: 800;
+	line-height: 1;
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__title {
@@ -2282,9 +2261,9 @@ figcaption {
 	min-height: auto;
 	overflow: hidden;
 	color: #ffffff;
-	font-size: clamp(1.55rem, 1.25rem + 1vw, 2.25rem);
+	font-size: clamp(1.25rem, 1.06rem + 0.55vw, 1.55rem);
 	font-weight: 850;
-	line-height: 1.06;
+	line-height: 1.12;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
@@ -2295,10 +2274,10 @@ figcaption {
 
 .cdplay-product-card--catalog .cdplay-product-card__meta {
 	display: grid;
-	gap: 0.28rem;
-	color: rgba(255, 255, 255, 0.72);
-	font-size: clamp(0.98rem, 0.91rem + 0.22vw, 1.125rem);
-	font-weight: 650;
+	gap: 0.2rem;
+	color: rgba(255, 255, 255, 0.68);
+	font-size: var(--cdplay-font-size-sm);
+	font-weight: 750;
 	line-height: var(--cdplay-line-height-normal);
 }
 
@@ -2310,13 +2289,13 @@ figcaption {
 	display: grid;
 	grid-template-columns: 1fr;
 	align-items: stretch;
-	gap: var(--cdplay-space-sm);
-	margin-block-start: var(--cdplay-space-xs);
+	gap: var(--cdplay-space-xs);
+	margin-block-start: 0;
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__price {
-	color: rgba(255, 255, 255, 0.82);
-	font-size: var(--cdplay-font-size-md);
+	color: rgba(255, 255, 255, 0.78);
+	font-size: var(--cdplay-font-size-sm);
 	font-weight: 800;
 }
 
@@ -2324,16 +2303,19 @@ figcaption {
 	display: grid;
 	place-items: center;
 	width: 100%;
-	min-height: 3.2rem;
-	padding: 0.8rem 1rem;
+	min-height: 2.65rem;
+	padding: 0.68rem 0.8rem;
 	border: 0.0625rem solid rgba(255, 255, 255, 0.08);
-	border-radius: 0.48rem;
+	border-radius: 0.45rem;
 	background: rgba(255, 255, 255, 0.16);
 	color: rgba(255, 255, 255, 0.9);
-	font-size: clamp(1rem, 0.93rem + 0.25vw, 1.15rem);
-	font-weight: 750;
+	font-size: var(--cdplay-font-size-sm);
+	font-weight: 800;
 	text-align: center;
-	backdrop-filter: blur(0.8rem);
+	transition:
+		border-color var(--cdplay-transition-fast),
+		background-color var(--cdplay-transition-fast),
+		color var(--cdplay-transition-fast);
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__cta::after {
