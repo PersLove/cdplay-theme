@@ -27,16 +27,15 @@ get_header('shop');
 
 				remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
 
-				$cdplay_product_image_id = $cdplay_single_product->get_image_id();
-				$cdplay_product_image    = $cdplay_product_image_id ? wp_get_attachment_image(
-					$cdplay_product_image_id,
-					'woocommerce_single',
-					false,
-					array(
-						'class'   => 'cdplay-single-product__image',
-						'loading' => 'eager',
+				$cdplay_product_image_ids = array_filter(
+					array_unique(
+						array_merge(
+							array($cdplay_single_product->get_image_id()),
+							$cdplay_single_product->get_gallery_image_ids()
+						)
 					)
-				) : '';
+				);
+				$cdplay_primary_image_id  = reset($cdplay_product_image_ids);
 				?>
 
 				<?php do_action('woocommerce_before_single_product'); ?>
@@ -50,13 +49,66 @@ get_header('shop');
 				<article id="product-<?php the_ID(); ?>" <?php wc_product_class('cdplay-single-product__product', $cdplay_single_product); ?>>
 					<div class="cdplay-single-product__shell">
 						<div class="cdplay-single-product__media">
-							<div class="cdplay-single-product__image-card">
-								<?php if ($cdplay_product_image) : ?>
-									<?php echo wp_kses_post($cdplay_product_image); ?>
-								<?php else : ?>
-									<div class="cdplay-single-product__image-placeholder" aria-hidden="true"></div>
+							<section class="cdplay-product-gallery" aria-label="<?php esc_attr_e('Галерея товара', 'cdplay'); ?>" data-cdplay-product-gallery>
+								<div class="cdplay-product-gallery__main">
+									<div class="cdplay-product-gallery__viewport">
+										<?php if ($cdplay_primary_image_id) : ?>
+											<?php
+											echo wp_get_attachment_image(
+												$cdplay_primary_image_id,
+												'woocommerce_single',
+												false,
+												array(
+													'class'   => 'cdplay-product-gallery__image',
+													'loading' => 'eager',
+													'data-cdplay-product-gallery-image' => '',
+												)
+											);
+											?>
+										<?php else : ?>
+											<div class="cdplay-product-gallery__placeholder" aria-hidden="true"></div>
+										<?php endif; ?>
+									</div>
+								</div>
+
+								<?php if (count($cdplay_product_image_ids) > 1) : ?>
+									<div class="cdplay-product-gallery__thumbs" role="list" aria-label="<?php esc_attr_e('Изображения товара', 'cdplay'); ?>">
+										<?php foreach ($cdplay_product_image_ids as $cdplay_gallery_index => $cdplay_gallery_image_id) : ?>
+											<?php
+											$cdplay_gallery_full_src = wp_get_attachment_image_url($cdplay_gallery_image_id, 'woocommerce_single');
+											$cdplay_gallery_srcset   = wp_get_attachment_image_srcset($cdplay_gallery_image_id, 'woocommerce_single');
+											$cdplay_gallery_sizes    = wp_get_attachment_image_sizes($cdplay_gallery_image_id, 'woocommerce_single');
+											$cdplay_gallery_alt      = get_post_meta($cdplay_gallery_image_id, '_wp_attachment_image_alt', true);
+											?>
+											<div class="cdplay-product-gallery__thumb <?php echo 0 === $cdplay_gallery_index ? 'cdplay-product-gallery__thumb--active' : ''; ?>" role="listitem">
+												<button
+													class="cdplay-product-gallery__thumb-button"
+													type="button"
+													aria-label="<?php echo esc_attr(sprintf(__('Показать изображение %d', 'cdplay'), $cdplay_gallery_index + 1)); ?>"
+													aria-selected="<?php echo 0 === $cdplay_gallery_index ? 'true' : 'false'; ?>"
+													data-cdplay-product-gallery-thumb
+													data-image-src="<?php echo esc_url($cdplay_gallery_full_src); ?>"
+													data-image-srcset="<?php echo esc_attr($cdplay_gallery_srcset); ?>"
+													data-image-sizes="<?php echo esc_attr($cdplay_gallery_sizes); ?>"
+													data-image-alt="<?php echo esc_attr($cdplay_gallery_alt); ?>"
+												>
+													<?php
+													echo wp_get_attachment_image(
+														$cdplay_gallery_image_id,
+														'woocommerce_thumbnail',
+														false,
+														array(
+															'class'   => 'cdplay-product-gallery__thumb-image',
+															'loading' => 'lazy',
+														)
+													);
+													?>
+												</button>
+											</div>
+										<?php endforeach; ?>
+									</div>
 								<?php endif; ?>
-							</div>
+							</section>
 						</div>
 
 						<div class="cdplay-single-product__summary">

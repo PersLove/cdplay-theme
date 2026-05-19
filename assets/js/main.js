@@ -64,3 +64,57 @@
 		}
 	});
 }());
+
+(function () {
+	'use strict';
+
+	document.addEventListener('click', function (event) {
+		var thumbButton = event.target.closest('[data-cdplay-product-gallery-thumb]');
+
+		if (!thumbButton) {
+			return;
+		}
+
+		var gallery = thumbButton.closest('[data-cdplay-product-gallery]');
+		var mainImage = gallery ? gallery.querySelector('[data-cdplay-product-gallery-image]') : null;
+
+		if (!gallery || !mainImage) {
+			return;
+		}
+
+		var imageSrc = thumbButton.getAttribute('data-image-src');
+		var imageSrcset = thumbButton.getAttribute('data-image-srcset');
+		var imageSizes = thumbButton.getAttribute('data-image-sizes');
+		var imageAlt = thumbButton.getAttribute('data-image-alt') || '';
+
+		if (!imageSrc) {
+			return;
+		}
+
+		mainImage.setAttribute('src', imageSrc);
+		mainImage.setAttribute('alt', imageAlt);
+
+		if (imageSrcset) {
+			mainImage.setAttribute('srcset', imageSrcset);
+		} else {
+			mainImage.removeAttribute('srcset');
+		}
+
+		if (imageSizes) {
+			mainImage.setAttribute('sizes', imageSizes);
+		} else {
+			mainImage.removeAttribute('sizes');
+		}
+
+		gallery.querySelectorAll('.cdplay-product-gallery__thumb').forEach(function (thumb) {
+			thumb.classList.remove('cdplay-product-gallery__thumb--active');
+		});
+
+		gallery.querySelectorAll('[data-cdplay-product-gallery-thumb]').forEach(function (button) {
+			button.setAttribute('aria-selected', 'false');
+		});
+
+		thumbButton.setAttribute('aria-selected', 'true');
+		thumbButton.closest('.cdplay-product-gallery__thumb').classList.add('cdplay-product-gallery__thumb--active');
+	});
+}());
