@@ -2520,12 +2520,25 @@ figcaption {
 		color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 8%);
 }
 
+.cdplay-product-gallery__viewport.is-square {
+	aspect-ratio: 1 / 1;
+}
+
+.cdplay-product-gallery__viewport.is-wide {
+	aspect-ratio: 16 / 9;
+}
+
 .cdplay-product-gallery__image,
 .cdplay-single-product__image {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 	padding: var(--cdplay-space-md);
+}
+
+.cdplay-product-gallery__image--square,
+.cdplay-product-gallery__image--wide {
+	object-fit: contain;
 }
 
 .cdplay-product-gallery__placeholder,

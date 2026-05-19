@@ -36,6 +36,21 @@ get_header('shop');
 					)
 				);
 				$cdplay_primary_image_id  = reset($cdplay_product_image_ids);
+				$cdplay_get_image_aspect  = static function($image_id, $is_featured = false) {
+					if ($is_featured) {
+						return 'square';
+					}
+
+					$metadata = wp_get_attachment_metadata($image_id);
+					$width    = isset($metadata['width']) ? (int) $metadata['width'] : 0;
+					$height   = isset($metadata['height']) ? (int) $metadata['height'] : 0;
+
+					if ($width > 0 && $height > 0 && $width > $height) {
+						return 'wide';
+					}
+
+					return 'square';
+				};
 				?>
 
 				<?php do_action('woocommerce_before_single_product'); ?>
@@ -51,7 +66,7 @@ get_header('shop');
 						<div class="cdplay-single-product__media">
 							<section class="cdplay-product-gallery" aria-label="<?php esc_attr_e('Галерея товара', 'cdplay'); ?>" data-cdplay-product-gallery>
 								<div class="cdplay-product-gallery__main">
-									<div class="cdplay-product-gallery__viewport">
+									<div class="cdplay-product-gallery__viewport is-square" data-cdplay-product-gallery-viewport>
 										<?php if ($cdplay_primary_image_id) : ?>
 											<?php
 											echo wp_get_attachment_image(
@@ -59,9 +74,11 @@ get_header('shop');
 												'woocommerce_single',
 												false,
 												array(
-													'class'   => 'cdplay-product-gallery__image',
+													'class'   => 'cdplay-product-gallery__image cdplay-product-gallery__image--square',
 													'loading' => 'eager',
 													'data-cdplay-product-gallery-image' => '',
+													'data-image-aspect' => 'square',
+													'data-aspect' => 'square',
 												)
 											);
 											?>
@@ -79,6 +96,7 @@ get_header('shop');
 											$cdplay_gallery_srcset   = wp_get_attachment_image_srcset($cdplay_gallery_image_id, 'woocommerce_single');
 											$cdplay_gallery_sizes    = wp_get_attachment_image_sizes($cdplay_gallery_image_id, 'woocommerce_single');
 											$cdplay_gallery_alt      = get_post_meta($cdplay_gallery_image_id, '_wp_attachment_image_alt', true);
+											$cdplay_gallery_aspect   = $cdplay_get_image_aspect($cdplay_gallery_image_id, 0 === $cdplay_gallery_index);
 											?>
 											<div class="cdplay-product-gallery__thumb <?php echo 0 === $cdplay_gallery_index ? 'cdplay-product-gallery__thumb--active' : ''; ?>" role="listitem">
 												<button
@@ -91,6 +109,8 @@ get_header('shop');
 													data-image-srcset="<?php echo esc_attr($cdplay_gallery_srcset); ?>"
 													data-image-sizes="<?php echo esc_attr($cdplay_gallery_sizes); ?>"
 													data-image-alt="<?php echo esc_attr($cdplay_gallery_alt); ?>"
+													data-image-aspect="<?php echo esc_attr($cdplay_gallery_aspect); ?>"
+													data-aspect="<?php echo esc_attr($cdplay_gallery_aspect); ?>"
 												>
 													<?php
 													echo wp_get_attachment_image(

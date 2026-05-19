@@ -77,6 +77,7 @@
 
 		var gallery = thumbButton.closest('[data-cdplay-product-gallery]');
 		var mainImage = gallery ? gallery.querySelector('[data-cdplay-product-gallery-image]') : null;
+		var viewport = gallery ? gallery.querySelector('[data-cdplay-product-gallery-viewport]') : null;
 
 		if (!gallery || !mainImage) {
 			return;
@@ -86,6 +87,8 @@
 		var imageSrcset = thumbButton.getAttribute('data-image-srcset');
 		var imageSizes = thumbButton.getAttribute('data-image-sizes');
 		var imageAlt = thumbButton.getAttribute('data-image-alt') || '';
+		var imageAspect = thumbButton.getAttribute('data-image-aspect') || thumbButton.getAttribute('data-aspect') || 'square';
+		var normalizedAspect = imageAspect === 'wide' ? 'wide' : 'square';
 
 		if (!imageSrc) {
 			return;
@@ -93,6 +96,15 @@
 
 		mainImage.setAttribute('src', imageSrc);
 		mainImage.setAttribute('alt', imageAlt);
+		mainImage.setAttribute('data-image-aspect', normalizedAspect);
+		mainImage.setAttribute('data-aspect', normalizedAspect);
+		mainImage.classList.remove('cdplay-product-gallery__image--square', 'cdplay-product-gallery__image--wide');
+		mainImage.classList.add('cdplay-product-gallery__image--' + normalizedAspect);
+
+		if (viewport) {
+			viewport.classList.remove('is-square', 'is-wide');
+			viewport.classList.add('is-' + normalizedAspect);
+		}
 
 		if (imageSrcset) {
 			mainImage.setAttribute('srcset', imageSrcset);
