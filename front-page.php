@@ -15,6 +15,7 @@ get_header();
 <main id="primary" class="cdplay-site-main">
 	<?php get_template_part('template-parts/sections/hero'); ?>
 	<?php get_template_part('template-parts/sections/platform-hubs'); ?>
+	<?php get_template_part('template-parts/sections/find-your-console'); ?>
 
 	<section class="cdplay-front-section cdplay-front-section--selection" aria-labelledby="cdplay-selection-title">
 		<div class="cdplay-container">
