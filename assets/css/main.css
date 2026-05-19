@@ -2451,6 +2451,7 @@ figcaption {
 
 /* 23. Single Product */
 .cdplay-single-product {
+	overflow: visible;
 	background:
 		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 52%), var(--cdplay-color-background));
 }
@@ -2631,6 +2632,7 @@ figcaption {
 	align-content: start;
 	gap: var(--cdplay-space-sm);
 	padding: var(--cdplay-space-md);
+	position: static;
 }
 
 .cdplay-single-product__title,
@@ -3212,10 +3214,20 @@ figcaption {
 	.cdplay-single-product__shell {
 		grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.78fr);
 		align-items: start;
+		overflow: visible;
 	}
 
 	.cdplay-single-product__summary {
+		--cdplay-sticky-purchase-offset: clamp(5rem, 8svh, 7rem);
+
+		position: sticky;
+		inset-block-start: var(--cdplay-sticky-purchase-offset);
+		align-self: start;
+		max-height: calc(100svh - var(--cdplay-sticky-purchase-offset) - var(--cdplay-space-md));
+		overflow-y: auto;
+		overscroll-behavior: contain;
 		padding: var(--cdplay-space-lg);
+		scrollbar-width: thin;
 	}
 
 	.cdplay-product-info__grid {
