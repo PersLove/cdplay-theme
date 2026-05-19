@@ -53,6 +53,8 @@ get_header('shop');
 							<div class="cdplay-single-product__image-card">
 								<?php if ($cdplay_product_image) : ?>
 									<?php echo wp_kses_post($cdplay_product_image); ?>
+								<?php else : ?>
+									<div class="cdplay-single-product__image-placeholder" aria-hidden="true"></div>
 								<?php endif; ?>
 							</div>
 						</div>
@@ -75,7 +77,15 @@ get_header('shop');
 							<?php endif; ?>
 
 							<div class="cdplay-single-product__cart">
-								<?php woocommerce_template_single_add_to_cart(); ?>
+								<?php
+								$cdplay_add_to_cart_text = static function() {
+									return __('Добавить в корзину', 'cdplay');
+								};
+
+								add_filter('woocommerce_product_single_add_to_cart_text', $cdplay_add_to_cart_text);
+								woocommerce_template_single_add_to_cart();
+								remove_filter('woocommerce_product_single_add_to_cart_text', $cdplay_add_to_cart_text);
+								?>
 							</div>
 
 							<div class="cdplay-single-product__meta">
