@@ -19,6 +19,7 @@ get_header();
 	<?php get_template_part('template-parts/sections/what-to-play'); ?>
 	<?php get_template_part('template-parts/sections/ready-to-play'); ?>
 	<?php get_template_part('template-parts/sections/services'); ?>
+	<?php get_template_part('template-parts/sections/cdplay-experience'); ?>
 
 	<section class="cdplay-front-section cdplay-front-section--selection" aria-labelledby="cdplay-selection-title">
 		<div class="cdplay-container">
