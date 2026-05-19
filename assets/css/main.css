@@ -1,0 +1,342 @@
+/*
+Theme Name: CDPLAY 2.0
+Layer: Foundation
+*/
+
+/* 1. Reset / Normalize */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	min-height: 100%;
+	font-size: 100%;
+	line-height: 1.5;
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100%;
+	margin: 0;
+	text-rendering: optimizeSpeed;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin-block: 0;
+}
+
+ul,
+ol {
+	margin-block: 0;
+	padding-inline-start: 1.5rem;
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
+
+button {
+	border: 0;
+	cursor: pointer;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+	display: block;
+	max-width: 100%;
+}
+
+img,
+video {
+	height: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* 2. Design Tokens */
+:root {
+	color-scheme: light;
+
+	--cdplay-color-background: #f6f7f9;
+	--cdplay-color-surface: #ffffff;
+	--cdplay-color-surface-elevated: #fbfcff;
+	--cdplay-color-text: #10131a;
+	--cdplay-color-text-muted: #667085;
+	--cdplay-color-accent: #2f6bff;
+	--cdplay-color-accent-hover: #2456d6;
+	--cdplay-color-accent-contrast: #ffffff;
+	--cdplay-color-border: #dfe4ec;
+	--cdplay-color-border-strong: #c5ccd8;
+	--cdplay-color-focus: rgba(47, 107, 255, 0.35);
+
+	--cdplay-font-family-base: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+	--cdplay-font-family-heading: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+
+	--cdplay-font-size-xs: 0.75rem;
+	--cdplay-font-size-sm: 0.875rem;
+	--cdplay-font-size-base: 1rem;
+	--cdplay-font-size-md: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+	--cdplay-font-size-lg: clamp(1.125rem, 1.03rem + 0.45vw, 1.375rem);
+	--cdplay-font-size-xl: clamp(1.375rem, 1.15rem + 1vw, 2rem);
+	--cdplay-font-size-2xl: clamp(1.75rem, 1.35rem + 1.8vw, 3rem);
+
+	--cdplay-line-height-tight: 1.15;
+	--cdplay-line-height-base: 1.6;
+	--cdplay-line-height-relaxed: 1.75;
+
+	--cdplay-space-2xs: 0.25rem;
+	--cdplay-space-xs: 0.5rem;
+	--cdplay-space-sm: 0.75rem;
+	--cdplay-space-md: 1rem;
+	--cdplay-space-lg: clamp(1.25rem, 1.05rem + 0.9vw, 2rem);
+	--cdplay-space-xl: clamp(2rem, 1.55rem + 2vw, 3.5rem);
+	--cdplay-space-2xl: clamp(3rem, 2.2rem + 3.5vw, 5.5rem);
+
+	--cdplay-container-width: 76rem;
+	--cdplay-container-narrow: 54rem;
+	--cdplay-container-padding: clamp(1rem, 0.7rem + 1.5vw, 2rem);
+
+	--cdplay-radius-sm: 0.375rem;
+	--cdplay-radius-md: 0.5rem;
+	--cdplay-radius-lg: 0.75rem;
+
+	--cdplay-shadow-soft: 0 1rem 2.5rem rgba(16, 19, 26, 0.08);
+
+	--cdplay-transition-fast: 150ms ease;
+	--cdplay-transition-base: 220ms ease;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+
+		--cdplay-color-background: #0d1017;
+		--cdplay-color-surface: #151a24;
+		--cdplay-color-surface-elevated: #1a202c;
+		--cdplay-color-text: #eef2f8;
+		--cdplay-color-text-muted: #a2acbb;
+		--cdplay-color-accent: #7ca2ff;
+		--cdplay-color-accent-hover: #9ab7ff;
+		--cdplay-color-accent-contrast: #0d1017;
+		--cdplay-color-border: #2a3240;
+		--cdplay-color-border-strong: #3a4658;
+		--cdplay-color-focus: rgba(124, 162, 255, 0.4);
+		--cdplay-shadow-soft: 0 1rem 2.5rem rgba(0, 0, 0, 0.28);
+	}
+}
+
+/* 3. Base Document */
+body {
+	background: var(--cdplay-color-background);
+	color: var(--cdplay-color-text);
+	font-family: var(--cdplay-font-family-base);
+	font-size: var(--cdplay-font-size-base);
+	line-height: var(--cdplay-line-height-base);
+}
+
+::selection {
+	background: var(--cdplay-color-accent);
+	color: var(--cdplay-color-accent-contrast);
+}
+
+:focus-visible {
+	outline: 0.1875rem solid var(--cdplay-color-focus);
+	outline-offset: 0.1875rem;
+}
+
+/* 4. Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--cdplay-color-text);
+	font-family: var(--cdplay-font-family-heading);
+	font-weight: 700;
+	line-height: var(--cdplay-line-height-tight);
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: var(--cdplay-font-size-2xl);
+}
+
+h2 {
+	font-size: var(--cdplay-font-size-xl);
+}
+
+h3 {
+	font-size: var(--cdplay-font-size-lg);
+}
+
+h4,
+h5,
+h6 {
+	font-size: var(--cdplay-font-size-md);
+}
+
+p {
+	color: inherit;
+	max-width: 68ch;
+}
+
+p + p {
+	margin-block-start: var(--cdplay-space-md);
+}
+
+small {
+	font-size: var(--cdplay-font-size-sm);
+}
+
+strong {
+	font-weight: 700;
+}
+
+.cdplay-text-muted {
+	color: var(--cdplay-color-text-muted);
+}
+
+/* 5. Links */
+a {
+	color: var(--cdplay-color-accent);
+	text-decoration-color: color-mix(in srgb, var(--cdplay-color-accent), transparent 55%);
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+	transition:
+		color var(--cdplay-transition-fast),
+		text-decoration-color var(--cdplay-transition-fast);
+}
+
+a:hover {
+	color: var(--cdplay-color-accent-hover);
+	text-decoration-color: currentColor;
+}
+
+/* 6. Layout Containers */
+.cdplay-container {
+	width: min(100% - (var(--cdplay-container-padding) * 2), var(--cdplay-container-width));
+	margin-inline: auto;
+}
+
+.cdplay-container--narrow {
+	width: min(100% - (var(--cdplay-container-padding) * 2), var(--cdplay-container-narrow));
+	margin-inline: auto;
+}
+
+.cdplay-section {
+	padding-block: var(--cdplay-space-xl);
+}
+
+.cdplay-stack {
+	display: grid;
+	gap: var(--cdplay-space-md);
+}
+
+.cdplay-stack--lg {
+	gap: var(--cdplay-space-lg);
+}
+
+/* 7. Buttons */
+.cdplay-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: 0.75rem 1rem;
+	border: 0.0625rem solid transparent;
+	border-radius: var(--cdplay-radius-md);
+	background: var(--cdplay-color-accent);
+	color: var(--cdplay-color-accent-contrast);
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		background-color var(--cdplay-transition-fast),
+		border-color var(--cdplay-transition-fast),
+		color var(--cdplay-transition-fast),
+		transform var(--cdplay-transition-fast);
+}
+
+.cdplay-button:hover {
+	background: var(--cdplay-color-accent-hover);
+	color: var(--cdplay-color-accent-contrast);
+	text-decoration: none;
+}
+
+.cdplay-button:active {
+	transform: translateY(0.0625rem);
+}
+
+.cdplay-button--secondary {
+	border-color: var(--cdplay-color-border);
+	background: var(--cdplay-color-surface);
+	color: var(--cdplay-color-text);
+}
+
+.cdplay-button--secondary:hover {
+	border-color: var(--cdplay-color-border-strong);
+	background: var(--cdplay-color-surface-elevated);
+	color: var(--cdplay-color-text);
+}
+
+/* 8. Media */
+.cdplay-image {
+	width: 100%;
+	border-radius: var(--cdplay-radius-lg);
+}
+
+figure {
+	display: grid;
+	gap: var(--cdplay-space-xs);
+}
+
+figcaption {
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-sm);
+}
+
+/* 9. Surfaces */
+.cdplay-surface {
+	border: 0.0625rem solid var(--cdplay-color-border);
+	border-radius: var(--cdplay-radius-lg);
+	background: var(--cdplay-color-surface);
+	box-shadow: var(--cdplay-shadow-soft);
+}
