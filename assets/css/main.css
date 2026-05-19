@@ -2785,15 +2785,16 @@ figcaption {
 
 .cdplay-product-info {
 	display: grid;
-	gap: var(--cdplay-space-sm);
+	gap: var(--cdplay-space-md);
 	max-width: 68rem;
 	width: 100%;
 	margin-inline: auto;
-	padding: var(--cdplay-space-sm);
-	border: 0.0625rem solid var(--cdplay-color-border);
+	padding: var(--cdplay-space-md);
+	border: 0.0625rem solid color-mix(in srgb, var(--cdplay-color-border), var(--cdplay-color-accent) 10%);
 	border-radius: var(--cdplay-radius-lg);
 	background:
-		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 95%), transparent 58%),
+		radial-gradient(circle at 92% 0%, color-mix(in srgb, var(--cdplay-color-accent), transparent 88%), transparent 30%),
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 96%), transparent 62%),
 		var(--cdplay-color-surface);
 	box-shadow: var(--cdplay-shadow-hairline);
 }
@@ -2807,7 +2808,7 @@ figcaption {
 
 .cdplay-product-info__title {
 	margin: 0;
-	font-size: var(--cdplay-font-size-lg);
+	font-size: clamp(1.125rem, 1rem + 0.45vw, 1.45rem);
 	font-weight: 850;
 	line-height: var(--cdplay-line-height-tight);
 }
@@ -2821,14 +2822,14 @@ figcaption {
 .cdplay-product-info__card {
 	display: grid;
 	align-content: start;
-	gap: var(--cdplay-space-2xs);
-	min-height: 6.5rem;
-	padding: var(--cdplay-space-sm);
-	border: 0.0625rem solid var(--cdplay-color-border);
+	gap: var(--cdplay-space-xs);
+	min-height: 6.25rem;
+	padding: var(--cdplay-space-sm) var(--cdplay-space-md);
+	border: 0.0625rem solid color-mix(in srgb, var(--cdplay-color-border), transparent 10%);
 	border-radius: var(--cdplay-radius-md);
 	background:
-		radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--cdplay-color-accent), transparent 90%), transparent 38%),
-		color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 18%);
+		linear-gradient(150deg, color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 4%), transparent 110%),
+		color-mix(in srgb, var(--cdplay-color-surface), var(--cdplay-color-surface-elevated) 54%);
 }
 
 .cdplay-product-info__label,
@@ -2837,17 +2838,18 @@ figcaption {
 }
 
 .cdplay-product-info__label {
-	color: var(--cdplay-color-text-muted);
+	color: color-mix(in srgb, var(--cdplay-color-text-muted), transparent 4%);
 	font-size: var(--cdplay-font-size-xs);
-	font-weight: 800;
+	font-weight: 850;
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
 }
 
 .cdplay-product-info__value {
 	color: var(--cdplay-color-text);
-	font-size: var(--cdplay-font-size-sm);
+	font-size: clamp(var(--cdplay-font-size-sm), 0.92rem + 0.18vw, var(--cdplay-font-size-md));
 	font-weight: 850;
-	line-height: var(--cdplay-line-height-snug);
+	line-height: var(--cdplay-line-height-normal);
 }
 
 .cdplay-single-product__tabs {
