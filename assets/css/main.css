@@ -137,6 +137,7 @@ table {
 	--cdplay-radius-lg: 0.75rem;
 
 	--cdplay-shadow-soft: 0 1rem 2.5rem rgba(16, 19, 26, 0.08);
+	--cdplay-shadow-hairline: 0 0.75rem 2rem rgba(16, 19, 26, 0.05);
 
 	--cdplay-transition-fast: 150ms ease;
 	--cdplay-transition-base: 220ms ease;
@@ -158,6 +159,7 @@ table {
 		--cdplay-color-border-strong: #3a4658;
 		--cdplay-color-focus: rgba(124, 162, 255, 0.4);
 		--cdplay-shadow-soft: 0 1rem 2.5rem rgba(0, 0, 0, 0.28);
+		--cdplay-shadow-hairline: 0 0.75rem 2rem rgba(0, 0, 0, 0.2);
 	}
 }
 
@@ -367,6 +369,8 @@ figcaption {
 
 .cdplay-site-main {
 	min-height: 60vh;
+	overflow: hidden;
+	padding-block-end: calc(4.25rem + env(safe-area-inset-bottom, 0rem));
 }
 
 .cdplay-site-header {
@@ -374,21 +378,24 @@ figcaption {
 	inset-block-start: 0;
 	z-index: 50;
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
-	background: color-mix(in srgb, var(--cdplay-color-background), transparent 6%);
+	background: color-mix(in srgb, var(--cdplay-color-background), var(--cdplay-color-surface) 34%);
+	box-shadow: 0 0.0625rem 0 color-mix(in srgb, var(--cdplay-color-surface), transparent 60%);
 	transition:
 		background-color var(--cdplay-transition-base),
 		border-color var(--cdplay-transition-base),
-		backdrop-filter var(--cdplay-transition-base);
+		box-shadow var(--cdplay-transition-base);
 }
 
 .cdplay-site-header[data-cdplay-header="transparent"] {
 	border-color: transparent;
 	background: transparent;
+	box-shadow: none;
 }
 
 .cdplay-site-header[data-cdplay-header="glass"] {
-	background: color-mix(in srgb, var(--cdplay-color-background), transparent 18%);
-	backdrop-filter: blur(1rem);
+	border-color: color-mix(in srgb, var(--cdplay-color-border), transparent 24%);
+	background: color-mix(in srgb, var(--cdplay-color-background), var(--cdplay-color-surface) 22%);
+	box-shadow: var(--cdplay-shadow-hairline);
 }
 
 .cdplay-site-header__inner {
@@ -404,6 +411,11 @@ figcaption {
 	font-size: var(--cdplay-font-size-md);
 	font-weight: 800;
 	letter-spacing: 0;
+	text-decoration: none;
+}
+
+.cdplay-site-logo:hover {
+	color: var(--cdplay-color-accent);
 	text-decoration: none;
 }
 
@@ -429,6 +441,15 @@ figcaption {
 	text-decoration: none;
 }
 
+.cdplay-primary-nav a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.5rem;
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-sm);
+	font-weight: 700;
+}
+
 .cdplay-header-actions {
 	display: flex;
 	align-items: center;
@@ -437,8 +458,21 @@ figcaption {
 
 .cdplay-header-action {
 	display: none;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.5rem;
+	padding-inline: 0.75rem;
+	border: 0.0625rem solid transparent;
+	border-radius: var(--cdplay-radius-md);
 	color: var(--cdplay-color-text-muted);
 	font-size: var(--cdplay-font-size-sm);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.cdplay-header-action:hover {
+	border-color: var(--cdplay-color-border);
+	background: var(--cdplay-color-surface);
 	text-decoration: none;
 }
 
@@ -452,13 +486,14 @@ figcaption {
 .cdplay-mobile-menu-toggle {
 	display: inline-grid;
 	place-items: center;
-	width: 2.75rem;
-	height: 2.75rem;
+	width: 3rem;
+	height: 3rem;
 	padding: 0;
 	border: 0.0625rem solid var(--cdplay-color-border);
 	border-radius: var(--cdplay-radius-md);
 	background: var(--cdplay-color-surface);
 	color: var(--cdplay-color-text);
+	box-shadow: var(--cdplay-shadow-hairline);
 }
 
 .cdplay-mobile-menu-toggle__bar {
@@ -483,15 +518,17 @@ figcaption {
 	z-index: 45;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
+	padding-block-end: env(safe-area-inset-bottom, 0rem);
 	border-block-start: 0.0625rem solid var(--cdplay-color-border);
-	background: var(--cdplay-color-surface);
+	background: color-mix(in srgb, var(--cdplay-color-surface), var(--cdplay-color-background) 8%);
+	box-shadow: 0 -0.75rem 2rem rgba(16, 19, 26, 0.06);
 }
 
 .cdplay-mobile-bottom-nav__item {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 3.75rem;
+	min-height: 4rem;
 	padding: 0.5rem 0.375rem;
 	border: 0;
 	background: transparent;
@@ -550,6 +587,7 @@ figcaption {
 
 .cdplay-mobile-menu__platforms a,
 .cdplay-mobile-menu__actions a {
+	min-height: 3.5rem;
 	padding: 1rem;
 	border: 0.0625rem solid var(--cdplay-color-border);
 	border-radius: var(--cdplay-radius-md);
@@ -580,8 +618,19 @@ figcaption {
 	overflow: hidden;
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
 	background:
-		radial-gradient(circle at 18% 22%, rgba(47, 107, 255, 0.2), transparent 34rem),
-		linear-gradient(135deg, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 68%);
+		linear-gradient(115deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 88%) 0%, transparent 36%),
+		linear-gradient(180deg, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 78%);
+}
+
+.cdplay-hero::before {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	background:
+		linear-gradient(110deg, transparent 0 42%, color-mix(in srgb, var(--cdplay-color-accent), transparent 94%) 42% 56%, transparent 56% 100%),
+		linear-gradient(155deg, transparent 0 58%, color-mix(in srgb, var(--cdplay-color-border), transparent 56%) 58% 58.4%, transparent 58.4% 100%);
+	content: "";
+	opacity: 0.86;
 }
 
 .cdplay-hero__media,
@@ -592,7 +641,9 @@ figcaption {
 }
 
 .cdplay-hero__media {
-	background: var(--cdplay-hero-background, transparent);
+	background:
+		linear-gradient(135deg, color-mix(in srgb, var(--cdplay-color-surface), transparent 28%) 0%, transparent 46%),
+		var(--cdplay-hero-background, transparent);
 }
 
 .cdplay-hero__media img,
@@ -604,15 +655,15 @@ figcaption {
 
 .cdplay-hero__atmosphere {
 	position: absolute;
-	inset: auto -20% -35% 22%;
-	width: min(42rem, 90vw);
+	inset: auto -18% -32% 12%;
+	width: min(48rem, 96vw);
 	aspect-ratio: 1;
 	border-radius: 999rem;
 	background:
-		radial-gradient(circle, rgba(47, 107, 255, 0.22), transparent 62%),
-		radial-gradient(circle at 65% 35%, rgba(255, 255, 255, 0.28), transparent 45%);
-	filter: blur(1.5rem);
-	opacity: 0.9;
+		radial-gradient(circle, color-mix(in srgb, var(--cdplay-color-accent), transparent 78%), transparent 62%),
+		radial-gradient(circle at 68% 32%, color-mix(in srgb, var(--cdplay-color-surface), transparent 50%), transparent 45%);
+	filter: blur(1.75rem);
+	opacity: 0.95;
 }
 
 .cdplay-hero__overlay {
@@ -662,12 +713,35 @@ figcaption {
 	padding-block-start: var(--cdplay-space-sm);
 }
 
+.cdplay-hero__actions .cdplay-button {
+	min-height: 3rem;
+	padding-inline: 1.125rem;
+	box-shadow: var(--cdplay-shadow-hairline);
+}
+
+.cdplay-hero__actions .cdplay-button:first-child {
+	box-shadow: 0 0.85rem 2rem color-mix(in srgb, var(--cdplay-color-accent), transparent 82%);
+}
+
 /* 14. Platform Hubs */
 .cdplay-platform-hubs {
+	position: relative;
+	isolation: isolate;
 	padding-block: var(--cdplay-space-2xl);
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
 	background:
-		linear-gradient(180deg, var(--cdplay-color-background), color-mix(in srgb, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 42%));
+		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-background), var(--cdplay-color-surface) 16%), color-mix(in srgb, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 42%));
+}
+
+.cdplay-platform-hubs::before {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(120deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 94%), transparent 34%),
+		linear-gradient(240deg, color-mix(in srgb, var(--cdplay-color-border-strong), transparent 88%), transparent 42%);
+	content: "";
+	opacity: 0.72;
 }
 
 .cdplay-platform-hubs__inner {
@@ -713,9 +787,14 @@ figcaption {
 	border: 0.0625rem solid var(--cdplay-color-border);
 	border-radius: var(--cdplay-radius-lg);
 	background:
-		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-platform-card-accent, var(--cdplay-color-accent)), transparent 88%), transparent 48%),
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-platform-card-accent, var(--cdplay-color-accent)), transparent 86%), transparent 50%),
+		linear-gradient(0deg, color-mix(in srgb, var(--cdplay-color-surface), transparent 0%), color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 18%)),
 		var(--cdplay-platform-card-background, var(--cdplay-color-surface));
 	box-shadow: var(--cdplay-shadow-soft);
+	transition:
+		border-color var(--cdplay-transition-base),
+		box-shadow var(--cdplay-transition-base),
+		transform var(--cdplay-transition-base);
 }
 
 .cdplay-platform-card::before {
@@ -723,12 +802,33 @@ figcaption {
 	inset: 0;
 	z-index: -1;
 	background:
-		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-surface), transparent 6%) 100%),
+		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-surface), transparent 4%) 100%),
 		var(--cdplay-platform-card-image, none);
 	background-position: center;
 	background-size: cover;
 	content: "";
 	opacity: 0.9;
+}
+
+.cdplay-platform-card::after {
+	position: absolute;
+	inset: auto 0 0;
+	z-index: -1;
+	height: 42%;
+	background: linear-gradient(0deg, color-mix(in srgb, var(--cdplay-platform-card-accent, var(--cdplay-color-accent)), transparent 84%), transparent);
+	content: "";
+	opacity: 0.46;
+	transition: opacity var(--cdplay-transition-base);
+}
+
+.cdplay-platform-card:hover {
+	border-color: color-mix(in srgb, var(--cdplay-platform-card-accent, var(--cdplay-color-accent)), var(--cdplay-color-border) 52%);
+	box-shadow: var(--cdplay-shadow-hairline);
+	transform: translateY(-0.125rem);
+}
+
+.cdplay-platform-card:hover::after {
+	opacity: 0.72;
 }
 
 .cdplay-platform-card__media {
@@ -761,6 +861,14 @@ figcaption {
 	background-repeat: no-repeat;
 	background-size: 52%;
 	opacity: 0.72;
+	transition:
+		border-color var(--cdplay-transition-base),
+		opacity var(--cdplay-transition-base);
+}
+
+.cdplay-platform-card:hover .cdplay-platform-card__icon-slot {
+	border-color: color-mix(in srgb, var(--cdplay-platform-card-accent, var(--cdplay-color-accent)), transparent 48%);
+	opacity: 0.94;
 }
 
 .cdplay-platform-card__content {
@@ -782,6 +890,9 @@ figcaption {
 }
 
 .cdplay-platform-card__cta {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
 	justify-self: start;
 	margin-block-start: var(--cdplay-space-xs);
 	color: var(--cdplay-color-text);
@@ -811,9 +922,24 @@ figcaption {
 
 /* 15. Find Your Console */
 .cdplay-find-console {
+	position: relative;
+	isolation: isolate;
 	padding-block: var(--cdplay-space-2xl);
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
-	background: var(--cdplay-color-background);
+	background:
+		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 72%), var(--cdplay-color-background));
+}
+
+.cdplay-find-console::before {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(90deg, color-mix(in srgb, var(--cdplay-color-border), transparent 72%) 0 0.0625rem, transparent 0.0625rem 100%),
+		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-border), transparent 78%) 0 0.0625rem, transparent 0.0625rem 100%);
+	background-size: 6rem 6rem;
+	content: "";
+	opacity: 0.22;
 }
 
 .cdplay-find-console__inner {
@@ -858,7 +984,8 @@ figcaption {
 	border: 0.0625rem solid var(--cdplay-color-border);
 	border-radius: var(--cdplay-radius-lg);
 	background:
-		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-scenario-card-accent, var(--cdplay-color-accent)), transparent 92%), transparent 52%),
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-scenario-card-accent, var(--cdplay-color-accent)), transparent 90%), transparent 54%),
+		linear-gradient(0deg, color-mix(in srgb, var(--cdplay-color-surface), transparent 0%), color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 28%)),
 		var(--cdplay-scenario-card-background, var(--cdplay-color-surface));
 	transition:
 		border-color var(--cdplay-transition-base),
@@ -878,6 +1005,17 @@ figcaption {
 	content: "";
 	opacity: 0;
 	transition: opacity var(--cdplay-transition-base);
+}
+
+.cdplay-scenario-card::after {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline: var(--cdplay-space-lg);
+	height: 0.1875rem;
+	border-radius: 999rem;
+	background: color-mix(in srgb, var(--cdplay-scenario-card-accent, var(--cdplay-color-accent)), transparent 30%);
+	content: "";
+	opacity: 0.72;
 }
 
 .cdplay-scenario-card:hover {
@@ -920,6 +1058,14 @@ figcaption {
 	background-repeat: no-repeat;
 	background-size: 52%;
 	opacity: 0.76;
+	transition:
+		border-color var(--cdplay-transition-base),
+		opacity var(--cdplay-transition-base);
+}
+
+.cdplay-scenario-card:hover .cdplay-scenario-card__icon-slot {
+	border-color: color-mix(in srgb, var(--cdplay-scenario-card-accent, var(--cdplay-color-accent)), transparent 50%);
+	opacity: 0.95;
 }
 
 .cdplay-scenario-card__content {
@@ -974,6 +1120,7 @@ figcaption {
 .cdplay-front-section {
 	padding-block: var(--cdplay-space-xl);
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
+	background: color-mix(in srgb, var(--cdplay-color-background), var(--cdplay-color-surface) 10%);
 }
 
 /* 17. Footer */
@@ -998,6 +1145,10 @@ figcaption {
 }
 
 @media (min-width: 48rem) {
+	.cdplay-site-main {
+		padding-block-end: 0;
+	}
+
 	.cdplay-platform-hubs__header {
 		max-width: 46rem;
 	}
