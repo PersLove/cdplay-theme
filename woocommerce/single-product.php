@@ -95,6 +95,7 @@ get_header('shop');
 					),
 				);
 				$cdplay_attribute_lookup = array();
+				$cdplay_generic_attributes = array();
 
 				foreach ($cdplay_single_product->get_attributes() as $cdplay_attribute_key => $cdplay_attribute) {
 					if (!is_object($cdplay_attribute) || !method_exists($cdplay_attribute, 'get_name')) {
@@ -118,8 +119,17 @@ get_header('shop');
 						continue;
 					}
 
+					$cdplay_attribute_label = wc_attribute_label($cdplay_attribute_name, $cdplay_single_product);
+
 					$cdplay_attribute_lookup[$cdplay_normalize_attribute_slug($cdplay_attribute_name)] = $cdplay_attribute_value;
 					$cdplay_attribute_lookup[$cdplay_normalize_attribute_slug($cdplay_attribute_key)]  = $cdplay_attribute_value;
+
+					if ('' !== trim(wp_strip_all_tags($cdplay_attribute_label))) {
+						$cdplay_generic_attributes[] = array(
+							'label' => $cdplay_attribute_label,
+							'value' => $cdplay_attribute_value,
+						);
+					}
 				}
 
 				$cdplay_product_info_blocks = array();
@@ -143,6 +153,10 @@ get_header('shop');
 					if (8 <= count($cdplay_product_info_blocks)) {
 						break;
 					}
+				}
+
+				if (empty($cdplay_product_info_blocks) && !empty($cdplay_generic_attributes)) {
+					$cdplay_product_info_blocks = array_slice($cdplay_generic_attributes, 0, 8);
 				}
 				?>
 
@@ -261,6 +275,7 @@ get_header('shop');
 						</div>
 					</div>
 
+					<!-- CDPLAY product info items: <?php echo esc_html((string) count($cdplay_product_info_blocks)); ?> -->
 					<?php if (!empty($cdplay_product_info_blocks)) : ?>
 						<section class="cdplay-product-info" aria-labelledby="cdplay-product-info-title-<?php echo esc_attr(get_the_ID()); ?>">
 							<div class="cdplay-product-info__header">
