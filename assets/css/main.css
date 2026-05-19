@@ -2622,6 +2622,50 @@ figcaption {
 	letter-spacing: 0;
 }
 
+.cdplay-product-pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--cdplay-space-2xs);
+}
+
+.cdplay-product-pill {
+	display: inline-flex;
+	align-items: center;
+	min-height: 1.875rem;
+	padding: 0.38rem 0.62rem;
+	border: 0.0625rem solid var(--cdplay-color-border);
+	border-radius: 999rem;
+	background: color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 18%);
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-xs);
+	font-weight: 850;
+	line-height: 1;
+}
+
+.cdplay-product-pill--platform {
+	border-color: color-mix(in srgb, var(--cdplay-color-accent), var(--cdplay-color-border) 48%);
+	background:
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 88%), transparent 72%),
+		var(--cdplay-color-surface-elevated);
+	color: var(--cdplay-color-text);
+}
+
+.cdplay-product-pill--stock {
+	border-color: color-mix(in srgb, var(--cdplay-color-accent), transparent 76%);
+	background: color-mix(in srgb, var(--cdplay-color-accent), transparent 93%);
+	color: color-mix(in srgb, var(--cdplay-color-text), var(--cdplay-color-accent) 14%);
+}
+
+.cdplay-product-pill--condition {
+	background: color-mix(in srgb, var(--cdplay-color-surface), var(--cdplay-color-surface-elevated) 44%);
+	color: var(--cdplay-color-text);
+}
+
+.cdplay-product-pill--type,
+.cdplay-product-pill--localization {
+	background: color-mix(in srgb, var(--cdplay-color-surface), transparent 6%);
+}
+
 .cdplay-single-product__price,
 .cdplay-single-product__summary .price {
 	margin: 0;

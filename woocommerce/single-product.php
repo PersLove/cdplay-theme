@@ -52,7 +52,7 @@ get_header('shop');
 					return 'square';
 				};
 				$cdplay_normalize_attribute_slug = static function($slug) {
-					$slug = sanitize_title((string) $slug);
+					$slug = str_replace('_', '-', sanitize_title((string) $slug));
 
 					if (0 === strpos($slug, 'pa-')) {
 						$slug = substr($slug, 3);
@@ -158,6 +158,103 @@ get_header('shop');
 				if (empty($cdplay_product_info_blocks) && !empty($cdplay_generic_attributes)) {
 					$cdplay_product_info_blocks = array_slice($cdplay_generic_attributes, 0, 8);
 				}
+
+				$cdplay_find_attribute_value = static function($slugs) use ($cdplay_attribute_lookup, $cdplay_normalize_attribute_slug) {
+					foreach ($slugs as $slug) {
+						$normalized_slug = $cdplay_normalize_attribute_slug($slug);
+
+						if (!empty($cdplay_attribute_lookup[$normalized_slug])) {
+							return $cdplay_attribute_lookup[$normalized_slug];
+						}
+					}
+
+					return '';
+				};
+				$cdplay_product_categories = wp_get_post_terms(get_the_ID(), 'product_cat', array('fields' => 'names'));
+
+				if (is_wp_error($cdplay_product_categories)) {
+					$cdplay_product_categories = array();
+				}
+
+				$cdplay_product_signal = $cdplay_single_product->get_name() . ' ' . implode(' ', $cdplay_product_categories);
+				$cdplay_contains_signal = static function($haystack, $needles) {
+					$haystack = function_exists('mb_strtolower') ? mb_strtolower((string) $haystack, 'UTF-8') : strtolower((string) $haystack);
+
+					foreach ($needles as $needle) {
+						$needle = function_exists('mb_strtolower') ? mb_strtolower((string) $needle, 'UTF-8') : strtolower((string) $needle);
+
+						if ('' !== $needle && false !== strpos($haystack, $needle)) {
+							return true;
+						}
+					}
+
+					return false;
+				};
+				$cdplay_product_pills = array();
+				$cdplay_product_pill_keys = array();
+				$cdplay_add_product_pill = static function($label, $type) use (&$cdplay_product_pills, &$cdplay_product_pill_keys) {
+					$label = trim(wp_strip_all_tags((string) $label));
+					$type  = sanitize_html_class((string) $type);
+
+					if ('' === $label || '' === $type || 5 <= count($cdplay_product_pills)) {
+						return;
+					}
+
+					$key = sanitize_title($type . '-' . $label);
+
+					if (isset($cdplay_product_pill_keys[$key])) {
+						return;
+					}
+
+					$cdplay_product_pills[] = array(
+						'label' => $label,
+						'type'  => $type,
+					);
+					$cdplay_product_pill_keys[$key] = true;
+				};
+
+				$cdplay_platform_pill = $cdplay_find_attribute_value(array('platform', 'pa_platform', 'platforma', 'pa_platforma'));
+
+				if ('' === $cdplay_platform_pill) {
+					$cdplay_platform_fallbacks = array(
+						'PS5'      => array('ps5', 'playstation 5', 'playstation5'),
+						'PS4'      => array('ps4', 'playstation 4', 'playstation4'),
+						'Xbox'     => array('xbox', 'series x', 'series s'),
+						'Nintendo' => array('nintendo', 'switch'),
+						'PC'       => array('pc', 'windows'),
+					);
+
+					foreach ($cdplay_platform_fallbacks as $cdplay_platform_label => $cdplay_platform_needles) {
+						if ($cdplay_contains_signal($cdplay_product_signal, $cdplay_platform_needles)) {
+							$cdplay_platform_pill = $cdplay_platform_label;
+							break;
+						}
+					}
+				}
+
+				$cdplay_add_product_pill($cdplay_platform_pill, 'platform');
+				$cdplay_add_product_pill($cdplay_find_attribute_value(array('condition', 'pa_condition', 'sostoyanie', 'pa_sostoyanie')), 'condition');
+
+				$cdplay_type_pill = $cdplay_find_attribute_value(array('type', 'pa_type', 'tip', 'pa_tip', 'product-type', 'pa_product-type', 'tip-tovara', 'pa_tip-tovara'));
+
+				if ('' === $cdplay_type_pill) {
+					$cdplay_type_fallbacks = array(
+						__('Игровой диск', 'cdplay') => array('disc', 'disk', 'диск', 'игра'),
+						__('Консоль', 'cdplay')      => array('console', 'consoley', 'konsol', 'консоль', 'приставка'),
+						__('Аксессуар', 'cdplay')    => array('accessory', 'accessories', 'aksessuar', 'аксессуар'),
+					);
+
+					foreach ($cdplay_type_fallbacks as $cdplay_type_label => $cdplay_type_needles) {
+						if ($cdplay_contains_signal($cdplay_product_signal, $cdplay_type_needles)) {
+							$cdplay_type_pill = $cdplay_type_label;
+							break;
+						}
+					}
+				}
+
+				$cdplay_add_product_pill($cdplay_type_pill, 'type');
+				$cdplay_add_product_pill($cdplay_find_attribute_value(array('localization', 'pa_localization', 'lokalizaciya', 'pa_lokalizaciya')), 'localization');
+				$cdplay_add_product_pill($cdplay_single_product->is_in_stock() ? __('В наличии', 'cdplay') : __('Нет в наличии', 'cdplay'), 'stock');
 				?>
 
 				<?php do_action('woocommerce_before_single_product'); ?>
@@ -240,6 +337,16 @@ get_header('shop');
 
 						<div class="cdplay-single-product__summary">
 							<h1 class="cdplay-single-product__title"><?php echo esc_html($cdplay_single_product->get_name()); ?></h1>
+
+							<?php if (!empty($cdplay_product_pills)) : ?>
+								<div class="cdplay-product-pills" aria-label="<?php esc_attr_e('Ключевые характеристики товара', 'cdplay'); ?>">
+									<?php foreach ($cdplay_product_pills as $cdplay_product_pill) : ?>
+										<span class="cdplay-product-pill cdplay-product-pill--<?php echo esc_attr($cdplay_product_pill['type']); ?>">
+											<?php echo esc_html($cdplay_product_pill['label']); ?>
+										</span>
+									<?php endforeach; ?>
+								</div>
+							<?php endif; ?>
 
 							<?php if ($cdplay_single_product->get_price_html()) : ?>
 								<p class="cdplay-single-product__price"><?php echo wp_kses_post($cdplay_single_product->get_price_html()); ?></p>
