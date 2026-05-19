@@ -266,6 +266,8 @@ get_header('shop');
 				<?php endif; ?>
 
 				<article id="product-<?php the_ID(); ?>" <?php wc_product_class('cdplay-single-product__product', $cdplay_single_product); ?>>
+					<?php $cdplay_purchase_area_id = 'cdplay-product-purchase-' . get_the_ID(); ?>
+
 					<div class="cdplay-single-product__shell">
 						<div class="cdplay-single-product__media">
 							<section class="cdplay-product-gallery" aria-label="<?php esc_attr_e('Галерея товара', 'cdplay'); ?>" data-cdplay-product-gallery>
@@ -362,7 +364,7 @@ get_header('shop');
 								</div>
 							<?php endif; ?>
 
-							<div class="cdplay-single-product__cart">
+							<div id="<?php echo esc_attr($cdplay_purchase_area_id); ?>" class="cdplay-single-product__cart">
 								<?php
 								$cdplay_add_to_cart_text = static function() {
 									return __('Добавить в корзину', 'cdplay');
@@ -412,6 +414,17 @@ get_header('shop');
 					<div class="cdplay-single-product__tabs">
 						<?php woocommerce_output_product_data_tabs(); ?>
 					</div>
+
+					<?php
+					get_template_part(
+						'template-parts/woocommerce/single-product/mobile-purchase-bar',
+						null,
+						array(
+							'product'          => $cdplay_single_product,
+							'purchase_area_id' => $cdplay_purchase_area_id,
+						)
+					);
+					?>
 				</article>
 
 				<?php do_action('woocommerce_after_single_product'); ?>
