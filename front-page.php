@@ -21,6 +21,7 @@ get_header();
 	<?php get_template_part('template-parts/sections/services'); ?>
 	<?php get_template_part('template-parts/sections/cdplay-experience'); ?>
 	<?php get_template_part('template-parts/sections/guides'); ?>
+	<?php get_template_part('template-parts/sections/featured-products'); ?>
 </main>
 
 <?php
