@@ -1331,14 +1331,214 @@ figcaption {
 	--cdplay-game-mood-card-accent: #8b6f47;
 }
 
-/* 17. Front Page Skeleton */
+/* 17. Ready To Play */
+.cdplay-ready-play {
+	position: relative;
+	isolation: isolate;
+	padding-block: var(--cdplay-space-2xl);
+	border-block-end: 0.0625rem solid var(--cdplay-color-border);
+	background:
+		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-surface-elevated), var(--cdplay-color-background) 58%), var(--cdplay-color-background));
+}
+
+.cdplay-ready-play::before {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(120deg, color-mix(in srgb, var(--cdplay-color-accent), transparent 95%), transparent 36%),
+		linear-gradient(250deg, color-mix(in srgb, var(--cdplay-color-border-strong), transparent 90%), transparent 38%);
+	content: "";
+	opacity: 0.82;
+}
+
+.cdplay-ready-play__inner {
+	display: grid;
+	gap: var(--cdplay-space-xl);
+}
+
+.cdplay-ready-play__header {
+	display: grid;
+	gap: var(--cdplay-space-sm);
+	max-width: 50rem;
+}
+
+.cdplay-ready-play__eyebrow {
+	color: var(--cdplay-color-accent);
+	font-size: var(--cdplay-font-size-sm);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.cdplay-ready-play__title {
+	max-width: 16ch;
+}
+
+.cdplay-ready-play__text {
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-md);
+	line-height: var(--cdplay-line-height-relaxed);
+}
+
+.cdplay-ready-play__grid {
+	display: grid;
+	gap: var(--cdplay-space-md);
+}
+
+.cdplay-ready-setup-card {
+	position: relative;
+	isolation: isolate;
+	min-height: 28rem;
+	overflow: hidden;
+	border: 0.0625rem solid var(--cdplay-color-border);
+	border-radius: var(--cdplay-radius-lg);
+	background:
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 88%), transparent 52%),
+		linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 12%), var(--cdplay-color-surface));
+	box-shadow: var(--cdplay-shadow-hairline);
+	transition:
+		border-color var(--cdplay-transition-base),
+		box-shadow var(--cdplay-transition-base),
+		transform var(--cdplay-transition-base);
+}
+
+.cdplay-ready-setup-card::before {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	background:
+		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-surface), transparent 3%) 88%),
+		var(--cdplay-ready-setup-photo, none);
+	background-position: center;
+	background-size: cover;
+	content: "";
+	opacity: 0.96;
+}
+
+.cdplay-ready-setup-card::after {
+	position: absolute;
+	inset: auto 0 0;
+	z-index: -1;
+	height: 60%;
+	background:
+		linear-gradient(0deg, color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 84%), transparent),
+		linear-gradient(0deg, color-mix(in srgb, var(--cdplay-color-surface), transparent 0%), transparent);
+	content: "";
+	opacity: 0.78;
+	transition: opacity var(--cdplay-transition-base);
+}
+
+.cdplay-ready-setup-card:hover {
+	border-color: color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), var(--cdplay-color-border) 50%);
+	box-shadow: var(--cdplay-shadow-soft);
+	transform: translateY(-0.125rem);
+}
+
+.cdplay-ready-setup-card:hover::after {
+	opacity: 0.94;
+}
+
+.cdplay-ready-setup-card__media {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.cdplay-ready-setup-card__photo-slot {
+	position: absolute;
+	inset: 0;
+	background: var(--cdplay-ready-setup-photo, transparent);
+	background-position: center;
+	background-size: cover;
+}
+
+.cdplay-ready-setup-card__device-slot {
+	position: absolute;
+	inset-block-start: var(--cdplay-space-lg);
+	inset-inline-end: var(--cdplay-space-lg);
+	width: min(11rem, 42vw);
+	aspect-ratio: 4 / 3;
+	border: 0.0625rem solid color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 72%);
+	border-radius: var(--cdplay-radius-md);
+	background:
+		linear-gradient(145deg, color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 82%), transparent),
+		var(--cdplay-ready-setup-device, color-mix(in srgb, var(--cdplay-color-surface-elevated), transparent 18%));
+	background-position: center;
+	background-size: cover;
+	box-shadow: var(--cdplay-shadow-hairline);
+	opacity: 0.78;
+	transition:
+		border-color var(--cdplay-transition-base),
+		opacity var(--cdplay-transition-base),
+		transform var(--cdplay-transition-base);
+}
+
+.cdplay-ready-setup-card:hover .cdplay-ready-setup-card__device-slot {
+	border-color: color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 52%);
+	opacity: 0.94;
+	transform: translateY(-0.125rem);
+}
+
+.cdplay-ready-setup-card__content {
+	display: grid;
+	align-content: end;
+	min-height: inherit;
+	gap: var(--cdplay-space-sm);
+	padding: var(--cdplay-space-lg);
+}
+
+.cdplay-ready-setup-card__title {
+	max-width: 13ch;
+	font-size: var(--cdplay-font-size-2xl);
+}
+
+.cdplay-ready-setup-card__text {
+	max-width: 31rem;
+	color: var(--cdplay-color-text-muted);
+	font-size: var(--cdplay-font-size-md);
+	line-height: var(--cdplay-line-height-relaxed);
+}
+
+.cdplay-ready-setup-card__kit {
+	justify-self: start;
+	max-width: 100%;
+	margin-block-start: var(--cdplay-space-xs);
+	padding: 0.45rem 0.75rem;
+	border: 0.0625rem solid color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 72%);
+	border-radius: 999rem;
+	background: color-mix(in srgb, var(--cdplay-ready-setup-accent, var(--cdplay-color-accent)), transparent 91%);
+	color: var(--cdplay-color-text);
+	font-size: var(--cdplay-font-size-xs);
+	font-weight: 800;
+	line-height: 1.3;
+}
+
+.cdplay-ready-setup-card__cta-slot {
+	display: none;
+}
+
+.cdplay-ready-setup-card--playstation-evening {
+	--cdplay-ready-setup-accent: #2f6bff;
+}
+
+.cdplay-ready-setup-card--xbox-game-pass {
+	--cdplay-ready-setup-accent: #2f8f5b;
+}
+
+.cdplay-ready-setup-card--nintendo-family {
+	--cdplay-ready-setup-accent: #d84b56;
+}
+
+/* 18. Front Page Skeleton */
 .cdplay-front-section {
 	padding-block: var(--cdplay-space-xl);
 	border-block-end: 0.0625rem solid var(--cdplay-color-border);
 	background: color-mix(in srgb, var(--cdplay-color-background), var(--cdplay-color-surface) 10%);
 }
 
-/* 18. Footer */
+/* 19. Footer */
 .cdplay-site-footer {
 	padding-block: var(--cdplay-space-xl) calc(var(--cdplay-space-xl) + 4rem);
 	border-block-start: 0.0625rem solid var(--cdplay-color-border);
@@ -1390,6 +1590,14 @@ figcaption {
 
 	.cdplay-game-mood-card {
 		min-height: 31rem;
+	}
+
+	.cdplay-ready-play__grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.cdplay-ready-setup-card {
+		min-height: 32rem;
 	}
 
 	.cdplay-primary-nav {
@@ -1454,6 +1662,22 @@ figcaption {
 	}
 
 	.cdplay-game-mood-card__content {
+		padding: var(--cdplay-space-xl);
+	}
+
+	.cdplay-ready-play__inner {
+		gap: var(--cdplay-space-2xl);
+	}
+
+	.cdplay-ready-play__grid {
+		gap: var(--cdplay-space-lg);
+	}
+
+	.cdplay-ready-setup-card {
+		min-height: 36rem;
+	}
+
+	.cdplay-ready-setup-card__content {
 		padding: var(--cdplay-space-xl);
 	}
 
