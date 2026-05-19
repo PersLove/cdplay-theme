@@ -2056,31 +2056,6 @@ figcaption {
 	padding: var(--cdplay-space-md);
 }
 
-.cdplay-product-card__wishlist-slot {
-	position: absolute;
-	inset-block-start: calc(var(--cdplay-space-lg) + var(--cdplay-space-sm));
-	inset-inline-end: calc(var(--cdplay-space-lg) + var(--cdplay-space-sm));
-	display: grid;
-	place-items: center;
-	width: 2.5rem;
-	aspect-ratio: 1;
-	border: 0.0625rem solid color-mix(in srgb, var(--cdplay-color-border), transparent 18%);
-	border-radius: 50%;
-	background: color-mix(in srgb, var(--cdplay-color-surface), transparent 10%);
-	opacity: 0.78;
-}
-
-.cdplay-product-card__wishlist-slot::before {
-	width: 0.9rem;
-	aspect-ratio: 1;
-	border: 0.125rem solid currentColor;
-	border-block-start-color: transparent;
-	border-inline-start-color: transparent;
-	content: "";
-	opacity: 0.42;
-	transform: rotate(45deg);
-}
-
 .cdplay-product-card__body {
 	display: grid;
 	align-content: end;
@@ -2185,7 +2160,7 @@ figcaption {
 
 .cdplay-product-card--catalog {
 	display: grid;
-	gap: var(--cdplay-space-md);
+	gap: var(--cdplay-space-sm);
 	min-height: auto;
 	padding: var(--cdplay-space-sm);
 	background:
@@ -2240,21 +2215,11 @@ figcaption {
 	padding: var(--cdplay-space-md);
 }
 
-.cdplay-product-card--catalog .cdplay-product-card__wishlist-slot {
-	inset-block-start: var(--cdplay-space-sm);
-	inset-inline-end: var(--cdplay-space-sm);
-	width: 2.375rem;
-	border-color: color-mix(in srgb, var(--cdplay-color-border), transparent 10%);
-	background: color-mix(in srgb, var(--cdplay-color-surface), transparent 5%);
-	color: var(--cdplay-color-text-muted);
-	opacity: 0.92;
-}
-
 .cdplay-product-card--catalog .cdplay-product-card__body {
 	align-content: start;
 	min-height: auto;
-	gap: var(--cdplay-space-xs);
-	padding: 0 var(--cdplay-space-xs) var(--cdplay-space-xs);
+	gap: var(--cdplay-space-2xs);
+	padding: 0 var(--cdplay-space-xs) var(--cdplay-space-2xs);
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__badges {
@@ -2290,7 +2255,7 @@ figcaption {
 	grid-template-columns: 1fr auto;
 	align-items: center;
 	gap: var(--cdplay-space-xs);
-	margin-block-start: var(--cdplay-space-xs);
+	margin-block-start: var(--cdplay-space-2xs);
 }
 
 .cdplay-product-card--catalog .cdplay-product-card__price {

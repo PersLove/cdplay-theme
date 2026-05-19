@@ -82,7 +82,6 @@ if ($cdplay_product_card['is_catalog']) {
 				<?php echo wp_kses_post($cdplay_product_card['image']); ?>
 			<?php endif; ?>
 		</div>
-		<div class="cdplay-product-card__wishlist-slot" aria-hidden="true"></div>
 	</div>
 
 	<div class="cdplay-product-card__body">
