@@ -2464,6 +2464,10 @@ figcaption {
 }
 
 body.single-product .cdplay-site-main {
+	padding-block-end: 0;
+}
+
+body.single-product.cdplay-mobile-purchase-visible .cdplay-site-main {
 	padding-block-end: calc(var(--cdplay-mobile-purchase-bar-height) + var(--cdplay-space-lg) + env(safe-area-inset-bottom, 0rem));
 }
 
@@ -2488,10 +2492,31 @@ body.single-product .cdplay-mobile-bottom-nav {
 	inset-block-end: 0;
 	z-index: 60;
 	display: block;
+	visibility: hidden;
+	opacity: 0;
 	padding: 0.625rem var(--cdplay-container-padding) calc(0.625rem + env(safe-area-inset-bottom, 0rem));
 	border-block-start: 0.0625rem solid color-mix(in srgb, var(--cdplay-color-border), transparent 12%);
 	background: color-mix(in srgb, var(--cdplay-color-surface), var(--cdplay-color-background) 8%);
 	box-shadow: 0 -0.75rem 1.75rem rgba(16, 19, 26, 0.07);
+	pointer-events: none;
+	transform: translateY(calc(100% + env(safe-area-inset-bottom, 0rem)));
+	transition:
+		opacity var(--cdplay-transition-base),
+		transform var(--cdplay-transition-base),
+		visibility var(--cdplay-transition-base);
+}
+
+body.single-product.cdplay-mobile-purchase-visible .cdplay-mobile-purchase-bar {
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cdplay-mobile-purchase-bar {
+		transition: none;
+	}
 }
 
 .cdplay-mobile-purchase-bar__inner {

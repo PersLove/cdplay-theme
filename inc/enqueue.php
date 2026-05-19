@@ -16,8 +16,10 @@ function cdplay_enqueue_assets() {
 	$cdplay_theme_version = wp_get_theme()->get('Version');
 	$cdplay_main_css_path = CDPLAY_THEME_DIR . '/assets/css/main.css';
 	$cdplay_main_js_path  = CDPLAY_THEME_DIR . '/assets/js/main.js';
+	$cdplay_single_product_js_path = CDPLAY_THEME_DIR . '/assets/js/single-product.js';
 	$cdplay_main_css_ver  = file_exists($cdplay_main_css_path) ? filemtime($cdplay_main_css_path) : $cdplay_theme_version;
 	$cdplay_main_js_ver   = file_exists($cdplay_main_js_path) ? filemtime($cdplay_main_js_path) : $cdplay_theme_version;
+	$cdplay_single_product_js_ver = file_exists($cdplay_single_product_js_path) ? filemtime($cdplay_single_product_js_path) : $cdplay_theme_version;
 
 	wp_enqueue_style(
 		'cdplay-main',
@@ -33,5 +35,15 @@ function cdplay_enqueue_assets() {
 		$cdplay_main_js_ver,
 		true
 	);
+
+	if (function_exists('is_product') && is_product()) {
+		wp_enqueue_script(
+			'cdplay-single-product',
+			CDPLAY_THEME_URI . '/assets/js/single-product.js',
+			array(),
+			$cdplay_single_product_js_ver,
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'cdplay_enqueue_assets');

@@ -364,7 +364,7 @@ get_header('shop');
 								</div>
 							<?php endif; ?>
 
-							<div id="<?php echo esc_attr($cdplay_purchase_area_id); ?>" class="cdplay-single-product__cart">
+							<div id="<?php echo esc_attr($cdplay_purchase_area_id); ?>" class="cdplay-single-product__cart" data-cdplay-purchase-target>
 								<?php
 								$cdplay_add_to_cart_text = static function() {
 									return __('Добавить в корзину', 'cdplay');

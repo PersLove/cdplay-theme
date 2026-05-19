@@ -74,7 +74,7 @@ if ($cdplay_is_simple_buy) {
 }
 ?>
 
-<aside class="cdplay-mobile-purchase-bar" aria-label="<?php esc_attr_e('Покупка товара', 'cdplay'); ?>">
+<aside class="cdplay-mobile-purchase-bar" aria-label="<?php esc_attr_e('Покупка товара', 'cdplay'); ?>" aria-hidden="true" data-cdplay-mobile-purchase-bar>
 	<div class="cdplay-mobile-purchase-bar__inner">
 		<div class="cdplay-mobile-purchase-bar__content">
 			<p class="cdplay-mobile-purchase-bar__title">
