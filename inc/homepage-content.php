@@ -157,7 +157,7 @@ function cdplay_get_homepage_content_sections(): array {
 	return array(
 		'find-your-console' => array(
 			'tab'    => 'find-your-console',
-			'label'  => __('Find Your Console', 'cdplay'),
+			'label'  => __('Подобрать себе', 'cdplay'),
 			'cards'  => array(
 				'after-work'   => array('label' => __('After Work', 'cdplay')),
 				'with-friends' => array('label' => __('With Friends', 'cdplay')),
@@ -165,16 +165,16 @@ function cdplay_get_homepage_content_sections(): array {
 				'childhood'    => array('label' => __('Childhood', 'cdplay')),
 			),
 			'fields' => array(
-				'platform' => array('label' => __('Platform', 'cdplay'), 'type' => 'text'),
-				'title'    => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'     => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'image_id' => array('label' => __('Image', 'cdplay'), 'type' => 'media'),
-				'icon_id'  => array('label' => __('Icon', 'cdplay'), 'type' => 'media'),
+				'platform' => array('label' => __('Платформа', 'cdplay'), 'type' => 'text'),
+				'title'    => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 900×700 WebP', 'cdplay')),
+				'icon_id'  => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
 			),
 		),
 		'what-to-play'      => array(
 			'tab'    => 'what-to-play',
-			'label'  => __('What To Play', 'cdplay'),
+			'label'  => __('Во что поиграть', 'cdplay'),
 			'cards'  => array(
 				'quiet-evening' => array('label' => __('Quiet Evening', 'cdplay')),
 				'together'      => array('label' => __('Together', 'cdplay')),
@@ -182,78 +182,78 @@ function cdplay_get_homepage_content_sections(): array {
 				'nostalgia'     => array('label' => __('Nostalgia', 'cdplay')),
 			),
 			'fields' => array(
-				'category'            => array('label' => __('Category', 'cdplay'), 'type' => 'text'),
-				'title'               => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'                => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'platform'            => array('label' => __('Platform', 'cdplay'), 'type' => 'text'),
-				'background_image_id' => array('label' => __('Background Image', 'cdplay'), 'type' => 'media'),
-				'cover_image_id'      => array('label' => __('Cover Image', 'cdplay'), 'type' => 'media'),
+				'category'            => array('label' => __('Категория', 'cdplay'), 'type' => 'text'),
+				'title'               => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'                => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'platform'            => array('label' => __('Платформа', 'cdplay'), 'type' => 'text'),
+				'background_image_id' => array('label' => __('Фоновое изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×700 WebP', 'cdplay')),
+				'cover_image_id'      => array('label' => __('Обложка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 700×900 WebP', 'cdplay')),
 			),
 		),
 		'ready-to-play'     => array(
 			'tab'    => 'ready-to-play',
-			'label'  => __('Ready To Play', 'cdplay'),
+			'label'  => __('Готово к игре', 'cdplay'),
 			'cards'  => array(
 				'playstation-evening' => array('label' => __('PlayStation Evening', 'cdplay')),
 				'xbox-game-pass'      => array('label' => __('Xbox Game Pass Setup', 'cdplay')),
 				'nintendo-family'     => array('label' => __('Nintendo Family Pack', 'cdplay')),
 			),
 			'fields' => array(
-				'title'           => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'            => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'kit'             => array('label' => __('Kit', 'cdplay'), 'type' => 'text'),
-				'photo_image_id'  => array('label' => __('Photo Image', 'cdplay'), 'type' => 'media'),
-				'device_image_id' => array('label' => __('Device Image', 'cdplay'), 'type' => 'media'),
+				'title'           => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'            => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'kit'             => array('label' => __('Комплект', 'cdplay'), 'type' => 'text'),
+				'photo_image_id'  => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×800 WebP', 'cdplay')),
+				'device_image_id' => array('label' => __('Изображение устройства', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×800 WebP', 'cdplay')),
 			),
 		),
 		'services'          => array(
 			'tab'    => 'services',
-			'label'  => __('Services', 'cdplay'),
+			'label'  => __('Услуги', 'cdplay'),
 			'cards'  => array(
 				'trade-in' => array('label' => __('Trade-In', 'cdplay')),
 				'rental'   => array('label' => __('Rental', 'cdplay')),
 			),
 			'fields' => array(
-				'label'          => array('label' => __('Label', 'cdplay'), 'type' => 'text'),
-				'title'          => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'           => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'point_1'        => array('label' => __('Point 1', 'cdplay'), 'type' => 'text'),
-				'point_2'        => array('label' => __('Point 2', 'cdplay'), 'type' => 'text'),
-				'point_3'        => array('label' => __('Point 3', 'cdplay'), 'type' => 'text'),
-				'cta'            => array('label' => __('CTA text', 'cdplay'), 'type' => 'text'),
-				'url'            => array('label' => __('CTA URL', 'cdplay'), 'type' => 'url'),
-				'photo_image_id' => array('label' => __('Photo Image', 'cdplay'), 'type' => 'media'),
-				'icon_id'        => array('label' => __('Icon', 'cdplay'), 'type' => 'media'),
+				'label'          => array('label' => __('Метка', 'cdplay'), 'type' => 'text'),
+				'title'          => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'           => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'point_1'        => array('label' => __('Пункт 1', 'cdplay'), 'type' => 'text'),
+				'point_2'        => array('label' => __('Пункт 2', 'cdplay'), 'type' => 'text'),
+				'point_3'        => array('label' => __('Пункт 3', 'cdplay'), 'type' => 'text'),
+				'cta'            => array('label' => __('Текст кнопки', 'cdplay'), 'type' => 'text'),
+				'url'            => array('label' => __('Ссылка кнопки', 'cdplay'), 'type' => 'url'),
+				'photo_image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×700 WebP', 'cdplay')),
+				'icon_id'        => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
 			),
 		),
 		'cdplay-experience' => array(
 			'tab'    => 'experience',
-			'label'  => __('Experience', 'cdplay'),
+			'label'  => __('CDPLAY Experience', 'cdplay'),
 			'cards'  => array(
 				'try'  => array('label' => __('Try', 'cdplay')),
 				'help' => array('label' => __('Help', 'cdplay')),
 				'rest' => array('label' => __('Rest', 'cdplay')),
 			),
 			'fields' => array(
-				'title'    => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'     => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'image_id' => array('label' => __('Image', 'cdplay'), 'type' => 'media'),
-				'icon_id'  => array('label' => __('Icon', 'cdplay'), 'type' => 'media'),
+				'title'    => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 900×700 WebP', 'cdplay')),
+				'icon_id'  => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
 			),
 		),
 		'guides'            => array(
 			'tab'    => 'guides',
-			'label'  => __('Guides', 'cdplay'),
+			'label'  => __('Блог и гайды', 'cdplay'),
 			'cards'  => array(
 				'console-choice'   => array('label' => __('Console Choice', 'cdplay')),
 				'after-work-games' => array('label' => __('After Work Games', 'cdplay')),
 				'family-gaming'    => array('label' => __('Family Gaming', 'cdplay')),
 			),
 			'fields' => array(
-				'category' => array('label' => __('Category', 'cdplay'), 'type' => 'text'),
-				'title'    => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-				'text'     => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-				'image_id' => array('label' => __('Image', 'cdplay'), 'type' => 'media'),
+				'category' => array('label' => __('Категория', 'cdplay'), 'type' => 'text'),
+				'title'    => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×700 WebP', 'cdplay')),
 			),
 		),
 	);
@@ -325,9 +325,9 @@ add_action('admin_init', 'cdplay_register_homepage_content_settings');
  */
 function cdplay_get_homepage_admin_tabs(): array {
 	$tabs = array(
-		'sections'      => __('Sections', 'cdplay'),
+		'sections'      => __('Секции', 'cdplay'),
 		'hero'          => __('Hero', 'cdplay'),
-		'platform-hubs' => __('Platform Hubs', 'cdplay'),
+		'platform-hubs' => __('Платформы', 'cdplay'),
 	);
 
 	foreach (cdplay_get_homepage_content_sections() as $section) {
@@ -357,7 +357,7 @@ function cdplay_get_current_homepage_admin_tab(): string {
 function cdplay_render_homepage_admin_tabs(string $current_tab): void {
 	$tabs = cdplay_get_homepage_admin_tabs();
 	?>
-	<nav class="nav-tab-wrapper" aria-label="<?php esc_attr_e('Homepage settings tabs', 'cdplay'); ?>">
+	<nav class="nav-tab-wrapper cdplay-homepage-admin__tabs" aria-label="<?php esc_attr_e('Вкладки настроек главной', 'cdplay'); ?>">
 		<?php foreach ($tabs as $tab => $label) : ?>
 			<a class="nav-tab <?php echo $current_tab === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url(add_query_arg(array('page' => 'cdplay-homepage', 'tab' => $tab), admin_url('themes.php'))); ?>">
 				<?php echo esc_html($label); ?>
@@ -383,9 +383,9 @@ function cdplay_render_homepage_admin_text_field(string $option, string $label, 
 		</th>
 		<td>
 			<?php if ('textarea' === $type) : ?>
-				<textarea id="<?php echo esc_attr($option); ?>" name="<?php echo esc_attr($option); ?>" class="large-text" rows="3"><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
+				<textarea id="<?php echo esc_attr($option); ?>" name="<?php echo esc_attr($option); ?>" class="large-text cdplay-homepage-admin__textarea" rows="3"><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
 			<?php else : ?>
-				<input type="<?php echo 'url' === $type ? 'url' : 'text'; ?>" id="<?php echo esc_attr($option); ?>" name="<?php echo esc_attr($option); ?>" value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>" class="regular-text" />
+				<input type="<?php echo 'url' === $type ? 'url' : 'text'; ?>" id="<?php echo esc_attr($option); ?>" name="<?php echo esc_attr($option); ?>" value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>" class="regular-text cdplay-homepage-admin__input" />
 			<?php endif; ?>
 		</td>
 	</tr>
@@ -409,8 +409,8 @@ function cdplay_render_homepage_admin_media_field(string $option, string $label,
 			<div class="cdplay-admin-media-field" data-cdplay-media-field>
 				<input type="hidden" id="<?php echo esc_attr($option); ?>" name="<?php echo esc_attr($option); ?>" value="<?php echo esc_attr((string) $image_id); ?>" data-cdplay-media-input />
 				<p>
-					<button type="button" class="button" data-cdplay-media-select><?php esc_html_e('Select image', 'cdplay'); ?></button>
-					<button type="button" class="button" data-cdplay-media-remove><?php esc_html_e('Remove', 'cdplay'); ?></button>
+					<button type="button" class="button" data-cdplay-media-select><?php esc_html_e('Выбрать', 'cdplay'); ?></button>
+					<button type="button" class="button" data-cdplay-media-remove><?php esc_html_e('Удалить', 'cdplay'); ?></button>
 				</p>
 				<?php if ($description) : ?>
 					<p class="description"><?php echo esc_html($description); ?></p>
@@ -430,8 +430,9 @@ function cdplay_render_homepage_sections_tab(): void {
 	$section_settings = get_option('cdplay_homepage_sections', null);
 	$section_settings = is_array($section_settings) ? $section_settings : array();
 	?>
-	<h2><?php esc_html_e('Sections', 'cdplay'); ?></h2>
-	<table class="form-table" role="presentation">
+	<div class="cdplay-homepage-admin__panel">
+	<h2><?php esc_html_e('Секции', 'cdplay'); ?></h2>
+	<table class="form-table cdplay-homepage-admin__table" role="presentation">
 		<tbody>
 			<?php foreach ($sections as $section) : ?>
 				<?php
@@ -443,13 +444,14 @@ function cdplay_render_homepage_sections_tab(): void {
 					<td>
 						<label for="cdplay-homepage-section-<?php echo esc_attr($slug); ?>">
 							<input type="checkbox" id="cdplay-homepage-section-<?php echo esc_attr($slug); ?>" name="cdplay_homepage_sections[<?php echo esc_attr($slug); ?>]" value="1" <?php checked($enabled); ?> />
-							<?php esc_html_e('Enabled', 'cdplay'); ?>
+							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+	</div>
 	<?php
 }
 
@@ -458,8 +460,9 @@ function cdplay_render_homepage_sections_tab(): void {
  */
 function cdplay_render_homepage_hero_tab(): void {
 	?>
-	<h2><?php esc_html_e('Hero Content', 'cdplay'); ?></h2>
-	<table class="form-table" role="presentation">
+	<div class="cdplay-homepage-admin__panel">
+	<h2><?php esc_html_e('Hero', 'cdplay'); ?></h2>
+	<table class="form-table cdplay-homepage-admin__table" role="presentation">
 		<tbody>
 			<?php foreach (cdplay_get_hero_content_fields() as $field) : ?>
 				<?php cdplay_render_homepage_admin_text_field($field['option'], $field['label'], $field['type']); ?>
@@ -478,13 +481,14 @@ function cdplay_render_homepage_hero_tab(): void {
 						<label for="<?php echo esc_attr($field['option']); ?>"><?php echo esc_html($field['label']); ?></label>
 					</th>
 					<td>
-						<input type="text" id="<?php echo esc_attr($field['option']); ?>" name="<?php echo esc_attr($field['option']); ?>" value="<?php echo esc_attr(is_string($value) && '' !== trim($value) ? $value : 'center center'); ?>" class="regular-text" />
+						<input type="text" id="<?php echo esc_attr($field['option']); ?>" name="<?php echo esc_attr($field['option']); ?>" value="<?php echo esc_attr(is_string($value) && '' !== trim($value) ? $value : 'center center'); ?>" class="regular-text cdplay-homepage-admin__input" />
 						<p class="description"><?php echo esc_html($field['help']); ?></p>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+	</div>
 	<?php
 }
 
@@ -493,8 +497,9 @@ function cdplay_render_homepage_hero_tab(): void {
  */
 function cdplay_render_homepage_platform_hubs_tab(): void {
 	?>
-	<h2><?php esc_html_e('Platform Hubs Content', 'cdplay'); ?></h2>
-	<table class="form-table" role="presentation">
+	<div class="cdplay-homepage-admin__panel">
+	<h2><?php esc_html_e('Платформы', 'cdplay'); ?></h2>
+	<table class="form-table cdplay-homepage-admin__table" role="presentation">
 		<tbody>
 			<?php foreach (cdplay_get_platform_hubs_header_fields() as $field) : ?>
 				<?php cdplay_render_homepage_admin_text_field($field['option'], $field['label'], $field['type']); ?>
@@ -503,26 +508,27 @@ function cdplay_render_homepage_platform_hubs_tab(): void {
 	</table>
 
 	<?php foreach (cdplay_get_platform_hub_items() as $item) : ?>
+		<div class="cdplay-homepage-admin__card">
 		<h3><?php echo esc_html($item['label']); ?></h3>
-		<table class="form-table" role="presentation">
+		<table class="form-table cdplay-homepage-admin__table" role="presentation">
 			<tbody>
 				<tr>
-					<th scope="row"><?php esc_html_e('Enabled', 'cdplay'); ?></th>
+					<th scope="row"><?php esc_html_e('Включено', 'cdplay'); ?></th>
 					<td>
 						<?php $enabled = get_option($item['options']['enabled'], null); ?>
 						<input type="hidden" name="<?php echo esc_attr($item['options']['enabled']); ?>" value="0" />
 						<label for="<?php echo esc_attr($item['options']['enabled']); ?>">
 							<input type="checkbox" id="<?php echo esc_attr($item['options']['enabled']); ?>" name="<?php echo esc_attr($item['options']['enabled']); ?>" value="1" <?php checked(null === $enabled || !empty($enabled)); ?> />
-							<?php esc_html_e('Enabled', 'cdplay'); ?>
+							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
 					</td>
 				</tr>
 				<?php
 				$platform_fields = array(
-					'title'       => array('label' => __('Title', 'cdplay'), 'type' => 'text'),
-					'description' => array('label' => __('Description', 'cdplay'), 'type' => 'textarea'),
-					'cta_text'    => array('label' => __('CTA text', 'cdplay'), 'type' => 'text'),
-					'cta_url'     => array('label' => __('CTA URL', 'cdplay'), 'type' => 'url'),
+					'title'       => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
+					'description' => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
+					'cta_text'    => array('label' => __('Текст кнопки', 'cdplay'), 'type' => 'text'),
+					'cta_url'     => array('label' => __('Ссылка кнопки', 'cdplay'), 'type' => 'url'),
 				);
 				?>
 				<?php foreach ($platform_fields as $field_key => $field) : ?>
@@ -530,7 +536,9 @@ function cdplay_render_homepage_platform_hubs_tab(): void {
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		</div>
 	<?php endforeach; ?>
+	</div>
 	<?php
 }
 
@@ -548,21 +556,23 @@ function cdplay_render_homepage_content_section_tab(string $section_slug): void 
 
 	$section = $sections[$section_slug];
 	?>
+	<div class="cdplay-homepage-admin__panel">
 	<h2><?php echo esc_html($section['label']); ?></h2>
-	<table class="form-table" role="presentation">
+	<table class="form-table cdplay-homepage-admin__table" role="presentation">
 		<tbody>
-			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_eyebrow'), __('Eyebrow', 'cdplay'), 'text'); ?>
-			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_title'), __('Title', 'cdplay'), 'text'); ?>
-			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_description'), __('Description', 'cdplay'), 'textarea'); ?>
+			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_eyebrow'), __('Надзаголовок', 'cdplay'), 'text'); ?>
+			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_title'), __('Заголовок', 'cdplay'), 'text'); ?>
+			<?php cdplay_render_homepage_admin_text_field(cdplay_homepage_option_key($section_slug . '_description'), __('Описание', 'cdplay'), 'textarea'); ?>
 		</tbody>
 	</table>
 
 	<?php foreach ($section['cards'] as $card_slug => $card) : ?>
+		<div class="cdplay-homepage-admin__card">
 		<h3><?php echo esc_html($card['label']); ?></h3>
-		<table class="form-table" role="presentation">
+		<table class="form-table cdplay-homepage-admin__table" role="presentation">
 			<tbody>
 				<tr>
-					<th scope="row"><?php esc_html_e('Enabled', 'cdplay'); ?></th>
+					<th scope="row"><?php esc_html_e('Включено', 'cdplay'); ?></th>
 					<td>
 						<?php
 						$enabled_option = cdplay_homepage_card_option_key($section_slug, $card_slug, 'enabled');
@@ -571,7 +581,7 @@ function cdplay_render_homepage_content_section_tab(string $section_slug): void 
 						<input type="hidden" name="<?php echo esc_attr($enabled_option); ?>" value="0" />
 						<label for="<?php echo esc_attr($enabled_option); ?>">
 							<input type="checkbox" id="<?php echo esc_attr($enabled_option); ?>" name="<?php echo esc_attr($enabled_option); ?>" value="1" <?php checked(null === $enabled || !empty($enabled)); ?> />
-							<?php esc_html_e('Enabled', 'cdplay'); ?>
+							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
 					</td>
 				</tr>
@@ -579,13 +589,15 @@ function cdplay_render_homepage_content_section_tab(string $section_slug): void 
 				<?php foreach ($section['fields'] as $field_slug => $field) : ?>
 					<?php $option = cdplay_homepage_card_option_key($section_slug, $card_slug, $field_slug); ?>
 					<?php if ('media' === $field['type']) : ?>
-						<?php cdplay_render_homepage_admin_media_field($option, $field['label']); ?>
+						<?php cdplay_render_homepage_admin_media_field($option, $field['label'], $field['recommendation'] ?? ''); ?>
 					<?php else : ?>
 						<?php cdplay_render_homepage_admin_text_field($option, $field['label'], $field['type']); ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		</div>
 	<?php endforeach; ?>
+	</div>
 	<?php
 }

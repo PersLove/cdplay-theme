@@ -23,27 +23,27 @@ function cdplay_get_homepage_sections(): array {
 		),
 		'platform-hubs'     => array(
 			'slug'     => 'platform-hubs',
-			'label'    => __('Platform Hubs', 'cdplay'),
+			'label'    => __('Платформы', 'cdplay'),
 			'template' => 'template-parts/sections/platform-hubs',
 		),
 		'find-your-console' => array(
 			'slug'     => 'find-your-console',
-			'label'    => __('Find Your Console', 'cdplay'),
+			'label'    => __('Подобрать себе', 'cdplay'),
 			'template' => 'template-parts/sections/find-your-console',
 		),
 		'what-to-play'      => array(
 			'slug'     => 'what-to-play',
-			'label'    => __('What To Play', 'cdplay'),
+			'label'    => __('Во что поиграть', 'cdplay'),
 			'template' => 'template-parts/sections/what-to-play',
 		),
 		'ready-to-play'     => array(
 			'slug'     => 'ready-to-play',
-			'label'    => __('Ready To Play', 'cdplay'),
+			'label'    => __('Готово к игре', 'cdplay'),
 			'template' => 'template-parts/sections/ready-to-play',
 		),
 		'services'          => array(
 			'slug'     => 'services',
-			'label'    => __('Services', 'cdplay'),
+			'label'    => __('Услуги', 'cdplay'),
 			'template' => 'template-parts/sections/services',
 		),
 		'cdplay-experience' => array(
@@ -53,7 +53,7 @@ function cdplay_get_homepage_sections(): array {
 		),
 		'guides'            => array(
 			'slug'     => 'guides',
-			'label'    => __('Guides', 'cdplay'),
+			'label'    => __('Блог и гайды', 'cdplay'),
 			'template' => 'template-parts/sections/guides',
 		),
 	);
@@ -87,17 +87,17 @@ function cdplay_is_homepage_section_enabled(string $slug): bool {
 function cdplay_get_platform_hubs_header_fields(): array {
 	return array(
 		'eyebrow'     => array(
-			'label'  => __('Platform Hubs Eyebrow', 'cdplay'),
+			'label'  => __('Надзаголовок', 'cdplay'),
 			'option' => 'cdplay_platform_hubs_eyebrow',
 			'type'   => 'text',
 		),
 		'title'       => array(
-			'label'  => __('Platform Hubs Title', 'cdplay'),
+			'label'  => __('Заголовок', 'cdplay'),
 			'option' => 'cdplay_platform_hubs_title',
 			'type'   => 'text',
 		),
 		'description' => array(
-			'label'  => __('Platform Hubs Description', 'cdplay'),
+			'label'  => __('Описание', 'cdplay'),
 			'option' => 'cdplay_platform_hubs_description',
 			'type'   => 'textarea',
 		),
@@ -231,37 +231,37 @@ function cdplay_is_platform_hub_enabled(string $slug): bool {
 function cdplay_get_hero_content_fields(): array {
 	return array(
 		'eyebrow'           => array(
-			'label'  => __('Hero Eyebrow', 'cdplay'),
+			'label'  => __('Надзаголовок', 'cdplay'),
 			'option' => 'cdplay_hero_eyebrow',
 			'type'   => 'text',
 		),
 		'title'             => array(
-			'label'  => __('Hero Title', 'cdplay'),
+			'label'  => __('Заголовок', 'cdplay'),
 			'option' => 'cdplay_hero_title',
 			'type'   => 'textarea',
 		),
 		'description'       => array(
-			'label'  => __('Hero Description', 'cdplay'),
+			'label'  => __('Описание', 'cdplay'),
 			'option' => 'cdplay_hero_description',
 			'type'   => 'textarea',
 		),
 		'primary_cta_text'  => array(
-			'label'  => __('Hero Primary CTA Text', 'cdplay'),
+			'label'  => __('Текст основной кнопки', 'cdplay'),
 			'option' => 'cdplay_hero_primary_cta_text',
 			'type'   => 'text',
 		),
 		'primary_cta_url'   => array(
-			'label'  => __('Hero Primary CTA URL', 'cdplay'),
+			'label'  => __('Ссылка основной кнопки', 'cdplay'),
 			'option' => 'cdplay_hero_primary_cta_url',
 			'type'   => 'url',
 		),
 		'secondary_cta_text' => array(
-			'label'  => __('Hero Secondary CTA Text', 'cdplay'),
+			'label'  => __('Текст второй кнопки', 'cdplay'),
 			'option' => 'cdplay_hero_secondary_cta_text',
 			'type'   => 'text',
 		),
 		'secondary_cta_url'  => array(
-			'label'  => __('Hero Secondary CTA URL', 'cdplay'),
+			'label'  => __('Ссылка второй кнопки', 'cdplay'),
 			'option' => 'cdplay_hero_secondary_cta_url',
 			'type'   => 'url',
 		),
@@ -276,14 +276,14 @@ function cdplay_get_hero_content_fields(): array {
 function cdplay_get_hero_image_fields(): array {
 	return array(
 		'desktop' => array(
-			'label'          => __('Hero Desktop Image', 'cdplay'),
+			'label'          => __('Изображение Hero desktop', 'cdplay'),
 			'option'         => 'cdplay_hero_desktop_image_id',
-			'recommendation' => __('Desktop recommended: 2560x1200 WebP', 'cdplay'),
+			'recommendation' => __('Рекомендуемый размер: 2560×1200 WebP', 'cdplay'),
 		),
 		'mobile'  => array(
-			'label'          => __('Hero Mobile Image', 'cdplay'),
+			'label'          => __('Изображение Hero mobile', 'cdplay'),
 			'option'         => 'cdplay_hero_mobile_image_id',
-			'recommendation' => __('Mobile recommended: 1080x1440 WebP', 'cdplay'),
+			'recommendation' => __('Рекомендуемый размер: 1080×1440 WebP', 'cdplay'),
 		),
 	);
 }
@@ -296,12 +296,12 @@ function cdplay_get_hero_image_fields(): array {
 function cdplay_get_hero_media_position_fields(): array {
 	return array(
 		'desktop' => array(
-			'label'  => __('Hero Desktop Image Position', 'cdplay'),
+			'label'  => __('Фокус desktop-изображения', 'cdplay'),
 			'option' => 'cdplay_hero_desktop_image_position',
 			'help'   => __('Например: center center, right center, 60% center, 70% 45%', 'cdplay'),
 		),
 		'mobile'  => array(
-			'label'  => __('Hero Mobile Image Position', 'cdplay'),
+			'label'  => __('Фокус mobile-изображения', 'cdplay'),
 			'option' => 'cdplay_hero_mobile_image_position',
 			'help'   => __('Например: center center, center top, 55% center', 'cdplay'),
 		),
@@ -573,6 +573,13 @@ function cdplay_enqueue_homepage_admin_assets(string $hook_suffix): void {
 		CDPLAY_VERSION,
 		true
 	);
+
+	wp_enqueue_style(
+		'cdplay-admin-homepage',
+		CDPLAY_THEME_URI . '/assets/css/admin-homepage.css',
+		array(),
+		CDPLAY_VERSION
+	);
 }
 add_action('admin_enqueue_scripts', 'cdplay_enqueue_homepage_admin_assets');
 
@@ -600,7 +607,7 @@ function cdplay_render_homepage_sections_page(): void {
 
 	$current_tab = cdplay_get_current_homepage_admin_tab();
 	?>
-	<div class="wrap">
+	<div class="wrap cdplay-homepage-admin">
 		<h1><?php esc_html_e('CDPLAY Homepage', 'cdplay'); ?></h1>
 		<?php cdplay_render_homepage_admin_tabs($current_tab); ?>
 

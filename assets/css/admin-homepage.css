@@ -1,0 +1,101 @@
+.cdplay-homepage-admin {
+	max-width: 1180px;
+}
+
+.cdplay-homepage-admin__tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 16px 0 18px;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.cdplay-homepage-admin__tabs .nav-tab {
+	margin: 0;
+	padding: 7px 12px;
+	border-radius: 4px 4px 0 0;
+	font-size: 13px;
+	line-height: 1.35;
+}
+
+.cdplay-homepage-admin__panel {
+	max-width: 960px;
+	margin-top: 16px;
+	padding: 18px 20px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+}
+
+.cdplay-homepage-admin__panel > h2 {
+	margin: 0 0 12px;
+	font-size: 18px;
+}
+
+.cdplay-homepage-admin__table {
+	margin-top: 0;
+}
+
+.cdplay-homepage-admin__table th {
+	width: 180px;
+	padding: 10px 12px 10px 0;
+	font-weight: 600;
+}
+
+.cdplay-homepage-admin__table td {
+	padding: 8px 0;
+}
+
+.cdplay-homepage-admin__input,
+.cdplay-homepage-admin .regular-text {
+	width: 520px;
+	max-width: 100%;
+}
+
+.cdplay-homepage-admin__textarea,
+.cdplay-homepage-admin .large-text {
+	width: 760px;
+	max-width: 100%;
+	min-height: 78px;
+}
+
+.cdplay-homepage-admin__card {
+	margin-top: 14px;
+	padding: 14px 16px 8px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #f6f7f7;
+}
+
+.cdplay-homepage-admin__card h3 {
+	margin: 0 0 8px;
+	font-size: 15px;
+}
+
+.cdplay-admin-media-field p {
+	margin: 0 0 7px;
+}
+
+.cdplay-admin-media-field .description {
+	color: #646970;
+}
+
+.cdplay-admin-media-field img[data-cdplay-media-preview] {
+	max-width: 220px !important;
+	max-height: 140px;
+	object-fit: cover;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+@media (max-width: 782px) {
+	.cdplay-homepage-admin__panel {
+		padding: 14px;
+	}
+
+	.cdplay-homepage-admin__table th {
+		width: auto;
+		padding-bottom: 4px;
+	}
+}
