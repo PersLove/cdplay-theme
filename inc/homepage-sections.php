@@ -80,6 +80,104 @@ function cdplay_is_homepage_section_enabled(string $slug): bool {
 }
 
 /**
+ * Return editable hero content fields.
+ *
+ * @return array<string, array{label: string, option: string, type: string}>
+ */
+function cdplay_get_hero_content_fields(): array {
+	return array(
+		'eyebrow'           => array(
+			'label'  => __('Hero Eyebrow', 'cdplay'),
+			'option' => 'cdplay_hero_eyebrow',
+			'type'   => 'text',
+		),
+		'title'             => array(
+			'label'  => __('Hero Title', 'cdplay'),
+			'option' => 'cdplay_hero_title',
+			'type'   => 'textarea',
+		),
+		'description'       => array(
+			'label'  => __('Hero Description', 'cdplay'),
+			'option' => 'cdplay_hero_description',
+			'type'   => 'textarea',
+		),
+		'primary_cta_text'  => array(
+			'label'  => __('Hero Primary CTA Text', 'cdplay'),
+			'option' => 'cdplay_hero_primary_cta_text',
+			'type'   => 'text',
+		),
+		'primary_cta_url'   => array(
+			'label'  => __('Hero Primary CTA URL', 'cdplay'),
+			'option' => 'cdplay_hero_primary_cta_url',
+			'type'   => 'url',
+		),
+		'secondary_cta_text' => array(
+			'label'  => __('Hero Secondary CTA Text', 'cdplay'),
+			'option' => 'cdplay_hero_secondary_cta_text',
+			'type'   => 'text',
+		),
+		'secondary_cta_url'  => array(
+			'label'  => __('Hero Secondary CTA URL', 'cdplay'),
+			'option' => 'cdplay_hero_secondary_cta_url',
+			'type'   => 'url',
+		),
+	);
+}
+
+/**
+ * Get an editable hero field value.
+ *
+ * @param string $field Field key.
+ * @param string $fallback Fallback value.
+ * @return string
+ */
+function cdplay_get_hero_field(string $field, string $fallback = ''): string {
+	$fields = cdplay_get_hero_content_fields();
+
+	if (!isset($fields[$field])) {
+		return $fallback;
+	}
+
+	$value = get_option($fields[$field]['option'], '');
+
+	if (!is_string($value) || '' === trim($value)) {
+		return $fallback;
+	}
+
+	return $value;
+}
+
+/**
+ * Sanitize hero content fields.
+ *
+ * @param mixed $input Raw option input.
+ * @return string
+ */
+function cdplay_sanitize_hero_field($input): string {
+	return is_string($input) ? sanitize_text_field($input) : '';
+}
+
+/**
+ * Sanitize hero textarea fields.
+ *
+ * @param mixed $input Raw option input.
+ * @return string
+ */
+function cdplay_sanitize_hero_textarea($input): string {
+	return is_string($input) ? sanitize_textarea_field($input) : '';
+}
+
+/**
+ * Sanitize hero URL fields.
+ *
+ * @param mixed $input Raw option input.
+ * @return string
+ */
+function cdplay_sanitize_hero_url($input): string {
+	return is_string($input) ? esc_url_raw($input) : '';
+}
+
+/**
  * Sanitize homepage sections settings.
  *
  * @param mixed $input Raw option input.
@@ -111,6 +209,28 @@ function cdplay_register_homepage_sections_setting(): void {
 			'default'           => array(),
 		)
 	);
+
+	foreach (cdplay_get_hero_content_fields() as $field) {
+		$sanitize_callback = 'cdplay_sanitize_hero_field';
+
+		if ('textarea' === $field['type']) {
+			$sanitize_callback = 'cdplay_sanitize_hero_textarea';
+		}
+
+		if ('url' === $field['type']) {
+			$sanitize_callback = 'cdplay_sanitize_hero_url';
+		}
+
+		register_setting(
+			'cdplay_homepage_sections',
+			$field['option'],
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => $sanitize_callback,
+				'default'           => '',
+			)
+		);
+	}
 }
 add_action('admin_init', 'cdplay_register_homepage_sections_setting');
 
@@ -137,6 +257,7 @@ function cdplay_render_homepage_sections_page(): void {
 	}
 
 	$sections         = cdplay_get_homepage_sections();
+	$hero_fields      = cdplay_get_hero_content_fields();
 	$section_settings = get_option('cdplay_homepage_sections', null);
 	$section_settings = is_array($section_settings) ? $section_settings : array();
 	?>
@@ -145,6 +266,43 @@ function cdplay_render_homepage_sections_page(): void {
 
 		<form method="post" action="options.php">
 			<?php settings_fields('cdplay_homepage_sections'); ?>
+
+			<h2><?php esc_html_e('Hero Content', 'cdplay'); ?></h2>
+
+			<table class="form-table" role="presentation">
+				<tbody>
+					<?php foreach ($hero_fields as $field) : ?>
+						<?php $value = get_option($field['option'], ''); ?>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr($field['option']); ?>">
+									<?php echo esc_html($field['label']); ?>
+								</label>
+							</th>
+							<td>
+								<?php if ('textarea' === $field['type']) : ?>
+									<textarea
+										id="<?php echo esc_attr($field['option']); ?>"
+										name="<?php echo esc_attr($field['option']); ?>"
+										class="large-text"
+										rows="3"
+									><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
+								<?php else : ?>
+									<input
+										type="<?php echo 'url' === $field['type'] ? 'url' : 'text'; ?>"
+										id="<?php echo esc_attr($field['option']); ?>"
+										name="<?php echo esc_attr($field['option']); ?>"
+										value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
+										class="regular-text"
+									/>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+
+			<h2><?php esc_html_e('Sections Manager', 'cdplay'); ?></h2>
 
 			<table class="form-table" role="presentation">
 				<tbody>
