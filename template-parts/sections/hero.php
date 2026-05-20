@@ -49,9 +49,16 @@ $cdplay_hero_mobile_image_id   = cdplay_get_hero_image_id('mobile');
 $cdplay_hero_desktop_image_url = $cdplay_hero_desktop_image_id ? wp_get_attachment_image_url($cdplay_hero_desktop_image_id, 'full') : '';
 $cdplay_hero_mobile_image_url  = $cdplay_hero_mobile_image_id ? wp_get_attachment_image_url($cdplay_hero_mobile_image_id, 'full') : '';
 $cdplay_hero_image_url         = $cdplay_hero_desktop_image_url ? $cdplay_hero_desktop_image_url : $cdplay_hero_mobile_image_url;
+$cdplay_hero_desktop_position  = cdplay_get_hero_media_position('desktop');
+$cdplay_hero_mobile_position   = cdplay_get_hero_media_position('mobile');
+$cdplay_hero_style             = sprintf(
+	'--cdplay-hero-desktop-position: %1$s; --cdplay-hero-mobile-position: %2$s;',
+	$cdplay_hero_desktop_position,
+	$cdplay_hero_mobile_position
+);
 ?>
 
-<section class="cdplay-hero" aria-labelledby="cdplay-hero-title" data-cdplay-hero>
+<section class="cdplay-hero" aria-labelledby="cdplay-hero-title" style="<?php echo esc_attr($cdplay_hero_style); ?>" data-cdplay-hero>
 	<div class="cdplay-hero__media" aria-hidden="true">
 		<?php if ($cdplay_hero_image_url) : ?>
 			<picture class="cdplay-hero__picture">

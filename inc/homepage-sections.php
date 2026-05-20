@@ -145,6 +145,26 @@ function cdplay_get_hero_image_fields(): array {
 }
 
 /**
+ * Return editable hero media position fields.
+ *
+ * @return array<string, array{label: string, option: string, help: string}>
+ */
+function cdplay_get_hero_media_position_fields(): array {
+	return array(
+		'desktop' => array(
+			'label'  => __('Hero Desktop Image Position', 'cdplay'),
+			'option' => 'cdplay_hero_desktop_image_position',
+			'help'   => __('Например: center center, right center, 60% center, 70% 45%', 'cdplay'),
+		),
+		'mobile'  => array(
+			'label'  => __('Hero Mobile Image Position', 'cdplay'),
+			'option' => 'cdplay_hero_mobile_image_position',
+			'help'   => __('Например: center center, center top, 55% center', 'cdplay'),
+		),
+	);
+}
+
+/**
  * Get an editable hero field value.
  *
  * @param string $field Field key.
@@ -181,6 +201,28 @@ function cdplay_get_hero_image_id(string $type): int {
 	}
 
 	return absint(get_option($fields[$type]['option'], 0));
+}
+
+/**
+ * Get a safe hero media object-position value.
+ *
+ * @param string $type Position type.
+ * @return string
+ */
+function cdplay_get_hero_media_position(string $type): string {
+	$fields = cdplay_get_hero_media_position_fields();
+
+	if (!isset($fields[$type])) {
+		return 'center center';
+	}
+
+	$value = get_option($fields[$type]['option'], '');
+
+	if (!is_string($value) || '' === trim($value)) {
+		return 'center center';
+	}
+
+	return cdplay_sanitize_hero_media_position($value);
 }
 
 /**
@@ -221,6 +263,24 @@ function cdplay_sanitize_hero_url($input): string {
  */
 function cdplay_sanitize_hero_image_id($input): int {
 	return absint($input);
+}
+
+/**
+ * Sanitize CSS object-position values for hero media.
+ *
+ * @param mixed $input Raw option input.
+ * @return string
+ */
+function cdplay_sanitize_hero_media_position($input): string {
+	if (!is_string($input)) {
+		return 'center center';
+	}
+
+	$value = strtolower(sanitize_text_field($input));
+	$value = preg_replace('/[^a-z0-9%.\-\s]/', '', $value);
+	$value = is_string($value) ? trim(preg_replace('/\s+/', ' ', $value)) : '';
+
+	return '' === $value ? 'center center' : $value;
 }
 
 /**
@@ -289,6 +349,18 @@ function cdplay_register_homepage_sections_setting(): void {
 			)
 		);
 	}
+
+	foreach (cdplay_get_hero_media_position_fields() as $field) {
+		register_setting(
+			'cdplay_homepage_sections',
+			$field['option'],
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'cdplay_sanitize_hero_media_position',
+				'default'           => 'center center',
+			)
+		);
+	}
 }
 add_action('admin_init', 'cdplay_register_homepage_sections_setting');
 
@@ -339,6 +411,7 @@ function cdplay_render_homepage_sections_page(): void {
 	$sections         = cdplay_get_homepage_sections();
 	$hero_fields      = cdplay_get_hero_content_fields();
 	$hero_image_fields = cdplay_get_hero_image_fields();
+	$hero_position_fields = cdplay_get_hero_media_position_fields();
 	$section_settings = get_option('cdplay_homepage_sections', null);
 	$section_settings = is_array($section_settings) ? $section_settings : array();
 	?>
@@ -420,6 +493,29 @@ function cdplay_render_homepage_sections_page(): void {
 										data-cdplay-media-preview
 									/>
 								</div>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+
+					<?php foreach ($hero_position_fields as $field) : ?>
+						<?php $value = get_option($field['option'], 'center center'); ?>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr($field['option']); ?>">
+									<?php echo esc_html($field['label']); ?>
+								</label>
+							</th>
+							<td>
+								<input
+									type="text"
+									id="<?php echo esc_attr($field['option']); ?>"
+									name="<?php echo esc_attr($field['option']); ?>"
+									value="<?php echo esc_attr(is_string($value) && '' !== trim($value) ? $value : 'center center'); ?>"
+									class="regular-text"
+								/>
+								<p class="description">
+									<?php echo esc_html($field['help']); ?>
+								</p>
 							</td>
 						</tr>
 					<?php endforeach; ?>

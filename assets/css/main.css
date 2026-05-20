@@ -661,6 +661,10 @@ figcaption {
 	object-fit: cover;
 }
 
+.cdplay-hero__picture img {
+	object-position: var(--cdplay-hero-desktop-position, center center);
+}
+
 .cdplay-hero__atmosphere {
 	position: absolute;
 	inset: auto -18% -32% 12%;
@@ -671,14 +675,14 @@ figcaption {
 		radial-gradient(circle, color-mix(in srgb, var(--cdplay-color-accent), transparent 78%), transparent 62%),
 		radial-gradient(circle at 68% 32%, color-mix(in srgb, var(--cdplay-color-surface), transparent 50%), transparent 45%);
 	filter: blur(1.75rem);
-	opacity: 0.95;
+	opacity: 0.66;
 }
 
 .cdplay-hero__overlay {
 	z-index: -1;
 	background:
-		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-background), transparent 12%) 100%),
-		linear-gradient(90deg, color-mix(in srgb, var(--cdplay-color-background), transparent 4%) 0%, transparent 72%);
+		linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--cdplay-color-background), transparent 56%) 100%),
+		linear-gradient(90deg, color-mix(in srgb, var(--cdplay-color-background), transparent 18%) 0%, color-mix(in srgb, var(--cdplay-color-background), transparent 42%) 36%, transparent 76%);
 	pointer-events: none;
 }
 
@@ -691,6 +695,18 @@ figcaption {
 	display: grid;
 	gap: var(--cdplay-space-md);
 	max-width: 44rem;
+}
+
+@media (max-width: 47.9375rem) {
+	.cdplay-hero__picture img {
+		object-position: var(--cdplay-hero-mobile-position, center center);
+	}
+
+	.cdplay-hero__overlay {
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--cdplay-color-background), transparent 48%) 0%, transparent 34%, color-mix(in srgb, var(--cdplay-color-background), transparent 30%) 100%),
+			linear-gradient(90deg, color-mix(in srgb, var(--cdplay-color-background), transparent 28%) 0%, transparent 100%);
+	}
 }
 
 .cdplay-hero__eyebrow {
