@@ -648,6 +648,12 @@ figcaption {
 		var(--cdplay-hero-background, transparent);
 }
 
+.cdplay-hero__picture {
+	position: absolute;
+	inset: 0;
+	display: block;
+}
+
 .cdplay-hero__media img,
 .cdplay-hero__media video {
 	width: 100%;

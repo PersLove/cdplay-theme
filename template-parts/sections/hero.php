@@ -43,10 +43,30 @@ $cdplay_hero_secondary_cta_url = cdplay_get_hero_field(
 	'secondary_cta_url',
 	home_url('/vo-chto-poigrat/')
 );
+
+$cdplay_hero_desktop_image_id  = cdplay_get_hero_image_id('desktop');
+$cdplay_hero_mobile_image_id   = cdplay_get_hero_image_id('mobile');
+$cdplay_hero_desktop_image_url = $cdplay_hero_desktop_image_id ? wp_get_attachment_image_url($cdplay_hero_desktop_image_id, 'full') : '';
+$cdplay_hero_mobile_image_url  = $cdplay_hero_mobile_image_id ? wp_get_attachment_image_url($cdplay_hero_mobile_image_id, 'full') : '';
+$cdplay_hero_image_url         = $cdplay_hero_desktop_image_url ? $cdplay_hero_desktop_image_url : $cdplay_hero_mobile_image_url;
 ?>
 
 <section class="cdplay-hero" aria-labelledby="cdplay-hero-title" data-cdplay-hero>
 	<div class="cdplay-hero__media" aria-hidden="true">
+		<?php if ($cdplay_hero_image_url) : ?>
+			<picture class="cdplay-hero__picture">
+				<?php if ($cdplay_hero_mobile_image_url) : ?>
+					<source srcset="<?php echo esc_url($cdplay_hero_mobile_image_url); ?>" media="(max-width: 767px)" />
+				<?php endif; ?>
+				<img
+					src="<?php echo esc_url($cdplay_hero_image_url); ?>"
+					alt=""
+					loading="eager"
+					decoding="async"
+					fetchpriority="high"
+				/>
+			</picture>
+		<?php endif; ?>
 		<div class="cdplay-hero__atmosphere"></div>
 	</div>
 

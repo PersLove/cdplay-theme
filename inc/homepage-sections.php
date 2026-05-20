@@ -125,6 +125,26 @@ function cdplay_get_hero_content_fields(): array {
 }
 
 /**
+ * Return editable hero image fields.
+ *
+ * @return array<string, array{label: string, option: string, recommendation: string}>
+ */
+function cdplay_get_hero_image_fields(): array {
+	return array(
+		'desktop' => array(
+			'label'          => __('Hero Desktop Image', 'cdplay'),
+			'option'         => 'cdplay_hero_desktop_image_id',
+			'recommendation' => __('Desktop recommended: 2560x1200 WebP', 'cdplay'),
+		),
+		'mobile'  => array(
+			'label'          => __('Hero Mobile Image', 'cdplay'),
+			'option'         => 'cdplay_hero_mobile_image_id',
+			'recommendation' => __('Mobile recommended: 1080x1440 WebP', 'cdplay'),
+		),
+	);
+}
+
+/**
  * Get an editable hero field value.
  *
  * @param string $field Field key.
@@ -145,6 +165,22 @@ function cdplay_get_hero_field(string $field, string $fallback = ''): string {
 	}
 
 	return $value;
+}
+
+/**
+ * Get a hero image attachment ID.
+ *
+ * @param string $type Image type.
+ * @return int
+ */
+function cdplay_get_hero_image_id(string $type): int {
+	$fields = cdplay_get_hero_image_fields();
+
+	if (!isset($fields[$type])) {
+		return 0;
+	}
+
+	return absint(get_option($fields[$type]['option'], 0));
 }
 
 /**
@@ -175,6 +211,16 @@ function cdplay_sanitize_hero_textarea($input): string {
  */
 function cdplay_sanitize_hero_url($input): string {
 	return is_string($input) ? esc_url_raw($input) : '';
+}
+
+/**
+ * Sanitize hero image attachment IDs.
+ *
+ * @param mixed $input Raw option input.
+ * @return int
+ */
+function cdplay_sanitize_hero_image_id($input): int {
+	return absint($input);
 }
 
 /**
@@ -231,8 +277,42 @@ function cdplay_register_homepage_sections_setting(): void {
 			)
 		);
 	}
+
+	foreach (cdplay_get_hero_image_fields() as $field) {
+		register_setting(
+			'cdplay_homepage_sections',
+			$field['option'],
+			array(
+				'type'              => 'integer',
+				'sanitize_callback' => 'cdplay_sanitize_hero_image_id',
+				'default'           => 0,
+			)
+		);
+	}
 }
 add_action('admin_init', 'cdplay_register_homepage_sections_setting');
+
+/**
+ * Enqueue assets for the CDPLAY Homepage admin page.
+ *
+ * @param string $hook_suffix Current admin page hook.
+ */
+function cdplay_enqueue_homepage_admin_assets(string $hook_suffix): void {
+	if ('appearance_page_cdplay-homepage' !== $hook_suffix) {
+		return;
+	}
+
+	wp_enqueue_media();
+
+	wp_enqueue_script(
+		'cdplay-admin-homepage',
+		CDPLAY_THEME_URI . '/assets/js/admin-homepage.js',
+		array(),
+		CDPLAY_VERSION,
+		true
+	);
+}
+add_action('admin_enqueue_scripts', 'cdplay_enqueue_homepage_admin_assets');
 
 /**
  * Add homepage sections admin page.
@@ -258,6 +338,7 @@ function cdplay_render_homepage_sections_page(): void {
 
 	$sections         = cdplay_get_homepage_sections();
 	$hero_fields      = cdplay_get_hero_content_fields();
+	$hero_image_fields = cdplay_get_hero_image_fields();
 	$section_settings = get_option('cdplay_homepage_sections', null);
 	$section_settings = is_array($section_settings) ? $section_settings : array();
 	?>
@@ -296,6 +377,49 @@ function cdplay_render_homepage_sections_page(): void {
 										class="regular-text"
 									/>
 								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+
+					<?php foreach ($hero_image_fields as $field) : ?>
+						<?php
+						$image_id  = absint(get_option($field['option'], 0));
+						$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'medium') : '';
+						?>
+						<tr>
+							<th scope="row">
+								<?php echo esc_html($field['label']); ?>
+							</th>
+							<td>
+								<div class="cdplay-admin-media-field" data-cdplay-media-field>
+									<input
+										type="hidden"
+										id="<?php echo esc_attr($field['option']); ?>"
+										name="<?php echo esc_attr($field['option']); ?>"
+										value="<?php echo esc_attr((string) $image_id); ?>"
+										data-cdplay-media-input
+									/>
+
+									<p>
+										<button type="button" class="button" data-cdplay-media-select>
+											<?php esc_html_e('Select image', 'cdplay'); ?>
+										</button>
+										<button type="button" class="button" data-cdplay-media-remove>
+											<?php esc_html_e('Remove', 'cdplay'); ?>
+										</button>
+									</p>
+
+									<p class="description">
+										<?php echo esc_html($field['recommendation']); ?>
+									</p>
+
+									<img
+										src="<?php echo esc_url($image_url ? $image_url : ''); ?>"
+										alt=""
+										style="<?php echo esc_attr($image_url ? 'display:block;max-width:320px;height:auto;margin-top:12px;' : 'display:none;max-width:320px;height:auto;margin-top:12px;'); ?>"
+										data-cdplay-media-preview
+									/>
+								</div>
 							</td>
 						</tr>
 					<?php endforeach; ?>
