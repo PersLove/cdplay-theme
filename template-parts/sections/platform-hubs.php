@@ -9,51 +9,77 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+$cdplay_platform_hubs_eyebrow = cdplay_get_platform_hubs_field(
+	'eyebrow',
+	__('Platform hubs', 'cdplay')
+);
+
+$cdplay_platform_hubs_title = cdplay_get_platform_hubs_field(
+	'title',
+	__('Выберите настроение вечера', 'cdplay')
+);
+
+$cdplay_platform_hubs_description = cdplay_get_platform_hubs_field(
+	'description',
+	__('Четыре игровых направления CDPLAY: от кинематографичных эксклюзивов до теплой ретро-ностальгии.', 'cdplay')
+);
+
 $cdplay_platform_hubs = array(
 	array(
 		'slug'  => 'playstation',
-		'title' => __('PlayStation', 'cdplay'),
-		'text'  => __('Эксклюзивы, сюжетные приключения и вечер, который хочется продолжить.', 'cdplay'),
-		'cta'   => __('Перейти в PlayStation', 'cdplay'),
-		'url'   => home_url('/platform/playstation/'),
+		'title' => cdplay_get_platform_hub_field('playstation', 'title', __('PlayStation', 'cdplay')),
+		'text'  => cdplay_get_platform_hub_field('playstation', 'description', __('Эксклюзивы, сюжетные приключения и вечер, который хочется продолжить.', 'cdplay')),
+		'cta'   => cdplay_get_platform_hub_field('playstation', 'cta_text', __('Перейти в PlayStation', 'cdplay')),
+		'url'   => cdplay_get_platform_hub_field('playstation', 'cta_url', home_url('/platform/playstation/')),
 	),
 	array(
 		'slug'  => 'xbox',
-		'title' => __('Xbox', 'cdplay'),
-		'text'  => __('Game Pass, кооператив и игры, в которые удобно возвращаться каждый день.', 'cdplay'),
-		'cta'   => __('Перейти в Xbox', 'cdplay'),
-		'url'   => home_url('/platform/xbox/'),
+		'title' => cdplay_get_platform_hub_field('xbox', 'title', __('Xbox', 'cdplay')),
+		'text'  => cdplay_get_platform_hub_field('xbox', 'description', __('Game Pass, кооператив и игры, в которые удобно возвращаться каждый день.', 'cdplay')),
+		'cta'   => cdplay_get_platform_hub_field('xbox', 'cta_text', __('Перейти в Xbox', 'cdplay')),
+		'url'   => cdplay_get_platform_hub_field('xbox', 'cta_url', home_url('/platform/xbox/')),
 	),
 	array(
 		'slug'  => 'nintendo',
-		'title' => __('Nintendo', 'cdplay'),
-		'text'  => __('Семейный гейминг, портативность и игры, которые улыбаются первыми.', 'cdplay'),
-		'cta'   => __('Перейти в Nintendo', 'cdplay'),
-		'url'   => home_url('/platform/nintendo/'),
+		'title' => cdplay_get_platform_hub_field('nintendo', 'title', __('Nintendo', 'cdplay')),
+		'text'  => cdplay_get_platform_hub_field('nintendo', 'description', __('Семейный гейминг, портативность и игры, которые улыбаются первыми.', 'cdplay')),
+		'cta'   => cdplay_get_platform_hub_field('nintendo', 'cta_text', __('Перейти в Nintendo', 'cdplay')),
+		'url'   => cdplay_get_platform_hub_field('nintendo', 'cta_url', home_url('/platform/nintendo/')),
 	),
 	array(
 		'slug'  => 'retro',
-		'title' => __('Retro', 'cdplay'),
-		'text'  => __('Та самая ностальгия, пиксели и приставки, с которых всё началось.', 'cdplay'),
-		'cta'   => __('Перейти в Retro', 'cdplay'),
-		'url'   => home_url('/platform/retro/'),
+		'title' => cdplay_get_platform_hub_field('retro', 'title', __('Retro', 'cdplay')),
+		'text'  => cdplay_get_platform_hub_field('retro', 'description', __('Та самая ностальгия, пиксели и приставки, с которых всё началось.', 'cdplay')),
+		'cta'   => cdplay_get_platform_hub_field('retro', 'cta_text', __('Перейти в Retro', 'cdplay')),
+		'url'   => cdplay_get_platform_hub_field('retro', 'cta_url', home_url('/platform/retro/')),
 	),
 );
+
+$cdplay_platform_hubs = array_filter(
+	$cdplay_platform_hubs,
+	static function ($cdplay_platform_hub): bool {
+		return cdplay_is_platform_hub_enabled($cdplay_platform_hub['slug']);
+	}
+);
+
+if (empty($cdplay_platform_hubs)) {
+	return;
+}
 ?>
 
 <section class="cdplay-platform-hubs" aria-labelledby="cdplay-platform-hubs-title">
 	<div class="cdplay-platform-hubs__inner cdplay-container">
 		<header class="cdplay-platform-hubs__header">
 			<p class="cdplay-platform-hubs__eyebrow">
-				<?php esc_html_e('Platform hubs', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_platform_hubs_eyebrow); ?>
 			</p>
 
 			<h2 id="cdplay-platform-hubs-title" class="cdplay-platform-hubs__title">
-				<?php esc_html_e('Выберите настроение вечера', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_platform_hubs_title); ?>
 			</h2>
 
 			<p class="cdplay-platform-hubs__text">
-				<?php esc_html_e('Четыре игровых направления CDPLAY: от кинематографичных эксклюзивов до теплой ретро-ностальгии.', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_platform_hubs_description); ?>
 			</p>
 		</header>
 

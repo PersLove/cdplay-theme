@@ -80,6 +80,150 @@ function cdplay_is_homepage_section_enabled(string $slug): bool {
 }
 
 /**
+ * Return editable Platform Hubs header fields.
+ *
+ * @return array<string, array{label: string, option: string, type: string}>
+ */
+function cdplay_get_platform_hubs_header_fields(): array {
+	return array(
+		'eyebrow'     => array(
+			'label'  => __('Platform Hubs Eyebrow', 'cdplay'),
+			'option' => 'cdplay_platform_hubs_eyebrow',
+			'type'   => 'text',
+		),
+		'title'       => array(
+			'label'  => __('Platform Hubs Title', 'cdplay'),
+			'option' => 'cdplay_platform_hubs_title',
+			'type'   => 'text',
+		),
+		'description' => array(
+			'label'  => __('Platform Hubs Description', 'cdplay'),
+			'option' => 'cdplay_platform_hubs_description',
+			'type'   => 'textarea',
+		),
+	);
+}
+
+/**
+ * Return editable Platform Hubs card fields.
+ *
+ * @return array<string, array{label: string, options: array<string, string>}>
+ */
+function cdplay_get_platform_hub_items(): array {
+	return array(
+		'playstation' => array(
+			'label'   => __('PlayStation', 'cdplay'),
+			'options' => array(
+				'enabled'     => 'cdplay_platform_hub_playstation_enabled',
+				'title'       => 'cdplay_platform_hub_playstation_title',
+				'description' => 'cdplay_platform_hub_playstation_description',
+				'cta_text'    => 'cdplay_platform_hub_playstation_cta_text',
+				'cta_url'     => 'cdplay_platform_hub_playstation_cta_url',
+			),
+		),
+		'xbox'        => array(
+			'label'   => __('Xbox', 'cdplay'),
+			'options' => array(
+				'enabled'     => 'cdplay_platform_hub_xbox_enabled',
+				'title'       => 'cdplay_platform_hub_xbox_title',
+				'description' => 'cdplay_platform_hub_xbox_description',
+				'cta_text'    => 'cdplay_platform_hub_xbox_cta_text',
+				'cta_url'     => 'cdplay_platform_hub_xbox_cta_url',
+			),
+		),
+		'nintendo'    => array(
+			'label'   => __('Nintendo', 'cdplay'),
+			'options' => array(
+				'enabled'     => 'cdplay_platform_hub_nintendo_enabled',
+				'title'       => 'cdplay_platform_hub_nintendo_title',
+				'description' => 'cdplay_platform_hub_nintendo_description',
+				'cta_text'    => 'cdplay_platform_hub_nintendo_cta_text',
+				'cta_url'     => 'cdplay_platform_hub_nintendo_cta_url',
+			),
+		),
+		'retro'       => array(
+			'label'   => __('Retro', 'cdplay'),
+			'options' => array(
+				'enabled'     => 'cdplay_platform_hub_retro_enabled',
+				'title'       => 'cdplay_platform_hub_retro_title',
+				'description' => 'cdplay_platform_hub_retro_description',
+				'cta_text'    => 'cdplay_platform_hub_retro_cta_text',
+				'cta_url'     => 'cdplay_platform_hub_retro_cta_url',
+			),
+		),
+	);
+}
+
+/**
+ * Get an editable Platform Hubs header field value.
+ *
+ * @param string $field Field key.
+ * @param string $fallback Fallback value.
+ * @return string
+ */
+function cdplay_get_platform_hubs_field(string $field, string $fallback = ''): string {
+	$fields = cdplay_get_platform_hubs_header_fields();
+
+	if (!isset($fields[$field])) {
+		return $fallback;
+	}
+
+	$value = get_option($fields[$field]['option'], '');
+
+	if (!is_string($value) || '' === trim($value)) {
+		return $fallback;
+	}
+
+	return $value;
+}
+
+/**
+ * Get an editable Platform Hub card field value.
+ *
+ * @param string $slug Platform slug.
+ * @param string $field Field key.
+ * @param string $fallback Fallback value.
+ * @return string
+ */
+function cdplay_get_platform_hub_field(string $slug, string $field, string $fallback = ''): string {
+	$items = cdplay_get_platform_hub_items();
+
+	if (!isset($items[$slug]['options'][$field])) {
+		return $fallback;
+	}
+
+	$value = get_option($items[$slug]['options'][$field], '');
+
+	if (!is_string($value) || '' === trim($value)) {
+		return $fallback;
+	}
+
+	return $value;
+}
+
+/**
+ * Check whether a Platform Hub card is enabled.
+ *
+ * @param string $slug Platform slug.
+ * @return bool
+ */
+function cdplay_is_platform_hub_enabled(string $slug): bool {
+	$items = cdplay_get_platform_hub_items();
+
+	if (!isset($items[$slug]['options']['enabled'])) {
+		return false;
+	}
+
+	$value = get_option($items[$slug]['options']['enabled'], null);
+
+	if (null === $value) {
+		return true;
+	}
+
+	return !empty($value);
+}
+
+/**
  * Return editable hero content fields.
  *
  * @return array<string, array{label: string, option: string, type: string}>
@@ -316,6 +460,52 @@ function cdplay_register_homepage_sections_setting(): void {
 		)
 	);
 
+	foreach (cdplay_get_platform_hubs_header_fields() as $field) {
+		$sanitize_callback = 'textarea' === $field['type'] ? 'cdplay_sanitize_hero_textarea' : 'cdplay_sanitize_hero_field';
+
+		register_setting(
+			'cdplay_homepage_sections',
+			$field['option'],
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => $sanitize_callback,
+				'default'           => '',
+			)
+		);
+	}
+
+	foreach (cdplay_get_platform_hub_items() as $item) {
+		foreach ($item['options'] as $field_key => $option_name) {
+			$sanitize_callback = 'cdplay_sanitize_hero_field';
+			$default           = '';
+			$type              = 'string';
+
+			if ('description' === $field_key) {
+				$sanitize_callback = 'cdplay_sanitize_hero_textarea';
+			}
+
+			if ('cta_url' === $field_key) {
+				$sanitize_callback = 'cdplay_sanitize_hero_url';
+			}
+
+			if ('enabled' === $field_key) {
+				$sanitize_callback = 'absint';
+				$default           = 1;
+				$type              = 'integer';
+			}
+
+			register_setting(
+				'cdplay_homepage_sections',
+				$option_name,
+				array(
+					'type'              => $type,
+					'sanitize_callback' => $sanitize_callback,
+					'default'           => $default,
+				)
+			);
+		}
+	}
+
 	foreach (cdplay_get_hero_content_fields() as $field) {
 		$sanitize_callback = 'cdplay_sanitize_hero_field';
 
@@ -412,6 +602,8 @@ function cdplay_render_homepage_sections_page(): void {
 	$hero_fields      = cdplay_get_hero_content_fields();
 	$hero_image_fields = cdplay_get_hero_image_fields();
 	$hero_position_fields = cdplay_get_hero_media_position_fields();
+	$platform_hubs_header_fields = cdplay_get_platform_hubs_header_fields();
+	$platform_hub_items = cdplay_get_platform_hub_items();
 	$section_settings = get_option('cdplay_homepage_sections', null);
 	$section_settings = is_array($section_settings) ? $section_settings : array();
 	?>
@@ -521,6 +713,111 @@ function cdplay_render_homepage_sections_page(): void {
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+
+			<h2><?php esc_html_e('Platform Hubs Content', 'cdplay'); ?></h2>
+
+			<table class="form-table" role="presentation">
+				<tbody>
+					<?php foreach ($platform_hubs_header_fields as $field) : ?>
+						<?php $value = get_option($field['option'], ''); ?>
+						<tr>
+							<th scope="row">
+								<label for="<?php echo esc_attr($field['option']); ?>">
+									<?php echo esc_html($field['label']); ?>
+								</label>
+							</th>
+							<td>
+								<?php if ('textarea' === $field['type']) : ?>
+									<textarea
+										id="<?php echo esc_attr($field['option']); ?>"
+										name="<?php echo esc_attr($field['option']); ?>"
+										class="large-text"
+										rows="3"
+									><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
+								<?php else : ?>
+									<input
+										type="text"
+										id="<?php echo esc_attr($field['option']); ?>"
+										name="<?php echo esc_attr($field['option']); ?>"
+										value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
+										class="regular-text"
+									/>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+
+			<?php foreach ($platform_hub_items as $slug => $item) : ?>
+				<h3><?php echo esc_html($item['label']); ?></h3>
+
+				<table class="form-table" role="presentation">
+					<tbody>
+						<tr>
+							<th scope="row">
+								<?php esc_html_e('Enabled', 'cdplay'); ?>
+							</th>
+							<td>
+								<?php $enabled = get_option($item['options']['enabled'], null); ?>
+								<input
+									type="hidden"
+									name="<?php echo esc_attr($item['options']['enabled']); ?>"
+									value="0"
+								/>
+								<label for="<?php echo esc_attr($item['options']['enabled']); ?>">
+									<input
+										type="checkbox"
+										id="<?php echo esc_attr($item['options']['enabled']); ?>"
+										name="<?php echo esc_attr($item['options']['enabled']); ?>"
+										value="1"
+										<?php checked(null === $enabled || !empty($enabled)); ?>
+									/>
+									<?php esc_html_e('Enabled', 'cdplay'); ?>
+								</label>
+							</td>
+						</tr>
+
+						<?php
+						$platform_fields = array(
+							'title'       => __('Title', 'cdplay'),
+							'description' => __('Description', 'cdplay'),
+							'cta_text'    => __('CTA text', 'cdplay'),
+							'cta_url'     => __('CTA URL', 'cdplay'),
+						);
+						?>
+
+						<?php foreach ($platform_fields as $field_key => $label) : ?>
+							<?php $value = get_option($item['options'][$field_key], ''); ?>
+							<tr>
+								<th scope="row">
+									<label for="<?php echo esc_attr($item['options'][$field_key]); ?>">
+										<?php echo esc_html($label); ?>
+									</label>
+								</th>
+								<td>
+									<?php if ('description' === $field_key) : ?>
+										<textarea
+											id="<?php echo esc_attr($item['options'][$field_key]); ?>"
+											name="<?php echo esc_attr($item['options'][$field_key]); ?>"
+											class="large-text"
+											rows="3"
+										><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
+									<?php else : ?>
+										<input
+											type="<?php echo 'cta_url' === $field_key ? 'url' : 'text'; ?>"
+											id="<?php echo esc_attr($item['options'][$field_key]); ?>"
+											name="<?php echo esc_attr($item['options'][$field_key]); ?>"
+											value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
+											class="regular-text"
+										/>
+									<?php endif; ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endforeach; ?>
 
 			<h2><?php esc_html_e('Sections Manager', 'cdplay'); ?></h2>
 
