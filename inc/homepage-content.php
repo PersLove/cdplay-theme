@@ -91,7 +91,7 @@ function cdplay_is_homepage_card_enabled(string $section, string $card): bool {
 		return true;
 	}
 
-	return !empty($value);
+	return !in_array($value, array(0, '0', false), true);
 }
 
 /**
@@ -300,7 +300,7 @@ function cdplay_register_homepage_content_settings(): void {
 				cdplay_homepage_card_option_key($section_slug, $card_slug, 'enabled'),
 				array(
 					'type'              => 'integer',
-					'sanitize_callback' => 'absint',
+					'sanitize_callback' => 'cdplay_sanitize_homepage_enabled',
 					'default'           => 1,
 				)
 			);
@@ -353,6 +353,75 @@ function cdplay_get_homepage_admin_tabs(): array {
 	}
 
 	return $tabs;
+}
+
+/**
+ * Render hidden fields preserving settings from inactive tabs.
+ */
+function cdplay_render_homepage_preserve_fields(): void {
+	$section_settings = get_option('cdplay_homepage_sections', null);
+	$section_settings = is_array($section_settings) ? $section_settings : array();
+
+	foreach (cdplay_get_homepage_sections() as $section) {
+		$slug  = $section['slug'];
+		$value = array_key_exists($slug, $section_settings) ? $section_settings[$slug] : 1;
+		?>
+		<input type="hidden" name="cdplay_homepage_sections[<?php echo esc_attr($slug); ?>]" value="<?php echo esc_attr((string) cdplay_sanitize_homepage_enabled($value)); ?>" />
+		<?php
+	}
+
+	foreach (cdplay_get_platform_hubs_header_fields() as $field) {
+		cdplay_render_homepage_preserve_option($field['option']);
+	}
+
+	foreach (cdplay_get_platform_hub_items() as $item) {
+		foreach ($item['options'] as $option) {
+			cdplay_render_homepage_preserve_option($option);
+		}
+	}
+
+	foreach (cdplay_get_hero_content_fields() as $field) {
+		cdplay_render_homepage_preserve_option($field['option']);
+	}
+
+	foreach (cdplay_get_hero_image_fields() as $field) {
+		cdplay_render_homepage_preserve_option($field['option']);
+	}
+
+	foreach (cdplay_get_hero_media_position_fields() as $field) {
+		cdplay_render_homepage_preserve_option($field['option']);
+	}
+
+	foreach (cdplay_get_homepage_content_sections() as $section_slug => $section) {
+		foreach (array('eyebrow', 'title', 'description') as $field) {
+			cdplay_render_homepage_preserve_option(cdplay_homepage_option_key($section_slug . '_' . $field));
+		}
+
+		foreach ($section['cards'] as $card_slug => $card) {
+			cdplay_render_homepage_preserve_option(cdplay_homepage_card_option_key($section_slug, $card_slug, 'enabled'), 1);
+
+			foreach ($section['fields'] as $field_slug => $field) {
+				cdplay_render_homepage_preserve_option(cdplay_homepage_card_option_key($section_slug, $card_slug, $field_slug));
+			}
+		}
+	}
+}
+
+/**
+ * Render a hidden field preserving a single option.
+ *
+ * @param string $option Option name.
+ * @param mixed  $default Default value.
+ */
+function cdplay_render_homepage_preserve_option(string $option, $default = ''): void {
+	$value = get_option($option, $default);
+
+	if (is_array($value) || is_object($value)) {
+		return;
+	}
+	?>
+	<input type="hidden" name="<?php echo esc_attr($option); ?>" value="<?php echo esc_attr((string) $value); ?>" />
+	<?php
 }
 
 /**
@@ -455,12 +524,13 @@ function cdplay_render_homepage_sections_tab(): void {
 			<?php foreach ($sections as $section) : ?>
 				<?php
 				$slug    = $section['slug'];
-				$enabled = !array_key_exists($slug, $section_settings) || !empty($section_settings[$slug]);
+				$enabled = cdplay_is_homepage_section_enabled($slug);
 				?>
 				<tr>
 					<th scope="row"><?php echo esc_html($section['label']); ?></th>
 					<td>
 						<label for="cdplay-homepage-section-<?php echo esc_attr($slug); ?>">
+							<input type="hidden" name="cdplay_homepage_sections[<?php echo esc_attr($slug); ?>]" value="0" />
 							<input type="checkbox" id="cdplay-homepage-section-<?php echo esc_attr($slug); ?>" name="cdplay_homepage_sections[<?php echo esc_attr($slug); ?>]" value="1" <?php checked($enabled); ?> />
 							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
@@ -525,7 +595,7 @@ function cdplay_render_homepage_platform_hubs_tab(): void {
 		</tbody>
 	</table>
 
-	<?php foreach (cdplay_get_platform_hub_items() as $item) : ?>
+	<?php foreach (cdplay_get_platform_hub_items() as $slug => $item) : ?>
 		<div class="cdplay-homepage-admin__card">
 		<h3><?php echo esc_html($item['label']); ?></h3>
 		<table class="form-table cdplay-homepage-admin__table" role="presentation">
@@ -533,10 +603,10 @@ function cdplay_render_homepage_platform_hubs_tab(): void {
 				<tr>
 					<th scope="row"><?php esc_html_e('Включено', 'cdplay'); ?></th>
 					<td>
-						<?php $enabled = get_option($item['options']['enabled'], null); ?>
+						<?php $enabled = cdplay_is_platform_hub_enabled($slug); ?>
 						<input type="hidden" name="<?php echo esc_attr($item['options']['enabled']); ?>" value="0" />
 						<label for="<?php echo esc_attr($item['options']['enabled']); ?>">
-							<input type="checkbox" id="<?php echo esc_attr($item['options']['enabled']); ?>" name="<?php echo esc_attr($item['options']['enabled']); ?>" value="1" <?php checked(null === $enabled || !empty($enabled)); ?> />
+							<input type="checkbox" id="<?php echo esc_attr($item['options']['enabled']); ?>" name="<?php echo esc_attr($item['options']['enabled']); ?>" value="1" <?php checked($enabled); ?> />
 							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
 					</td>
@@ -600,11 +670,11 @@ function cdplay_render_homepage_content_section_tab(string $section_slug): void 
 					<td>
 						<?php
 						$enabled_option = cdplay_homepage_card_option_key($section_slug, $card_slug, 'enabled');
-						$enabled        = get_option($enabled_option, null);
+						$enabled        = cdplay_is_homepage_card_enabled($section_slug, $card_slug);
 						?>
 						<input type="hidden" name="<?php echo esc_attr($enabled_option); ?>" value="0" />
 						<label for="<?php echo esc_attr($enabled_option); ?>">
-							<input type="checkbox" id="<?php echo esc_attr($enabled_option); ?>" name="<?php echo esc_attr($enabled_option); ?>" value="1" <?php checked(null === $enabled || !empty($enabled)); ?> />
+							<input type="checkbox" id="<?php echo esc_attr($enabled_option); ?>" name="<?php echo esc_attr($enabled_option); ?>" value="1" <?php checked($enabled); ?> />
 							<?php esc_html_e('Включено', 'cdplay'); ?>
 						</label>
 					</td>

@@ -76,7 +76,7 @@ function cdplay_is_homepage_section_enabled(string $slug): bool {
 		return true;
 	}
 
-	return !empty($section_settings[$slug]);
+	return !in_array($section_settings[$slug], array(0, '0', false), true);
 }
 
 /**
@@ -228,7 +228,7 @@ function cdplay_is_platform_hub_enabled(string $slug): bool {
 		return true;
 	}
 
-	return !empty($value);
+	return !in_array($value, array(0, '0', false), true);
 }
 
 /**
@@ -418,6 +418,16 @@ function cdplay_sanitize_hero_image_id($input): int {
 }
 
 /**
+ * Sanitize enabled flags. Missing or empty values stay enabled.
+ *
+ * @param mixed $input Raw option input.
+ * @return int
+ */
+function cdplay_sanitize_homepage_enabled($input): int {
+	return in_array($input, array(0, '0', false), true) ? 0 : 1;
+}
+
+/**
  * Sanitize CSS object-position values for hero media.
  *
  * @param mixed $input Raw option input.
@@ -442,13 +452,16 @@ function cdplay_sanitize_hero_media_position($input): string {
  * @return array<string, int>
  */
 function cdplay_sanitize_homepage_sections($input): array {
+	$current           = get_option('cdplay_homepage_sections', array());
+	$current           = is_array($current) ? $current : array();
 	$input             = is_array($input) ? $input : array();
 	$sections          = cdplay_get_homepage_sections();
 	$sanitized_options = array();
 
 	foreach ($sections as $section) {
 		$slug                     = $section['slug'];
-		$sanitized_options[$slug] = !empty($input[$slug]) ? 1 : 0;
+		$value                    = array_key_exists($slug, $input) ? $input[$slug] : ($current[$slug] ?? 1);
+		$sanitized_options[$slug] = cdplay_sanitize_homepage_enabled($value);
 	}
 
 	return $sanitized_options;
@@ -497,7 +510,7 @@ function cdplay_register_homepage_sections_setting(): void {
 			}
 
 			if ('enabled' === $field_key) {
-				$sanitize_callback = 'absint';
+				$sanitize_callback = 'cdplay_sanitize_homepage_enabled';
 				$default           = 1;
 				$type              = 'integer';
 			}
@@ -627,6 +640,7 @@ function cdplay_render_homepage_sections_page(): void {
 
 		<form method="post" action="options.php">
 			<?php settings_fields('cdplay_homepage_sections'); ?>
+			<?php cdplay_render_homepage_preserve_fields(); ?>
 
 			<?php
 			if ('sections' === $current_tab) {
