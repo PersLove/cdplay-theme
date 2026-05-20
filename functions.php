@@ -17,6 +17,7 @@ $cdplay_includes = array(
 	'/inc/theme-setup.php',
 	'/inc/enqueue.php',
 	'/inc/homepage-sections.php',
+	'/inc/homepage-content.php',
 );
 
 foreach ($cdplay_includes as $cdplay_file) {

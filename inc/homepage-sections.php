@@ -598,256 +598,31 @@ function cdplay_render_homepage_sections_page(): void {
 		return;
 	}
 
-	$sections         = cdplay_get_homepage_sections();
-	$hero_fields      = cdplay_get_hero_content_fields();
-	$hero_image_fields = cdplay_get_hero_image_fields();
-	$hero_position_fields = cdplay_get_hero_media_position_fields();
-	$platform_hubs_header_fields = cdplay_get_platform_hubs_header_fields();
-	$platform_hub_items = cdplay_get_platform_hub_items();
-	$section_settings = get_option('cdplay_homepage_sections', null);
-	$section_settings = is_array($section_settings) ? $section_settings : array();
+	$current_tab = cdplay_get_current_homepage_admin_tab();
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e('CDPLAY Homepage', 'cdplay'); ?></h1>
+		<?php cdplay_render_homepage_admin_tabs($current_tab); ?>
 
 		<form method="post" action="options.php">
 			<?php settings_fields('cdplay_homepage_sections'); ?>
 
-			<h2><?php esc_html_e('Hero Content', 'cdplay'); ?></h2>
-
-			<table class="form-table" role="presentation">
-				<tbody>
-					<?php foreach ($hero_fields as $field) : ?>
-						<?php $value = get_option($field['option'], ''); ?>
-						<tr>
-							<th scope="row">
-								<label for="<?php echo esc_attr($field['option']); ?>">
-									<?php echo esc_html($field['label']); ?>
-								</label>
-							</th>
-							<td>
-								<?php if ('textarea' === $field['type']) : ?>
-									<textarea
-										id="<?php echo esc_attr($field['option']); ?>"
-										name="<?php echo esc_attr($field['option']); ?>"
-										class="large-text"
-										rows="3"
-									><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
-								<?php else : ?>
-									<input
-										type="<?php echo 'url' === $field['type'] ? 'url' : 'text'; ?>"
-										id="<?php echo esc_attr($field['option']); ?>"
-										name="<?php echo esc_attr($field['option']); ?>"
-										value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
-										class="regular-text"
-									/>
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-
-					<?php foreach ($hero_image_fields as $field) : ?>
-						<?php
-						$image_id  = absint(get_option($field['option'], 0));
-						$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'medium') : '';
-						?>
-						<tr>
-							<th scope="row">
-								<?php echo esc_html($field['label']); ?>
-							</th>
-							<td>
-								<div class="cdplay-admin-media-field" data-cdplay-media-field>
-									<input
-										type="hidden"
-										id="<?php echo esc_attr($field['option']); ?>"
-										name="<?php echo esc_attr($field['option']); ?>"
-										value="<?php echo esc_attr((string) $image_id); ?>"
-										data-cdplay-media-input
-									/>
-
-									<p>
-										<button type="button" class="button" data-cdplay-media-select>
-											<?php esc_html_e('Select image', 'cdplay'); ?>
-										</button>
-										<button type="button" class="button" data-cdplay-media-remove>
-											<?php esc_html_e('Remove', 'cdplay'); ?>
-										</button>
-									</p>
-
-									<p class="description">
-										<?php echo esc_html($field['recommendation']); ?>
-									</p>
-
-									<img
-										src="<?php echo esc_url($image_url ? $image_url : ''); ?>"
-										alt=""
-										style="<?php echo esc_attr($image_url ? 'display:block;max-width:320px;height:auto;margin-top:12px;' : 'display:none;max-width:320px;height:auto;margin-top:12px;'); ?>"
-										data-cdplay-media-preview
-									/>
-								</div>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-
-					<?php foreach ($hero_position_fields as $field) : ?>
-						<?php $value = get_option($field['option'], 'center center'); ?>
-						<tr>
-							<th scope="row">
-								<label for="<?php echo esc_attr($field['option']); ?>">
-									<?php echo esc_html($field['label']); ?>
-								</label>
-							</th>
-							<td>
-								<input
-									type="text"
-									id="<?php echo esc_attr($field['option']); ?>"
-									name="<?php echo esc_attr($field['option']); ?>"
-									value="<?php echo esc_attr(is_string($value) && '' !== trim($value) ? $value : 'center center'); ?>"
-									class="regular-text"
-								/>
-								<p class="description">
-									<?php echo esc_html($field['help']); ?>
-								</p>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-
-			<h2><?php esc_html_e('Platform Hubs Content', 'cdplay'); ?></h2>
-
-			<table class="form-table" role="presentation">
-				<tbody>
-					<?php foreach ($platform_hubs_header_fields as $field) : ?>
-						<?php $value = get_option($field['option'], ''); ?>
-						<tr>
-							<th scope="row">
-								<label for="<?php echo esc_attr($field['option']); ?>">
-									<?php echo esc_html($field['label']); ?>
-								</label>
-							</th>
-							<td>
-								<?php if ('textarea' === $field['type']) : ?>
-									<textarea
-										id="<?php echo esc_attr($field['option']); ?>"
-										name="<?php echo esc_attr($field['option']); ?>"
-										class="large-text"
-										rows="3"
-									><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
-								<?php else : ?>
-									<input
-										type="text"
-										id="<?php echo esc_attr($field['option']); ?>"
-										name="<?php echo esc_attr($field['option']); ?>"
-										value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
-										class="regular-text"
-									/>
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-
-			<?php foreach ($platform_hub_items as $slug => $item) : ?>
-				<h3><?php echo esc_html($item['label']); ?></h3>
-
-				<table class="form-table" role="presentation">
-					<tbody>
-						<tr>
-							<th scope="row">
-								<?php esc_html_e('Enabled', 'cdplay'); ?>
-							</th>
-							<td>
-								<?php $enabled = get_option($item['options']['enabled'], null); ?>
-								<input
-									type="hidden"
-									name="<?php echo esc_attr($item['options']['enabled']); ?>"
-									value="0"
-								/>
-								<label for="<?php echo esc_attr($item['options']['enabled']); ?>">
-									<input
-										type="checkbox"
-										id="<?php echo esc_attr($item['options']['enabled']); ?>"
-										name="<?php echo esc_attr($item['options']['enabled']); ?>"
-										value="1"
-										<?php checked(null === $enabled || !empty($enabled)); ?>
-									/>
-									<?php esc_html_e('Enabled', 'cdplay'); ?>
-								</label>
-							</td>
-						</tr>
-
-						<?php
-						$platform_fields = array(
-							'title'       => __('Title', 'cdplay'),
-							'description' => __('Description', 'cdplay'),
-							'cta_text'    => __('CTA text', 'cdplay'),
-							'cta_url'     => __('CTA URL', 'cdplay'),
-						);
-						?>
-
-						<?php foreach ($platform_fields as $field_key => $label) : ?>
-							<?php $value = get_option($item['options'][$field_key], ''); ?>
-							<tr>
-								<th scope="row">
-									<label for="<?php echo esc_attr($item['options'][$field_key]); ?>">
-										<?php echo esc_html($label); ?>
-									</label>
-								</th>
-								<td>
-									<?php if ('description' === $field_key) : ?>
-										<textarea
-											id="<?php echo esc_attr($item['options'][$field_key]); ?>"
-											name="<?php echo esc_attr($item['options'][$field_key]); ?>"
-											class="large-text"
-											rows="3"
-										><?php echo esc_textarea(is_string($value) ? $value : ''); ?></textarea>
-									<?php else : ?>
-										<input
-											type="<?php echo 'cta_url' === $field_key ? 'url' : 'text'; ?>"
-											id="<?php echo esc_attr($item['options'][$field_key]); ?>"
-											name="<?php echo esc_attr($item['options'][$field_key]); ?>"
-											value="<?php echo esc_attr(is_string($value) ? $value : ''); ?>"
-											class="regular-text"
-										/>
-									<?php endif; ?>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			<?php endforeach; ?>
-
-			<h2><?php esc_html_e('Sections Manager', 'cdplay'); ?></h2>
-
-			<table class="form-table" role="presentation">
-				<tbody>
-					<?php foreach ($sections as $section) : ?>
-						<?php
-						$slug    = $section['slug'];
-						$enabled = !array_key_exists($slug, $section_settings) || !empty($section_settings[$slug]);
-						?>
-						<tr>
-							<th scope="row">
-								<?php echo esc_html($section['label']); ?>
-							</th>
-							<td>
-								<label for="cdplay-homepage-section-<?php echo esc_attr($slug); ?>">
-									<input
-										type="checkbox"
-										id="cdplay-homepage-section-<?php echo esc_attr($slug); ?>"
-										name="cdplay_homepage_sections[<?php echo esc_attr($slug); ?>]"
-										value="1"
-										<?php checked($enabled); ?>
-									/>
-									<?php esc_html_e('Enabled', 'cdplay'); ?>
-								</label>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+			<?php
+			if ('sections' === $current_tab) {
+				cdplay_render_homepage_sections_tab();
+			} elseif ('hero' === $current_tab) {
+				cdplay_render_homepage_hero_tab();
+			} elseif ('platform-hubs' === $current_tab) {
+				cdplay_render_homepage_platform_hubs_tab();
+			} else {
+				foreach (cdplay_get_homepage_content_sections() as $section_slug => $section) {
+					if ($section['tab'] === $current_tab) {
+						cdplay_render_homepage_content_section_tab($section_slug);
+						break;
+					}
+				}
+			}
+			?>
 
 			<?php submit_button(); ?>
 		</form>

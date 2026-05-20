@@ -9,47 +9,83 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+$cdplay_ready_play_eyebrow = cdplay_get_homepage_option(
+	'ready-to-play_eyebrow',
+	__('Готово к игре', 'cdplay')
+);
+
+$cdplay_ready_play_title = cdplay_get_homepage_option(
+	'ready-to-play_title',
+	__('Можно просто включить и начать играть', 'cdplay')
+);
+
+$cdplay_ready_play_description = cdplay_get_homepage_option(
+	'ready-to-play_description',
+	__('Без сложных настроек, сборок и бесконечных выборов. Всё уже готово для хорошего вечера.', 'cdplay')
+);
+
 $cdplay_ready_setups = array(
 	array(
 		'slug'  => 'playstation-evening',
-		'title' => __('PlayStation Evening', 'cdplay'),
-		'text'  => __('PlayStation 5, второй DualSense и игры, в которые хочется возвращаться после работы.', 'cdplay'),
-		'kit'   => __('PS5 • 2 геймпада • подписка • игры', 'cdplay'),
+		'title' => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'title', __('PlayStation Evening', 'cdplay')),
+		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'text', __('PlayStation 5, второй DualSense и игры, в которые хочется возвращаться после работы.', 'cdplay')),
+		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'kit', __('PS5 • 2 геймпада • подписка • игры', 'cdplay')),
 	),
 	array(
 		'slug'  => 'xbox-game-pass',
-		'title' => __('Xbox Game Pass Setup', 'cdplay'),
-		'text'  => __('Game Pass, кооператив и сотни игр, которые уже ждут тебя с первого запуска.', 'cdplay'),
-		'kit'   => __('Xbox Series • Game Pass • кооперативные игры', 'cdplay'),
+		'title' => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'title', __('Xbox Game Pass Setup', 'cdplay')),
+		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'text', __('Game Pass, кооператив и сотни игр, которые уже ждут тебя с первого запуска.', 'cdplay')),
+		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'kit', __('Xbox Series • Game Pass • кооперативные игры', 'cdplay')),
 	),
 	array(
 		'slug'  => 'nintendo-family',
-		'title' => __('Nintendo Family Pack', 'cdplay'),
-		'text'  => __('Игры для семьи, друзей и уютных вечеров на диване или в дороге.', 'cdplay'),
-		'kit'   => __('Nintendo Switch • Mario • Party games', 'cdplay'),
+		'title' => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'title', __('Nintendo Family Pack', 'cdplay')),
+		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'text', __('Игры для семьи, друзей и уютных вечеров на диване или в дороге.', 'cdplay')),
+		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'kit', __('Nintendo Switch • Mario • Party games', 'cdplay')),
 	),
 );
+
+$cdplay_ready_setups = array_filter(
+	$cdplay_ready_setups,
+	static function ($cdplay_ready_setup): bool {
+		return cdplay_is_homepage_card_enabled('ready-to-play', $cdplay_ready_setup['slug']);
+	}
+);
+
+if (empty($cdplay_ready_setups)) {
+	return;
+}
 ?>
 
 <section class="cdplay-ready-play" aria-labelledby="cdplay-ready-play-title">
 	<div class="cdplay-ready-play__inner cdplay-container">
 		<header class="cdplay-ready-play__header">
 			<p class="cdplay-ready-play__eyebrow">
-				<?php esc_html_e('Готово к игре', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_ready_play_eyebrow); ?>
 			</p>
 
 			<h2 id="cdplay-ready-play-title" class="cdplay-ready-play__title">
-				<?php esc_html_e('Можно просто включить и начать играть', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_ready_play_title); ?>
 			</h2>
 
 			<p class="cdplay-ready-play__text">
-				<?php esc_html_e('Без сложных настроек, сборок и бесконечных выборов. Всё уже готово для хорошего вечера.', 'cdplay'); ?>
+				<?php echo esc_html($cdplay_ready_play_description); ?>
 			</p>
 		</header>
 
 		<div class="cdplay-ready-play__grid">
 			<?php foreach ($cdplay_ready_setups as $cdplay_ready_setup) : ?>
-				<article class="cdplay-ready-setup-card cdplay-ready-setup-card--<?php echo esc_attr(sanitize_html_class($cdplay_ready_setup['slug'])); ?>">
+				<?php
+				$cdplay_ready_setup_style = cdplay_get_homepage_card_media_styles(
+					'ready-to-play',
+					$cdplay_ready_setup['slug'],
+					array(
+						'photo_image_id'  => '--cdplay-ready-setup-photo',
+						'device_image_id' => '--cdplay-ready-setup-device',
+					)
+				);
+				?>
+				<article class="cdplay-ready-setup-card cdplay-ready-setup-card--<?php echo esc_attr(sanitize_html_class($cdplay_ready_setup['slug'])); ?>"<?php echo $cdplay_ready_setup_style ? ' style="' . esc_attr($cdplay_ready_setup_style) . '"' : ''; ?>>
 					<div class="cdplay-ready-setup-card__media" aria-hidden="true">
 						<div class="cdplay-ready-setup-card__photo-slot"></div>
 						<div class="cdplay-ready-setup-card__device-slot"></div>
