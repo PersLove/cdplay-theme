@@ -13,14 +13,11 @@ get_header();
 ?>
 
 <main id="primary" class="cdplay-site-main">
-	<?php get_template_part('template-parts/sections/hero'); ?>
-	<?php get_template_part('template-parts/sections/platform-hubs'); ?>
-	<?php get_template_part('template-parts/sections/find-your-console'); ?>
-	<?php get_template_part('template-parts/sections/what-to-play'); ?>
-	<?php get_template_part('template-parts/sections/ready-to-play'); ?>
-	<?php get_template_part('template-parts/sections/services'); ?>
-	<?php get_template_part('template-parts/sections/cdplay-experience'); ?>
-	<?php get_template_part('template-parts/sections/guides'); ?>
+	<?php foreach (cdplay_get_homepage_sections() as $cdplay_homepage_section) : ?>
+		<?php if (cdplay_is_homepage_section_enabled($cdplay_homepage_section['slug'])) : ?>
+			<?php get_template_part($cdplay_homepage_section['template']); ?>
+		<?php endif; ?>
+	<?php endforeach; ?>
 </main>
 
 <?php

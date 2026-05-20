@@ -16,6 +16,7 @@ define('CDPLAY_THEME_URI', get_template_directory_uri());
 $cdplay_includes = array(
 	'/inc/theme-setup.php',
 	'/inc/enqueue.php',
+	'/inc/homepage-sections.php',
 );
 
 foreach ($cdplay_includes as $cdplay_file) {
