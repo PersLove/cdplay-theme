@@ -31,6 +31,10 @@ $cdplay_platform_hubs = array(
 		'text'  => cdplay_get_platform_hub_field('playstation', 'description', __('Эксклюзивы, сюжетные приключения и вечер, который хочется продолжить.', 'cdplay')),
 		'cta'   => cdplay_get_platform_hub_field('playstation', 'cta_text', __('Перейти в PlayStation', 'cdplay')),
 		'url'   => cdplay_get_platform_hub_field('playstation', 'cta_url', home_url('/platform/playstation/')),
+		'style' => trim(
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-image', absint(get_option('cdplay_platform_hub_playstation_image_id', 0))) . ' ' .
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-icon', absint(get_option('cdplay_platform_hub_playstation_icon_id', 0)))
+		),
 	),
 	array(
 		'slug'  => 'xbox',
@@ -38,6 +42,10 @@ $cdplay_platform_hubs = array(
 		'text'  => cdplay_get_platform_hub_field('xbox', 'description', __('Game Pass, кооператив и игры, в которые удобно возвращаться каждый день.', 'cdplay')),
 		'cta'   => cdplay_get_platform_hub_field('xbox', 'cta_text', __('Перейти в Xbox', 'cdplay')),
 		'url'   => cdplay_get_platform_hub_field('xbox', 'cta_url', home_url('/platform/xbox/')),
+		'style' => trim(
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-image', absint(get_option('cdplay_platform_hub_xbox_image_id', 0))) . ' ' .
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-icon', absint(get_option('cdplay_platform_hub_xbox_icon_id', 0)))
+		),
 	),
 	array(
 		'slug'  => 'nintendo',
@@ -45,6 +53,10 @@ $cdplay_platform_hubs = array(
 		'text'  => cdplay_get_platform_hub_field('nintendo', 'description', __('Семейный гейминг, портативность и игры, которые улыбаются первыми.', 'cdplay')),
 		'cta'   => cdplay_get_platform_hub_field('nintendo', 'cta_text', __('Перейти в Nintendo', 'cdplay')),
 		'url'   => cdplay_get_platform_hub_field('nintendo', 'cta_url', home_url('/platform/nintendo/')),
+		'style' => trim(
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-image', absint(get_option('cdplay_platform_hub_nintendo_image_id', 0))) . ' ' .
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-icon', absint(get_option('cdplay_platform_hub_nintendo_icon_id', 0)))
+		),
 	),
 	array(
 		'slug'  => 'retro',
@@ -52,6 +64,10 @@ $cdplay_platform_hubs = array(
 		'text'  => cdplay_get_platform_hub_field('retro', 'description', __('Та самая ностальгия, пиксели и приставки, с которых всё началось.', 'cdplay')),
 		'cta'   => cdplay_get_platform_hub_field('retro', 'cta_text', __('Перейти в Retro', 'cdplay')),
 		'url'   => cdplay_get_platform_hub_field('retro', 'cta_url', home_url('/platform/retro/')),
+		'style' => trim(
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-image', absint(get_option('cdplay_platform_hub_retro_image_id', 0))) . ' ' .
+			cdplay_get_homepage_card_media_style('--cdplay-platform-card-icon', absint(get_option('cdplay_platform_hub_retro_icon_id', 0)))
+		),
 	),
 );
 
@@ -85,7 +101,7 @@ if (empty($cdplay_platform_hubs)) {
 
 		<div class="cdplay-platform-hubs__grid">
 			<?php foreach ($cdplay_platform_hubs as $cdplay_platform_hub) : ?>
-				<article class="cdplay-platform-card cdplay-platform-card--<?php echo esc_attr(sanitize_html_class($cdplay_platform_hub['slug'])); ?>">
+				<article class="cdplay-platform-card cdplay-platform-card--<?php echo esc_attr(sanitize_html_class($cdplay_platform_hub['slug'])); ?>"<?php echo $cdplay_platform_hub['style'] ? ' style="' . esc_attr($cdplay_platform_hub['style']) . '"' : ''; ?>>
 					<div class="cdplay-platform-card__media" aria-hidden="true">
 						<div class="cdplay-platform-card__image-slot"></div>
 						<div class="cdplay-platform-card__icon-slot"></div>

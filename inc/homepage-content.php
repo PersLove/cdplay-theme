@@ -149,6 +149,16 @@ function cdplay_get_homepage_card_media_styles(string $section, string $card, ar
 }
 
 /**
+ * Return inline styles that keep linked cards visually unchanged.
+ *
+ * @param string $extra_style Additional inline CSS.
+ * @return string
+ */
+function cdplay_get_homepage_linked_card_style(string $extra_style = ''): string {
+	return trim('display: block; color: inherit; text-decoration: none; ' . $extra_style);
+}
+
+/**
  * Return remaining editable homepage sections.
  *
  * @return array<string, array<string, mixed>>
@@ -170,6 +180,8 @@ function cdplay_get_homepage_content_sections(): array {
 				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 900×700 WebP', 'cdplay')),
 				'icon_id'  => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
+				'cta'      => array('label' => __('Текст кнопки', 'cdplay'), 'type' => 'text'),
+				'url'      => array('label' => __('Ссылка карточки', 'cdplay'), 'type' => 'url'),
 			),
 		),
 		'what-to-play'      => array(
@@ -187,7 +199,8 @@ function cdplay_get_homepage_content_sections(): array {
 				'text'                => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 				'platform'            => array('label' => __('Платформа', 'cdplay'), 'type' => 'text'),
 				'background_image_id' => array('label' => __('Фоновое изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×700 WebP', 'cdplay')),
-				'cover_image_id'      => array('label' => __('Обложка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 700×900 WebP', 'cdplay')),
+				'cover_image_id'      => array('label' => __('Иконка / обложка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 700×900 WebP или PNG 512×512', 'cdplay')),
+				'url'                 => array('label' => __('Ссылка карточки', 'cdplay'), 'type' => 'url'),
 			),
 		),
 		'ready-to-play'     => array(
@@ -203,7 +216,9 @@ function cdplay_get_homepage_content_sections(): array {
 				'text'            => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 				'kit'             => array('label' => __('Комплект', 'cdplay'), 'type' => 'text'),
 				'photo_image_id'  => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×800 WebP', 'cdplay')),
-				'device_image_id' => array('label' => __('Изображение устройства', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×800 WebP', 'cdplay')),
+				'device_image_id' => array('label' => __('Иконка / устройство', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×800 WebP или PNG 512×512', 'cdplay')),
+				'cta'             => array('label' => __('Текст кнопки', 'cdplay'), 'type' => 'text'),
+				'url'             => array('label' => __('Ссылка карточки', 'cdplay'), 'type' => 'url'),
 			),
 		),
 		'services'          => array(
@@ -239,6 +254,7 @@ function cdplay_get_homepage_content_sections(): array {
 				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 900×700 WebP', 'cdplay')),
 				'icon_id'  => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
+				'url'      => array('label' => __('Ссылка карточки', 'cdplay'), 'type' => 'url'),
 			),
 		),
 		'guides'            => array(
@@ -254,6 +270,8 @@ function cdplay_get_homepage_content_sections(): array {
 				'title'    => array('label' => __('Заголовок', 'cdplay'), 'type' => 'text'),
 				'text'     => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 				'image_id' => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 1000×700 WebP', 'cdplay')),
+				'icon_id'  => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
+				'url'      => array('label' => __('Ссылка карточки', 'cdplay'), 'type' => 'url'),
 			),
 		),
 	);
@@ -529,10 +547,16 @@ function cdplay_render_homepage_platform_hubs_tab(): void {
 					'description' => array('label' => __('Описание', 'cdplay'), 'type' => 'textarea'),
 					'cta_text'    => array('label' => __('Текст кнопки', 'cdplay'), 'type' => 'text'),
 					'cta_url'     => array('label' => __('Ссылка кнопки', 'cdplay'), 'type' => 'url'),
+					'image_id'    => array('label' => __('Изображение', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: 900×700 WebP', 'cdplay')),
+					'icon_id'     => array('label' => __('Иконка', 'cdplay'), 'type' => 'media', 'recommendation' => __('Рекомендуемый размер: SVG или PNG 256×256', 'cdplay')),
 				);
 				?>
 				<?php foreach ($platform_fields as $field_key => $field) : ?>
-					<?php cdplay_render_homepage_admin_text_field($item['options'][$field_key], $field['label'], $field['type']); ?>
+					<?php if ('media' === $field['type']) : ?>
+						<?php cdplay_render_homepage_admin_media_field($item['options'][$field_key], $field['label'], $field['recommendation']); ?>
+					<?php else : ?>
+						<?php cdplay_render_homepage_admin_text_field($item['options'][$field_key], $field['label'], $field['type']); ?>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

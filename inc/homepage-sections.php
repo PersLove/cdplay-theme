@@ -119,6 +119,8 @@ function cdplay_get_platform_hub_items(): array {
 				'description' => 'cdplay_platform_hub_playstation_description',
 				'cta_text'    => 'cdplay_platform_hub_playstation_cta_text',
 				'cta_url'     => 'cdplay_platform_hub_playstation_cta_url',
+				'image_id'    => 'cdplay_platform_hub_playstation_image_id',
+				'icon_id'     => 'cdplay_platform_hub_playstation_icon_id',
 			),
 		),
 		'xbox'        => array(
@@ -129,6 +131,8 @@ function cdplay_get_platform_hub_items(): array {
 				'description' => 'cdplay_platform_hub_xbox_description',
 				'cta_text'    => 'cdplay_platform_hub_xbox_cta_text',
 				'cta_url'     => 'cdplay_platform_hub_xbox_cta_url',
+				'image_id'    => 'cdplay_platform_hub_xbox_image_id',
+				'icon_id'     => 'cdplay_platform_hub_xbox_icon_id',
 			),
 		),
 		'nintendo'    => array(
@@ -139,6 +143,8 @@ function cdplay_get_platform_hub_items(): array {
 				'description' => 'cdplay_platform_hub_nintendo_description',
 				'cta_text'    => 'cdplay_platform_hub_nintendo_cta_text',
 				'cta_url'     => 'cdplay_platform_hub_nintendo_cta_url',
+				'image_id'    => 'cdplay_platform_hub_nintendo_image_id',
+				'icon_id'     => 'cdplay_platform_hub_nintendo_icon_id',
 			),
 		),
 		'retro'       => array(
@@ -149,6 +155,8 @@ function cdplay_get_platform_hub_items(): array {
 				'description' => 'cdplay_platform_hub_retro_description',
 				'cta_text'    => 'cdplay_platform_hub_retro_cta_text',
 				'cta_url'     => 'cdplay_platform_hub_retro_cta_url',
+				'image_id'    => 'cdplay_platform_hub_retro_image_id',
+				'icon_id'     => 'cdplay_platform_hub_retro_icon_id',
 			),
 		),
 	);
@@ -491,6 +499,12 @@ function cdplay_register_homepage_sections_setting(): void {
 			if ('enabled' === $field_key) {
 				$sanitize_callback = 'absint';
 				$default           = 1;
+				$type              = 'integer';
+			}
+
+			if (in_array($field_key, array('image_id', 'icon_id'), true)) {
+				$sanitize_callback = 'cdplay_sanitize_hero_image_id';
+				$default           = 0;
 				$type              = 'integer';
 			}
 

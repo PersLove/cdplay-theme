@@ -31,6 +31,7 @@ $cdplay_game_moods = array(
 		'title'    => cdplay_get_homepage_card_field('what-to-play', 'quiet-evening', 'title', __('Ghost of Tsushima', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('what-to-play', 'quiet-evening', 'text', __('Медитативные прогулки, красивый мир и редкое чувство спокойствия после тяжелого дня.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('what-to-play', 'quiet-evening', 'platform', __('PlayStation', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('what-to-play', 'quiet-evening', 'url', ''),
 	),
 	array(
 		'slug'     => 'together',
@@ -38,6 +39,7 @@ $cdplay_game_moods = array(
 		'title'    => cdplay_get_homepage_card_field('what-to-play', 'together', 'title', __('It Takes Two', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('what-to-play', 'together', 'text', __('Одна из лучших игр для совместного прохождения и вечеров вдвоём.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('what-to-play', 'together', 'platform', __('Xbox / PlayStation', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('what-to-play', 'together', 'url', ''),
 	),
 	array(
 		'slug'     => 'portable',
@@ -45,6 +47,7 @@ $cdplay_game_moods = array(
 		'title'    => cdplay_get_homepage_card_field('what-to-play', 'portable', 'title', __('Animal Crossing', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('what-to-play', 'portable', 'text', __('Остров, на который хочется возвращаться каждый день хотя бы на полчаса.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('what-to-play', 'portable', 'platform', __('Nintendo Switch', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('what-to-play', 'portable', 'url', ''),
 	),
 	array(
 		'slug'     => 'nostalgia',
@@ -52,6 +55,7 @@ $cdplay_game_moods = array(
 		'title'    => cdplay_get_homepage_card_field('what-to-play', 'nostalgia', 'title', __('Crash Bandicoot', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('what-to-play', 'nostalgia', 'text', __('Те самые эмоции из детства, только теперь на большом телевизоре.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('what-to-play', 'nostalgia', 'platform', __('Retro / PlayStation', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('what-to-play', 'nostalgia', 'url', ''),
 	),
 );
 
@@ -94,8 +98,11 @@ if (empty($cdplay_game_moods)) {
 						'cover_image_id'      => '--cdplay-game-mood-card-cover',
 					)
 				);
+				$cdplay_game_mood_tag   = $cdplay_game_mood['url'] ? 'a' : 'article';
+				$cdplay_game_mood_attrs = $cdplay_game_mood['url'] ? ' href="' . esc_url($cdplay_game_mood['url']) . '" aria-label="' . esc_attr($cdplay_game_mood['title']) . '"' : '';
+				$cdplay_game_mood_style = $cdplay_game_mood['url'] ? cdplay_get_homepage_linked_card_style($cdplay_game_mood_style) : $cdplay_game_mood_style;
 				?>
-				<article class="cdplay-game-mood-card cdplay-game-mood-card--<?php echo esc_attr(sanitize_html_class($cdplay_game_mood['slug'])); ?>"<?php echo $cdplay_game_mood_style ? ' style="' . esc_attr($cdplay_game_mood_style) . '"' : ''; ?>>
+				<<?php echo esc_html($cdplay_game_mood_tag); ?> class="cdplay-game-mood-card cdplay-game-mood-card--<?php echo esc_attr(sanitize_html_class($cdplay_game_mood['slug'])); ?>"<?php echo $cdplay_game_mood_attrs; ?><?php echo $cdplay_game_mood_style ? ' style="' . esc_attr($cdplay_game_mood_style) . '"' : ''; ?>>
 					<div class="cdplay-game-mood-card__media" aria-hidden="true">
 						<div class="cdplay-game-mood-card__background-slot"></div>
 						<div class="cdplay-game-mood-card__cover-slot"></div>
@@ -118,7 +125,7 @@ if (empty($cdplay_game_moods)) {
 							<?php echo esc_html($cdplay_game_mood['platform']); ?>
 						</p>
 					</div>
-				</article>
+				</<?php echo esc_html($cdplay_game_mood_tag); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>

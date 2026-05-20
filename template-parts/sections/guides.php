@@ -30,18 +30,21 @@ $cdplay_guides = array(
 		'category' => cdplay_get_homepage_card_field('guides', 'console-choice', 'category', __('Выбор консоли', 'cdplay')),
 		'title'    => cdplay_get_homepage_card_field('guides', 'console-choice', 'title', __('PlayStation, Xbox или Nintendo — что выбрать для себя?', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('guides', 'console-choice', 'text', __('Разбираем не по характеристикам, а по тому, как ты хочешь играть.', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('guides', 'console-choice', 'url', ''),
 	),
 	array(
 		'slug'     => 'after-work-games',
 		'category' => cdplay_get_homepage_card_field('guides', 'after-work-games', 'category', __('Во что поиграть', 'cdplay')),
 		'title'    => cdplay_get_homepage_card_field('guides', 'after-work-games', 'title', __('Игры для вечера после работы', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('guides', 'after-work-games', 'text', __('Спокойные, красивые и атмосферные игры, которые помогают выдохнуть.', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('guides', 'after-work-games', 'url', ''),
 	),
 	array(
 		'slug'     => 'family-gaming',
 		'category' => cdplay_get_homepage_card_field('guides', 'family-gaming', 'category', __('Семейный gaming', 'cdplay')),
 		'title'    => cdplay_get_homepage_card_field('guides', 'family-gaming', 'title', __('Во что играть с детьми и друзьями', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('guides', 'family-gaming', 'text', __('Подборка игр для дивана, смеха и нормального вечера без споров за пульт.', 'cdplay')),
+		'url'      => cdplay_get_homepage_card_field('guides', 'family-gaming', 'url', ''),
 	),
 );
 
@@ -83,10 +86,17 @@ if (empty($cdplay_guides)) {
 						'image_id' => '--cdplay-guide-card-image',
 					)
 				);
+				$cdplay_guide_icon_url = wp_get_attachment_image_url(cdplay_get_homepage_card_media_id('guides', $cdplay_guide['slug'], 'icon_id'), 'full');
+				$cdplay_guide_tag   = $cdplay_guide['url'] ? 'a' : 'article';
+				$cdplay_guide_attrs = $cdplay_guide['url'] ? ' href="' . esc_url($cdplay_guide['url']) . '" aria-label="' . esc_attr($cdplay_guide['title']) . '"' : '';
+				$cdplay_guide_style = $cdplay_guide['url'] ? cdplay_get_homepage_linked_card_style($cdplay_guide_style) : $cdplay_guide_style;
 				?>
-				<article class="cdplay-guide-card cdplay-guide-card--<?php echo esc_attr(sanitize_html_class($cdplay_guide['slug'])); ?>"<?php echo $cdplay_guide_style ? ' style="' . esc_attr($cdplay_guide_style) . '"' : ''; ?>>
+				<<?php echo esc_html($cdplay_guide_tag); ?> class="cdplay-guide-card cdplay-guide-card--<?php echo esc_attr(sanitize_html_class($cdplay_guide['slug'])); ?>"<?php echo $cdplay_guide_attrs; ?><?php echo $cdplay_guide_style ? ' style="' . esc_attr($cdplay_guide_style) . '"' : ''; ?>>
 					<div class="cdplay-guide-card__media" aria-hidden="true">
 						<div class="cdplay-guide-card__image-slot"></div>
+						<?php if ($cdplay_guide_icon_url) : ?>
+							<div class="cdplay-guide-card__icon-slot" style="<?php echo esc_attr('position:absolute;inset-block-start:var(--cdplay-space-lg);inset-inline-end:var(--cdplay-space-lg);width:min(4.75rem,18vw);aspect-ratio:1;border-radius:50%;background:url(' . esc_url_raw($cdplay_guide_icon_url) . ') center / 52% no-repeat;background-color:color-mix(in srgb,var(--cdplay-color-surface-elevated),transparent 24%);'); ?>"></div>
+						<?php endif; ?>
 					</div>
 
 					<div class="cdplay-guide-card__content">
@@ -102,7 +112,7 @@ if (empty($cdplay_guides)) {
 							<?php echo esc_html($cdplay_guide['text']); ?>
 						</p>
 					</div>
-				</article>
+				</<?php echo esc_html($cdplay_guide_tag); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>

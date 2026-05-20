@@ -30,24 +30,32 @@ $cdplay_console_scenarios = array(
 		'title'    => cdplay_get_homepage_card_field('find-your-console', 'after-work', 'title', __('Играть вечером после работы', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('find-your-console', 'after-work', 'text', __('Расслабиться, пройти пару миссий и отключиться от суеты.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('find-your-console', 'after-work', 'platform', __('PlayStation 5', 'cdplay')),
+		'cta'      => cdplay_get_homepage_card_field('find-your-console', 'after-work', 'cta', ''),
+		'url'      => cdplay_get_homepage_card_field('find-your-console', 'after-work', 'url', ''),
 	),
 	array(
 		'slug'     => 'with-friends',
 		'title'    => cdplay_get_homepage_card_field('find-your-console', 'with-friends', 'title', __('Играть вместе с друзьями', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('find-your-console', 'with-friends', 'text', __('Кооператив, вечеринки, Game Pass и игры, в которые весело возвращаться.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('find-your-console', 'with-friends', 'platform', __('Xbox Series', 'cdplay')),
+		'cta'      => cdplay_get_homepage_card_field('find-your-console', 'with-friends', 'cta', ''),
+		'url'      => cdplay_get_homepage_card_field('find-your-console', 'with-friends', 'url', ''),
 	),
 	array(
 		'slug'     => 'anywhere',
 		'title'    => cdplay_get_homepage_card_field('find-your-console', 'anywhere', 'title', __('Играть где угодно', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('find-your-console', 'anywhere', 'text', __('Дорога, диван, отпуск или кровать — игры всегда рядом.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('find-your-console', 'anywhere', 'platform', __('Nintendo Switch', 'cdplay')),
+		'cta'      => cdplay_get_homepage_card_field('find-your-console', 'anywhere', 'cta', ''),
+		'url'      => cdplay_get_homepage_card_field('find-your-console', 'anywhere', 'url', ''),
 	),
 	array(
 		'slug'     => 'childhood',
 		'title'    => cdplay_get_homepage_card_field('find-your-console', 'childhood', 'title', __('Вернуться в детство', 'cdplay')),
 		'text'     => cdplay_get_homepage_card_field('find-your-console', 'childhood', 'text', __('Те самые приставки, знакомые звуки и игры, которые помнишь до сих пор.', 'cdplay')),
 		'platform' => cdplay_get_homepage_card_field('find-your-console', 'childhood', 'platform', __('Retro', 'cdplay')),
+		'cta'      => cdplay_get_homepage_card_field('find-your-console', 'childhood', 'cta', ''),
+		'url'      => cdplay_get_homepage_card_field('find-your-console', 'childhood', 'url', ''),
 	),
 );
 
@@ -90,8 +98,11 @@ if (empty($cdplay_console_scenarios)) {
 						'icon_id'  => '--cdplay-scenario-card-icon',
 					)
 				);
+				$cdplay_console_scenario_tag   = $cdplay_console_scenario['url'] ? 'a' : 'article';
+				$cdplay_console_scenario_attrs = $cdplay_console_scenario['url'] ? ' href="' . esc_url($cdplay_console_scenario['url']) . '" aria-label="' . esc_attr($cdplay_console_scenario['cta'] ? $cdplay_console_scenario['cta'] : $cdplay_console_scenario['title']) . '"' : '';
+				$cdplay_console_scenario_style = $cdplay_console_scenario['url'] ? cdplay_get_homepage_linked_card_style($cdplay_console_scenario_style) : $cdplay_console_scenario_style;
 				?>
-				<article class="cdplay-scenario-card cdplay-scenario-card--<?php echo esc_attr(sanitize_html_class($cdplay_console_scenario['slug'])); ?>"<?php echo $cdplay_console_scenario_style ? ' style="' . esc_attr($cdplay_console_scenario_style) . '"' : ''; ?>>
+				<<?php echo esc_html($cdplay_console_scenario_tag); ?> class="cdplay-scenario-card cdplay-scenario-card--<?php echo esc_attr(sanitize_html_class($cdplay_console_scenario['slug'])); ?>"<?php echo $cdplay_console_scenario_attrs; ?><?php echo $cdplay_console_scenario_style ? ' style="' . esc_attr($cdplay_console_scenario_style) . '"' : ''; ?>>
 					<div class="cdplay-scenario-card__media" aria-hidden="true">
 						<div class="cdplay-scenario-card__image-slot"></div>
 						<div class="cdplay-scenario-card__icon-slot"></div>
@@ -110,7 +121,7 @@ if (empty($cdplay_console_scenarios)) {
 							<?php echo esc_html($cdplay_console_scenario['text']); ?>
 						</p>
 					</div>
-				</article>
+				</<?php echo esc_html($cdplay_console_scenario_tag); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>

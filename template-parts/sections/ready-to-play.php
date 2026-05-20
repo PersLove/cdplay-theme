@@ -30,18 +30,24 @@ $cdplay_ready_setups = array(
 		'title' => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'title', __('PlayStation Evening', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'text', __('PlayStation 5, второй DualSense и игры, в которые хочется возвращаться после работы.', 'cdplay')),
 		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'kit', __('PS5 • 2 геймпада • подписка • игры', 'cdplay')),
+		'cta'   => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'cta', ''),
+		'url'   => cdplay_get_homepage_card_field('ready-to-play', 'playstation-evening', 'url', ''),
 	),
 	array(
 		'slug'  => 'xbox-game-pass',
 		'title' => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'title', __('Xbox Game Pass Setup', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'text', __('Game Pass, кооператив и сотни игр, которые уже ждут тебя с первого запуска.', 'cdplay')),
 		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'kit', __('Xbox Series • Game Pass • кооперативные игры', 'cdplay')),
+		'cta'   => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'cta', ''),
+		'url'   => cdplay_get_homepage_card_field('ready-to-play', 'xbox-game-pass', 'url', ''),
 	),
 	array(
 		'slug'  => 'nintendo-family',
 		'title' => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'title', __('Nintendo Family Pack', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'text', __('Игры для семьи, друзей и уютных вечеров на диване или в дороге.', 'cdplay')),
 		'kit'   => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'kit', __('Nintendo Switch • Mario • Party games', 'cdplay')),
+		'cta'   => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'cta', ''),
+		'url'   => cdplay_get_homepage_card_field('ready-to-play', 'nintendo-family', 'url', ''),
 	),
 );
 
@@ -84,8 +90,11 @@ if (empty($cdplay_ready_setups)) {
 						'device_image_id' => '--cdplay-ready-setup-device',
 					)
 				);
+				$cdplay_ready_setup_tag   = $cdplay_ready_setup['url'] ? 'a' : 'article';
+				$cdplay_ready_setup_attrs = $cdplay_ready_setup['url'] ? ' href="' . esc_url($cdplay_ready_setup['url']) . '" aria-label="' . esc_attr($cdplay_ready_setup['cta'] ? $cdplay_ready_setup['cta'] : $cdplay_ready_setup['title']) . '"' : '';
+				$cdplay_ready_setup_style = $cdplay_ready_setup['url'] ? cdplay_get_homepage_linked_card_style($cdplay_ready_setup_style) : $cdplay_ready_setup_style;
 				?>
-				<article class="cdplay-ready-setup-card cdplay-ready-setup-card--<?php echo esc_attr(sanitize_html_class($cdplay_ready_setup['slug'])); ?>"<?php echo $cdplay_ready_setup_style ? ' style="' . esc_attr($cdplay_ready_setup_style) . '"' : ''; ?>>
+				<<?php echo esc_html($cdplay_ready_setup_tag); ?> class="cdplay-ready-setup-card cdplay-ready-setup-card--<?php echo esc_attr(sanitize_html_class($cdplay_ready_setup['slug'])); ?>"<?php echo $cdplay_ready_setup_attrs; ?><?php echo $cdplay_ready_setup_style ? ' style="' . esc_attr($cdplay_ready_setup_style) . '"' : ''; ?>>
 					<div class="cdplay-ready-setup-card__media" aria-hidden="true">
 						<div class="cdplay-ready-setup-card__photo-slot"></div>
 						<div class="cdplay-ready-setup-card__device-slot"></div>
@@ -106,7 +115,7 @@ if (empty($cdplay_ready_setups)) {
 
 						<div class="cdplay-ready-setup-card__cta-slot" aria-hidden="true"></div>
 					</div>
-				</article>
+				</<?php echo esc_html($cdplay_ready_setup_tag); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>

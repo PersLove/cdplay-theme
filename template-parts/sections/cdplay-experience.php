@@ -29,16 +29,19 @@ $cdplay_experience_cards = array(
 		'slug'  => 'try',
 		'title' => cdplay_get_homepage_card_field('cdplay-experience', 'try', 'title', __('Можно прийти и попробовать', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('cdplay-experience', 'try', 'text', __('Не обязательно покупать вслепую. Можно посмотреть, подержать геймпад и спокойно выбрать свою платформу.', 'cdplay')),
+		'url'   => cdplay_get_homepage_card_field('cdplay-experience', 'try', 'url', ''),
 	),
 	array(
 		'slug'  => 'help',
 		'title' => cdplay_get_homepage_card_field('cdplay-experience', 'help', 'title', __('Поможем разобраться', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('cdplay-experience', 'help', 'text', __('Подскажем по подпискам, играм, аккаунтам и настройке без технической душноты.', 'cdplay')),
+		'url'   => cdplay_get_homepage_card_field('cdplay-experience', 'help', 'url', ''),
 	),
 	array(
 		'slug'  => 'rest',
 		'title' => cdplay_get_homepage_card_field('cdplay-experience', 'rest', 'title', __('Игры — это отдых', 'cdplay')),
 		'text'  => cdplay_get_homepage_card_field('cdplay-experience', 'rest', 'text', __('CDPLAY — не про гонку за железом. Это про вечер, когда наконец получилось расслабиться.', 'cdplay')),
+		'url'   => cdplay_get_homepage_card_field('cdplay-experience', 'rest', 'url', ''),
 	),
 );
 
@@ -81,8 +84,11 @@ if (empty($cdplay_experience_cards)) {
 						'icon_id'  => '--cdplay-experience-card-icon',
 					)
 				);
+				$cdplay_experience_card_tag   = $cdplay_experience_card['url'] ? 'a' : 'article';
+				$cdplay_experience_card_attrs = $cdplay_experience_card['url'] ? ' href="' . esc_url($cdplay_experience_card['url']) . '" aria-label="' . esc_attr($cdplay_experience_card['title']) . '"' : '';
+				$cdplay_experience_card_style = $cdplay_experience_card['url'] ? cdplay_get_homepage_linked_card_style($cdplay_experience_card_style) : $cdplay_experience_card_style;
 				?>
-				<article class="cdplay-experience-card cdplay-experience-card--<?php echo esc_attr(sanitize_html_class($cdplay_experience_card['slug'])); ?>"<?php echo $cdplay_experience_card_style ? ' style="' . esc_attr($cdplay_experience_card_style) . '"' : ''; ?>>
+				<<?php echo esc_html($cdplay_experience_card_tag); ?> class="cdplay-experience-card cdplay-experience-card--<?php echo esc_attr(sanitize_html_class($cdplay_experience_card['slug'])); ?>"<?php echo $cdplay_experience_card_attrs; ?><?php echo $cdplay_experience_card_style ? ' style="' . esc_attr($cdplay_experience_card_style) . '"' : ''; ?>>
 					<div class="cdplay-experience-card__media" aria-hidden="true">
 						<div class="cdplay-experience-card__image-slot"></div>
 						<div class="cdplay-experience-card__icon-slot"></div>
@@ -97,7 +103,7 @@ if (empty($cdplay_experience_cards)) {
 							<?php echo esc_html($cdplay_experience_card['text']); ?>
 						</p>
 					</div>
-				</article>
+				</<?php echo esc_html($cdplay_experience_card_tag); ?>>
 			<?php endforeach; ?>
 		</div>
 	</div>
